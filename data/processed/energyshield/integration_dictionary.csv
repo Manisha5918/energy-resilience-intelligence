@@ -1,0 +1,58 @@
+Table_Name,Column_Name,Data_Type,Primary_Key,Units,Source_Authority,Aggregation_Rule,Frequency,Description
+energyshield_time_dimension,Date,STRING,YES,YYYY-MM-DD,EnergyShield Canonical Calendar,Canonical Daily Time Index,Daily,Calendar date for all days between 2019-04-01 and 2026-03-31.
+energyshield_time_dimension,Month_Year,STRING,NO,YYYY-MM,EnergyShield Canonical Calendar,Calendar Month Roll-up,Monthly,Calendar month and year identifier.
+energyshield_time_dimension,Quarter,STRING,NO,"Q1, Q2, Q3, Q4",EnergyShield Canonical Calendar,Indian Fiscal Quarter Roll-up,Quarterly,Fiscal quarter within the Indian financial year.
+energyshield_time_dimension,Fiscal_Year,STRING,NO,YYYY-YY,EnergyShield Canonical Calendar,Indian Financial Year Roll-up,Annual,Indian Financial Year spanning April 1 to March 31.
+energyshield_time_dimension,Fiscal_Year_Quarter,STRING,NO,YYYY-YY QX,EnergyShield Canonical Calendar,Combined FY & Quarter Index,Quarterly,Standard composite key linking to quarterly BoP datasets.
+energyshield_petroleum_annual,HS Code,STRING,PART_OF_COMPOSITE,HS 4-Digit,DGCIS / MoCI,Direct Statutory Record,Annual / FY,"Harmonized System 4-digit code (e.g. 2709 Crude Oil, 2710 Products)."
+energyshield_petroleum_annual,HS Description,STRING,NO,Text,DGCIS / MoCI,Descriptive Label,Annual / FY,Official commodity description.
+energyshield_petroleum_annual,Country Name,STRING,PART_OF_COMPOSITE,Country Name,DGCIS / MoCI,Direct Statutory Record,Annual / FY,Country of petroleum import origin.
+energyshield_petroleum_annual,Financial_Year,STRING,PART_OF_COMPOSITE,YYYY-YY,DGCIS / MoCI,Direct Statutory Record,Annual / FY,Financial Year of trade flow.
+energyshield_petroleum_annual,INR_Cr,FLOAT64,NO,INR Crore,DGCIS / MoCI,Direct Statutory Record,Annual / FY,Petroleum import value in Indian Rupees (Crores).
+energyshield_petroleum_annual,USD_Mn,FLOAT64,NO,USD Million,DGCIS / MoCI,Direct Statutory Record,Annual / FY,Petroleum import value in US Dollars (Millions).
+energyshield_fx_daily,Date,STRING,YES,YYYY-MM-DD,FBIL / RBI,Daily Observation,Daily,Trading date for foreign exchange benchmark rates.
+energyshield_fx_daily,Time,STRING,NO,13:30 IST,FBIL,Fixing Time,Daily,Standard benchmark fixing time.
+energyshield_fx_daily,USD_INR_Rate,FLOAT64,NO,INR per 1 USD,FBIL / RBI,Daily Observation,Daily,Official FBIL USD/INR Reference Rate.
+energyshield_fx_daily,GBP_INR_Rate,FLOAT64,NO,INR per 1 GBP,FBIL / RBI,Daily Observation,Daily,Official FBIL GBP/INR Reference Rate.
+energyshield_fx_daily,EUR_INR_Rate,FLOAT64,NO,INR per 1 EUR,FBIL / RBI,Daily Observation,Daily,Official FBIL EUR/INR Reference Rate.
+energyshield_fx_daily,AED_INR_Rate,FLOAT64,NO,INR per 1 AED,FBIL / RBI,Daily Observation,Daily,Official FBIL AED/INR Reference Rate (introduced 2026-01-01).
+energyshield_fx_daily,Financial_Year,STRING,NO,YYYY-YY,FBIL / RBI,Date Mapping,Daily,Financial Year of the trading session.
+energyshield_macro_monthly,Month_Year,STRING,YES,YYYY-MM,OEA / MoSPI / FBIL,Monthly Index / FX Avg,Monthly,Monthly primary coordinate.
+energyshield_macro_monthly,Financial_Year,STRING,NO,YYYY-YY,Canonical Calendar,Date Mapping,Monthly,Financial Year of the month.
+energyshield_macro_monthly,Fiscal_Year_Quarter,STRING,NO,YYYY-YY QX,Canonical Calendar,Date Mapping,Monthly,Fiscal quarter linking key.
+energyshield_macro_monthly,Quarter,STRING,NO,"Q1, Q2, Q3, Q4",Canonical Calendar,Date Mapping,Monthly,Fiscal quarter name.
+energyshield_macro_monthly,Trading_Days,INT64,NO,Count,FBIL,Monthly Count,Monthly,Number of FX trading sessions in the month.
+energyshield_macro_monthly,USD_INR_Monthly_Avg,FLOAT64,NO,INR per 1 USD,FBIL / RBI,Arithmetic Monthly Mean,Monthly,Monthly average USD/INR reference rate.
+energyshield_macro_monthly,GBP_INR_Monthly_Avg,FLOAT64,NO,INR per 1 GBP,FBIL / RBI,Arithmetic Monthly Mean,Monthly,Monthly average GBP/INR reference rate.
+energyshield_macro_monthly,EUR_INR_Monthly_Avg,FLOAT64,NO,INR per 1 EUR,FBIL / RBI,Arithmetic Monthly Mean,Monthly,Monthly average EUR/INR reference rate.
+energyshield_macro_monthly,AED_INR_Monthly_Avg,FLOAT64,NO,INR per 1 AED,FBIL / RBI,Arithmetic Monthly Mean,Monthly,Monthly average AED/INR reference rate.
+energyshield_macro_monthly,WPI_Headline_Index,FLOAT64,NO,Index (2011-12=100),OEA / DPIIT,Official Monthly Index,Monthly,Wholesale Price Index: All Commodities.
+energyshield_macro_monthly,WPI_Fuel_and_Power_Index,FLOAT64,NO,Index (2011-12=100),OEA / DPIIT,Official Monthly Index,Monthly,Wholesale Price Index: Major Group II (Fuel & Power).
+energyshield_macro_monthly,WPI_Mineral_Oils_SubIndex,FLOAT64,NO,Index (2011-12=100),OEA / DPIIT,Official Monthly Index,Monthly,Wholesale Price Index: Sub-Group II.b (Mineral Oils).
+energyshield_macro_monthly,CPI_Combined_Headline,FLOAT64,NO,Index (2012=100),NSO / MoSPI,Official Monthly Index,Monthly,Consumer Price Index: All India Combined General Index.
+energyshield_macro_monthly,CPI_Fuel_and_Light_Index,FLOAT64,NO,Index (2012=100),NSO / MoSPI,Official Monthly Index,Monthly,Consumer Price Index: Group 4 (Fuel and Light Combined).
+energyshield_macro_quarterly,Fiscal_Year_Quarter,STRING,YES,YYYY-YY QX,RBI BoP / DEPR,Quarterly Primary Key,Quarterly,Quarterly macroeconomic primary key.
+energyshield_macro_quarterly,Financial_Year,STRING,NO,YYYY-YY,Canonical Calendar,Date Mapping,Quarterly,Financial Year of the quarter.
+energyshield_macro_quarterly,Quarter,STRING,NO,"Q1, Q2, Q3, Q4",Canonical Calendar,Date Mapping,Quarterly,Fiscal quarter within the financial year.
+energyshield_macro_quarterly,Merchandise_Imports_Total_USD_Mn,FLOAT64,NO,USD Million,RBI BoP,Direct Statutory Flow,Quarterly,Total Merchandise Imports in Balance of Payments (BPM6).
+energyshield_macro_quarterly,POL_Imports_USD_Mn,FLOAT64,NO,USD Million,RBI BoP,Direct Statutory Flow,Quarterly,"Petroleum, Oil and Lubricants (POL) Imports."
+energyshield_macro_quarterly,Non_POL_Imports_USD_Mn,FLOAT64,NO,USD Million,RBI BoP,Direct Statutory Flow,Quarterly,Non-POL Merchandise Imports.
+energyshield_macro_quarterly,Merchandise_Trade_Balance_USD_Mn,FLOAT64,NO,USD Million,RBI BoP,Direct Statutory Flow,Quarterly,Goods Trade Balance (Exports minus Imports). Negative denotes deficit.
+energyshield_macro_quarterly,Current_Account_Balance_USD_Mn,FLOAT64,NO,USD Million,RBI BoP,Direct Statutory Flow,Quarterly,Current Account Balance. Negative denotes deficit.
+energyshield_macro_quarterly,CAD_as_Pct_of_GDP,FLOAT64,NO,% of GDP,RBI BoP,Direct Statutory Ratio,Quarterly,Current Account Deficit as a percentage of GDP. Negative denotes deficit.
+energyshield_macro_quarterly,USD_INR_Quarterly_Avg,FLOAT64,NO,INR per 1 USD,FBIL / RBI,Arithmetic 3-Month Mean,Quarterly,Quarterly average USD/INR reference rate.
+energyshield_macro_quarterly,GBP_INR_Quarterly_Avg,FLOAT64,NO,INR per 1 GBP,FBIL / RBI,Arithmetic 3-Month Mean,Quarterly,Quarterly average GBP/INR reference rate.
+energyshield_macro_quarterly,EUR_INR_Quarterly_Avg,FLOAT64,NO,INR per 1 EUR,FBIL / RBI,Arithmetic 3-Month Mean,Quarterly,Quarterly average EUR/INR reference rate.
+energyshield_macro_quarterly,WPI_Headline_Quarterly_Avg,FLOAT64,NO,Index (2011-12=100),OEA / DPIIT,Arithmetic 3-Month Mean,Quarterly,Quarterly average WPI All Commodities Index.
+energyshield_macro_quarterly,WPI_Fuel_and_Power_Quarterly_Avg,FLOAT64,NO,Index (2011-12=100),OEA / DPIIT,Arithmetic 3-Month Mean,Quarterly,Quarterly average WPI Fuel & Power Index.
+energyshield_macro_quarterly,WPI_Mineral_Oils_Quarterly_Avg,FLOAT64,NO,Index (2011-12=100),OEA / DPIIT,Arithmetic 3-Month Mean,Quarterly,Quarterly average WPI Mineral Oils Sub-Index.
+energyshield_macro_quarterly,CPI_Combined_Quarterly_Avg,FLOAT64,NO,Index (2012=100),NSO / MoSPI,Arithmetic 3-Month Mean,Quarterly,Quarterly average CPI Combined General Index.
+energyshield_macro_quarterly,CPI_Fuel_and_Light_Quarterly_Avg,FLOAT64,NO,Index (2012=100),NSO / MoSPI,Arithmetic 3-Month Mean,Quarterly,Quarterly average CPI Fuel & Light Index.
+energyshield_macro_quarterly,Quarterly_Trading_Days,INT64,NO,Count,FBIL,Quarterly Sum of Days,Quarterly,Total FX trading days in the quarter.
+energyshield_forex_reserves_benchmark,Reporting_Date,STRING,YES,YYYY-MM-DD,RBI WSS Table 2,Weekly Point Observation,Weekly (PARTIAL),Official reserve observation date.
+energyshield_forex_reserves_benchmark,Total_Reserves_USD_Mn,FLOAT64,NO,USD Million,RBI WSS Table 2,Weekly Point Observation,Weekly (PARTIAL),Total Foreign Exchange Reserves in USD Millions.
+energyshield_forex_reserves_benchmark,Foreign_Currency_Assets_USD_Mn,FLOAT64,NO,USD Million,RBI WSS Table 2,Weekly Point Observation,Weekly (PARTIAL),Foreign Currency Assets in USD Millions.
+energyshield_forex_reserves_benchmark,Gold_USD_Mn,FLOAT64,NO,USD Million,RBI WSS Table 2,Weekly Point Observation,Weekly (PARTIAL),Gold Reserves in USD Millions.
+energyshield_forex_reserves_benchmark,SDRs_USD_Mn,FLOAT64,NO,USD Million,RBI WSS Table 2,Weekly Point Observation,Weekly (PARTIAL),Special Drawing Rights in USD Millions.
+energyshield_forex_reserves_benchmark,Reserve_Position_IMF_USD_Mn,FLOAT64,NO,USD Million,RBI WSS Table 2,Weekly Point Observation,Weekly (PARTIAL),Reserve Position in the IMF in USD Millions.
+energyshield_forex_reserves_benchmark,Coverage_Status,STRING,NO,Text Flag,EnergyShield Metadata,Categorical Flag,Metadata,Flagged as PARTIAL_HISTORICAL_BENCHMARK to prevent misleading extrapolation.

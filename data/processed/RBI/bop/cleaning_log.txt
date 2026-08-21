@@ -1,0 +1,39 @@
+================================================================================
+ENERGYSHIELD CLEANING LOG: RBI BALANCE OF PAYMENTS (BOP) PIPELINE
+================================================================================
+
+Pipeline Version: 1.0.0
+Target Directory: c:\Dotnet Internship\Projects\energyshield\data\processed\RBI\bop
+
+[STEP 1] Raw Source Ingestion & Integrity Audit
+  Raw Directory: c:\Dotnet Internship\Projects\energyshield\data\raw\RBI\bop
+  Raw Ingestion Files:
+    - rbi_bop_quarterly_2019_2026_RAW.csv
+    - rbi_bop_quarterly_2019_2026_RAW.xlsx
+  Authority: Reserve Bank of India (RBI) / BPM6 Balance of Payments Standard Presentation
+  Status: SUCCESS
+
+[STEP 2] Temporal Normalization & Quarter Indexing
+  Actions:
+  - Enforced chronological sequence from 2019-20 Q1 to 2025-26 Q4 (28 quarters).
+  - Verified exactly 4 quarters per financial year across 7 complete fiscal cycles.
+  Status: SUCCESS (28 / 28 Quarters Mapped)
+
+[STEP 3] Monetary Standardization & Polarity Enforcement
+  Actions:
+  - Standardized all trade and balance metrics to Millions of US Dollars (US$ Mn).
+  - Preserved negative sign conventions for deficits (Trade Deficit, Current Account Deficit, and negative CAD % of GDP).
+  - Retained positive sign conventions for historical surplus quarters (e.g., 2019-20 Q4, 2020-21 Q1, 2020-21 Q2, 2023-24 Q4, 2024-25 Q4, 2025-26 Q4).
+  - Enforced IEEE float64 precision across all columns.
+  Status: SUCCESS
+
+[STEP 4] Trade Disaggregation & Mathematical Reconciliation
+  Actions:
+  - Verified: POL_Imports_USD_Mn + Non_POL_Imports_USD_Mn == Merchandise_Imports_Total_USD_Mn across all 28 rows.
+  - Maximum discrepancy observed: 0.00 USD Mn (100% exact mathematical reconciliation).
+  Status: SUCCESS
+
+[STEP 5] Output Generation & Validation
+  1. c:\Dotnet Internship\Projects\energyshield\data\processed\RBI\bop\rbi_balance_of_payments_quarterly.csv (28 rows)
+  2. c:\Dotnet Internship\Projects\energyshield\data\processed\RBI\bop\rbi_balance_of_payments_quarterly.xlsx (Sheet: Quarterly_BoP)
+  Status: SUCCESS (100% Validated)

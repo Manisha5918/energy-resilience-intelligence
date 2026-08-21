@@ -1,0 +1,44 @@
+================================================================================
+ENERGYSHIELD CLEANING LOG: RBI FOREIGN EXCHANGE RESERVES PIPELINE
+================================================================================
+
+Pipeline Version: 1.0.0
+Target Directory: c:\Dotnet Internship\Projects\energyshield\data\processed\RBI\forex-reserves
+
+[STEP 1] Raw Source Ingestion & Integrity Audit
+  Directory: c:\Dotnet Internship\Projects\energyshield\data\raw\RBI\forex-reserves
+  Mode: READ-ONLY (Preserved all original raw files completely untouched).
+  Total Raw Workbooks Processed: 37 files.
+  Status: SUCCESS
+
+[STEP 2] Observation Date Extraction & Parsing
+  Actions:
+  - Extracted actual reserve reporting date ("As on <Date>") from table header row.
+  - Normalized date strings to standard ISO 8601 format (YYYY-MM-DD).
+  - Resolved missing year in raw string "As on December 6," using file publication metadata (2019).
+  Status: SUCCESS
+
+[STEP 3] Component Value Extraction & Currency Unit Standardization
+  Extracted Series:
+    1. Total_Reserves (USD Mn & INR Bn)
+    2. Foreign_Currency_Assets (USD Mn & INR Bn)
+    3. Gold (USD Mn & INR Bn)
+    4. SDRs (USD Mn & INR Bn)
+    5. Reserve_Position_IMF (USD Mn & INR Bn)
+  Actions:
+  - Robust unit detection across all variations (₹ Bn. vs ₹ Cr. / ₹Cr.).
+  - Standardized all INR fields to ₹ Bn. (converted ₹ Cr. by dividing by 100.0 without precision loss).
+  - Enforced IEEE float64 precision; cleaned non-numeric dashes ("–", "—", "-") to standard NaN / Null.
+  Status: SUCCESS
+
+[STEP 4] Deduplication & Provenance Auditing
+  Actions:
+  - Identified 1 exact duplicate reporting date: 2019-03-29 present in both "2T_050420193C6085F090D746618EF4A5C9DCA819D5 (1).XLSX" and "rbi_foreign_exchange_reserves_2019_2026_RAW.xlsx".
+  - Deduplicated to preserve 1 unique record per official reporting date, tracking source filename.
+  - Total unique observations retained: 36 weekly records.
+  Status: SUCCESS
+
+[STEP 5] Output Generation & Validation
+  1. c:\Dotnet Internship\Projects\energyshield\data\processed\RBI\forex-reserves\rbi_foreign_exchange_reserves_weekly.csv (36 rows)
+  2. c:\Dotnet Internship\Projects\energyshield\data\processed\RBI\forex-reserves\rbi_foreign_exchange_reserves_weekly.xlsx (Sheet: Weekly_Forex_Reserves)
+  Status: SUCCESS (100% Validated)

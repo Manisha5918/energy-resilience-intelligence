@@ -1,0 +1,69 @@
+================================================================================
+ENERGYSHIELD DATA QUALITY REPORT: RBI / FBIL REFERENCE EXCHANGE RATES
+================================================================================
+
+1. SOURCE WORKBOOK & PROVENANCE
+--------------------------------------------------------------------------------
+- Source File: data/raw/RBI/financial-markets/rbi_usd_inr_reference_rates_2019_2026_RAW.xlsx.xls
+- Authority: Financial Benchmarks India Pvt. Ltd. (FBIL) / Reserve Bank of India (RBI)
+- Source Sheet Name: 'Reference Rates'
+- Total Raw Rows in Workbook: 6881 rows
+- Raw Observations Extracted: 6878 rate quotes
+- Source Units: Indian Rupees per unit of foreign currency (INR / 1 Foreign Currency Unit)
+
+2. DATASET DIMENSIONS & COVERAGE
+--------------------------------------------------------------------------------
+- Cleaned Daily Observations: 1692 trading days
+- Actual Date Range: 2019-04-02 to 2026-03-30 (02 April 2019 to 30 March 2026)
+- Monthly Aggregation: 84 calendar months (2019-04 to 2026-03)
+- Financial Years Covered (7 FYs): ['FY2019-20', 'FY2020-21', 'FY2021-22', 'FY2022-23', 'FY2023-24', 'FY2024-25', 'FY2025-26']
+- Target Currency Pairs Processed (4 Pairs):
+    1. USD/INR (INR / 1 USD)
+    2. GBP/INR (INR / 1 GBP)
+    3. EUR/INR (INR / 1 EUR)
+    4. AED/INR (INR / 1 AED)
+  (Non-target series in raw source: JPY/INR [1692 rows], IDR/INR [55 rows])
+
+3. MISSING VALUE AUDIT & LIMITATIONS
+--------------------------------------------------------------------------------
+- USD_INR_Rate: 0 missing (1,692 / 1,692 observations available - 100.0% complete)
+- GBP_INR_Rate: 0 missing (1,692 / 1,692 observations available - 100.0% complete)
+- EUR_INR_Rate: 0 missing (1,692 / 1,692 observations available - 100.0% complete)
+- AED_INR_Rate: 1,637 missing / 55 available (3.25% coverage)
+  * Reason: FBIL initiated statutory publication of the AED reference rate only from
+    05 January 2026. All prior historical dates (April 2019 to Dec 2025) are preserved
+    strictly as blank/NaN per zero-fabrication contract (no backfilling or synthetic derivation).
+
+4. DUPLICATE RECORDS AUDIT
+--------------------------------------------------------------------------------
+- Duplicate (Date, Currency_Pair) quotes in raw source: 0
+- Duplicate Date primary key records in daily processed dataset: 0 (100% unique dates)
+
+5. SUMMARY RATE STATISTICS (DAILY RATES IN INR PER 1 FOREIGN UNIT)
+--------------------------------------------------------------------------------
+Metric     USD_INR        GBP_INR        EUR_INR        AED_INR (2026)
+------------------------------------------------------------------
+Min        68.3665        83.5445        76.3059        24.4747       
+Mean       79.3592        102.2795       88.3699        24.8965       
+Max        94.6543        127.2530       110.2273       25.7694       
+Std Dev    6.0721         8.8340         7.2174         0.3223        
+
+6. FINANCIAL YEAR AVERAGE RATES (INR / 1 UNIT)
+--------------------------------------------------------------------------------
+Financial Year   Trading Days   USD/INR      GBP/INR      EUR/INR      AED/INR     
+--------------------------------------------------------------------------------
+FY2019-20        242            70.8791      90.1480      78.7968      N/A         
+FY2020-21        244            74.2010      97.0595      86.6675      N/A         
+FY2021-22        241            74.5120      101.7825     86.5575      N/A         
+FY2022-23        244            80.3914      96.8271      83.7231      N/A         
+FY2023-24        240            82.7921      104.0726     89.8037      N/A         
+FY2024-25        241            84.5698      107.8887     90.7613      N/A         
+FY2025-26        240            88.3071      118.4359     102.4625     24.8965     
+
+7. VALIDATION & RECONCILIATION FINDINGS
+--------------------------------------------------------------------------------
+  [PASS] Cleaned daily row count (1,692) exactly matches unique trading dates in raw source.
+  [PASS] Raw whitespace inconsistency handled: 12 occurrences of 'INR/1 USD' normalized with 'INR / 1 USD'.
+  [PASS] Zero synthetic data introduced; genuine missing historical AED rates preserved as null.
+  [PASS] Mathematical averages verified: sum(daily)/count(daily) == FY average.
+================================================================================

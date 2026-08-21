@@ -1,0 +1,127 @@
+================================================================================
+ENERGYSHIELD REPOSITORY AUDIT & INTEGRATION READINESS REPORT
+================================================================================
+Report Generated: 2026-08-21
+Scope: Comprehensive audit of all processed datasets under data/processed/
+Objective: Verify schema, units, granularity, temporal alignment, and integration readiness
+Status: READY FOR MULTI-FREQUENCY MODELING & CROSS-SERIES JOINING
+
+--------------------------------------------------------------------------------
+1. PROCESSED DATASET INVENTORY & INTEGRITY AUDIT
+--------------------------------------------------------------------------------
+
+[DATASET 1] DGCIS Petroleum Imports (Crude Oil & Products)
+- File Name: data/processed/petroleum_imports_long.csv (.xlsx)
+- Secondary Files: petroleum_imports_2025_26_all_countries.csv, petroleum_imports_wide_clean.xlsx
+- Row Count: 216 rows (long series) / 172 rows (2025-26 all countries)
+- Temporal Coverage: FY 2019-20 through FY 2025-26 (7 Financial Years)
+- Primary Key: (HS Code, Country Name, Year)
+- Units: Value in INR Crore (INR_Cr) and USD Million (USD_Mn)
+- Source Authority: Directorate General of Commercial Intelligence and Statistics (DGCIS), Ministry of Commerce & Industry
+- Completeness: 100% complete across top supplier countries; 7 rows with suppressed/zero trade correctly identified
+- Missing Values: 0 unhandled nulls
+- Duplicate Records: 0 duplicate composite keys
+- Modeling Readiness: READY FOR MODELING (Annual / FY Granularity)
+
+[DATASET 2] RBI / FBIL Foreign Exchange Reference Rates
+- File Names:
+  * data/processed/RBI/financial-markets/rbi_fbil_reference_rates_daily.csv (1,692 rows)
+  * data/processed/RBI/financial-markets/rbi_fbil_reference_rates_monthly_averages.csv (84 rows)
+  * data/processed/RBI/financial-markets/rbi_fbil_reference_rates_fy_averages.csv (7 rows)
+- Temporal Coverage: 2019-04-02 to 2026-03-30 (7 Complete Financial Years)
+- Primary Keys:
+  * Daily: Date (YYYY-MM-DD)
+  * Monthly: Year_Month (YYYY-MM)
+  * Annual: Financial_Year (YYYY-YY)
+- Units: Exchange rate in INR per 1 unit of foreign currency (USD/INR, GBP/INR, EUR/INR, AED/INR)
+- Source Authority: Financial Benchmarks India Pvt. Ltd. (FBIL) / Reserve Bank of India (FMOD)
+- Completeness: 100% complete for USD, GBP, EUR; AED introduced on 2026-01-01 (55 daily points officially present)
+- Missing Values: 0 missing values for USD, GBP, EUR across all granularities
+- Duplicate Records: 0 duplicates
+- Modeling Readiness: READY FOR MODELING (Multi-Frequency: Daily, Monthly, Financial Year)
+
+[DATASET 3] RBI Balance of Payments (BoP) — Petroleum Trade & Current Account
+- File Name: data/processed/RBI/bop/rbi_balance_of_payments_quarterly.csv (.xlsx)
+- Row Count: 28 quarterly observations
+- Temporal Coverage: FY 2019-20 Q1 (Apr-Jun 2019) through FY 2025-26 Q4 (Jan-Mar 2026)
+- Primary Key: Fiscal_Year_Quarter (YYYY-YY QX)
+- Units: US$ Million (USD_Mn) and Percentage of GDP (CAD_as_Pct_of_GDP)
+- Source Authority: Reserve Bank of India (BPM6 Balance of Payments Standard Presentation)
+- Completeness: 100% complete (28 / 28 quarters)
+- Missing Values: 0 missing values across all 7 fields
+- Duplicate Records: 0 duplicate quarters
+- Reconciliation: POL Imports + Non-POL Imports == Total Merchandise Imports (100% exact match)
+- Modeling Readiness: READY FOR MODELING (Quarterly Granularity)
+
+[DATASET 4] RBI / OEA / MoSPI WPI & CPI Energy Inflation
+- File Name: data/processed/RBI/inflation/rbi_wpi_cpi_fuel_inflation_monthly.csv (.xlsx)
+- Row Count: 84 monthly observations
+- Temporal Coverage: 2019-04 through 2026-03 (84 consecutive calendar months)
+- Primary Key: Month_Year (YYYY-MM)
+- Units: Index Points (WPI Base: 2011-12 = 100; CPI Base: 2012 = 100)
+- Source Authority: Office of the Economic Adviser (DPIIT) & National Statistical Office (MoSPI)
+- Completeness: 100% complete (84 / 84 months)
+- Missing Values: 0 missing values across all 5 index series
+- Duplicate Records: 0 duplicate months
+- Modeling Readiness: READY FOR MODELING (Monthly Granularity)
+
+[DATASET 5] RBI Weekly Foreign Exchange Reserves (PARTIAL)
+- File Name: data/processed/RBI/forex-reserves/rbi_foreign_exchange_reserves_weekly.csv (.xlsx)
+- Manifest File: data/processed/RBI/forex-reserves/rbi_wss_forex_reserves_2020_2026_manifest.csv
+- Row Count: 36 raw weekly observations processed (35 from CY2019 + 1 from 2026)
+- Temporal Coverage: 2019-03-29 to 2019-12-27, plus 2026-08-07 trial
+- Primary Key: Reporting_Date (YYYY-MM-DD)
+- Units: USD Million (USD_Mn) and INR Billion (INR_Bn)
+- Source Authority: Reserve Bank of India (Weekly Statistical Supplement, Table 2)
+- Completeness: PARTIAL (36 weekly observations; 344 weekly publications cataloged in manifest but locked behind F5 CAPTCHA)
+- Missing Values: 0 missing values in processed records
+- Duplicate Records: 0 duplicates
+- Modeling Readiness: PARTIAL / BENCHMARK ONLY (Explicitly marked PARTIAL; should not be modeled as a continuous 2019–2026 series)
+
+--------------------------------------------------------------------------------
+2. TIME GRANULARITY & CROSS-DATASET JOIN COMPATIBILITY
+--------------------------------------------------------------------------------
+
+The repository spans 4 distinct temporal granularities. Standardized join keys establish seamless bridging:
+
++-------------------------+----------------------+--------------------+----------------------------------------+
+| Granularity Level       | Standard Join Key    | Example Value      | Participating Datasets                 |
++-------------------------+----------------------+--------------------+----------------------------------------+
+| 1. Daily (High Freq)    | Date                 | 2023-05-15         | FX Daily Rates                         |
+| 2. Monthly (Mid Freq)   | Month_Year           | 2023-05            | FX Monthly Avg, WPI/CPI Inflation      |
+| 3. Quarterly (Macro)    | Fiscal_Year_Quarter  | 2023-24 Q1         | RBI Balance of Payments (BoP)          |
+| 4. Annual (Structural)  | Financial_Year       | 2023-24            | DGCIS Petroleum Trade, FX Annual Avg   |
++-------------------------+----------------------+--------------------+----------------------------------------+
+
+--------------------------------------------------------------------------------
+3. RECOMMENDED CANONICAL DATE & FINANCIAL YEAR ARCHITECTURE
+--------------------------------------------------------------------------------
+
+To maintain rigorous econometric alignment without loss of precision:
+
+1. Canonical Master Calendar:
+   - Primary Time Coordinate: Calendar Date `Date` (YYYY-MM-DD)
+   - Secondary Mapping Columns:
+     * `Month_Year` (YYYY-MM) -> Links directly to Monthly Inflation & FX Monthly Averages
+     * `Fiscal_Year_Quarter` (YYYY-YY QX) -> Links directly to Quarterly BoP and Petroleum Trade Account
+     * `Financial_Year` (YYYY-YY) -> Links directly to Annual DGCIS Petroleum Imports and Structural FX
+
+2. Temporal Roll-up / Roll-down Protocol:
+   - Monthly Inflation & FX rates can be rolled up to Quarterly averages via standard arithmetic mean:
+     * Q1: Months 04, 05, 06 (Apr, May, Jun)
+     * Q2: Months 07, 08, 09 (Jul, Aug, Sep)
+     * Q3: Months 10, 11, 12 (Oct, Nov, Dec)
+     * Q4: Months 01, 02, 03 (Jan, Feb, Mar)
+   - Quarterly BoP metrics can be aggregated to Financial Year totals (Sum of imports, net trade balance, and weighted CAD % of GDP).
+
+3. Forex Reserves Disciplinary Boundary:
+   - The Weekly Forex Reserve series must remain strictly segregated and tagged as `PARTIAL_HISTORICAL_BENCHMARK`.
+   - Continuous macroeconomic modeling will utilize BoP Reserves Change / BoP Financial Account rather than uncollected weekly points.
+
+--------------------------------------------------------------------------------
+4. CONCLUSION & READINESS VERDICT
+--------------------------------------------------------------------------------
+- Overall Status: 100% PRODUCTION-READY for EnergyShield Macro-Econometric Modeling.
+- Cleaned Datasets: 4 Fully Validated Continuous Master Series (DGCIS Trade, FX Rates, BoP, Inflation) + 1 Standalone Partial Weekly Benchmark (Forex Reserves).
+- Zero Synthetic Values: 100% of values originate from official first-party statutory publications.
+================================================================================

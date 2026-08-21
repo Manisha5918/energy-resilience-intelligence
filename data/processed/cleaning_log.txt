@@ -1,0 +1,38 @@
+================================================================================
+ENERGYSHIELD DATA CLEANING & TRANSFORMATION AUDIT LOG
+================================================================================
+
+Pipeline Version: 1.0.0
+Target Directory: C:\Dotnet Internship\Projects\energyshield\data\processed
+
+[STEP 1] Raw Source Integrity Verification
+  Source File: C:\Dotnet Internship\Projects\energyshield\data\raw\DGCIS_Petroleum_Imports_2019-20_to_2025-26_RAW.xlsx
+  Action: Opened in READ-ONLY mode. No byte modifications made to raw directory.
+  Status: SUCCESS (27 rows, 20 columns read)
+
+[STEP 2] String Standardization & Whitespace Sanitization
+  Target Columns: ['HS Description', 'Country Name']
+  Action: Applied .str.strip() to trim leading/trailing whitespace without altering internal names.
+  Status: SUCCESS
+
+[STEP 3] Numeric Type Enforcement & Missing Value Policy
+  Target Columns: ['2019_INR_Cr' through '2026_USD_Mn']
+  Action: Converted to float64; genuine blank cells kept as np.nan (no synthetic zero substitution).
+  Status: SUCCESS (7 genuine missing values preserved)
+
+[STEP 4] Analytical Reshaping (Wide to Long Format)
+  Source Matrix: 27 rows x 20 columns
+  Destination Schema: ['HS Code', 'HS Description', 'Country Name', 'Year', 'INR_Cr', 'USD_Mn']
+  Transformation: Unpivoted 8 annual metric pairs (2019-2026) -> 216 long analytical records.
+  Status: SUCCESS (216 rows generated, 0 duplicate keys)
+
+[STEP 5] Export Clean Datasets
+  1. C:\Dotnet Internship\Projects\energyshield\data\processed\petroleum_imports_long.csv (Long format CSV, UTF-8)
+  2. C:\Dotnet Internship\Projects\energyshield\data\processed\petroleum_imports_long.xlsx (Long format Excel, Sheet: Petroleum_Imports_Long)
+  3. C:\Dotnet Internship\Projects\energyshield\data\processed\petroleum_imports_wide_clean.xlsx (Wide format Excel, Sheet: Petroleum_Imports_Wide)
+  Status: SUCCESS
+
+[STEP 6] Cross-Format Invariant Verification
+  Validation: Verified that Sum(Wide[y]) == Sum(Long[y]) across all 8 fiscal years for both INR and USD.
+  Reconciliation Difference: 0.000000000 (Exact mathematical match)
+  Status: VALIDATED 100%

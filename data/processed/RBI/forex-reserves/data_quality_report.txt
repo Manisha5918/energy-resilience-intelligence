@@ -1,0 +1,63 @@
+================================================================================
+ENERGYSHIELD DATA QUALITY REPORT: RBI WEEKLY FOREIGN EXCHANGE RESERVES
+================================================================================
+
+1. SOURCE WORKBOOKS & PROVENANCE
+--------------------------------------------------------------------------------
+- Source Directory: data/raw/RBI/forex-reserves/
+- Authority: Reserve Bank of India (RBI) - Weekly Statistical Supplement (WSS) Table 2
+- Total Raw Workbooks Examined: 37 files
+- Unique Weekly Reserve Observations Extracted: 36 observations
+- Primary Source Preserved: 100% untouched
+
+2. TEMPORAL COVERAGE & DATES EXTRACTED
+--------------------------------------------------------------------------------
+- Earliest Actual Observation Date: 2019-03-29 (As on March 29, 2019)
+- Latest Actual Observation Date: 2026-08-07 (As on August 07, 2026)
+- 2019 Weekly Series: 35 observations (from 2019-03-29 to 2019-12-20)
+- 2026 Sample Series: 1 observation (2026-08-07)
+
+3. DATASET COMPLETENESS & MISSING PERIOD AUDIT
+--------------------------------------------------------------------------------
+CRITICAL COMPLETENESS DISCLOSURE:
+  * THIS DATASET IS NOT A COMPLETE 2019-2026 CONTINUOUS TIME SERIES.
+  * The processed dataset contains strictly the 36 officially verified weekly observations
+    extracted from the currently available raw files in data/raw/RBI/forex-reserves/.
+  * 2019 Internal Missing Weeks: 4 missing weeks in 2019 (2019-04-05, 2019-04-12, 2019-04-19, 2019-07-12).
+  * 2020-2026 Gap: Weekly files for 2020 through early August 2026 (343 weekly issues)
+    were cataloged in the official RBI publication manifest but not yet downloaded due to
+    upstream F5 BIG-IP Bot Defense CAPTCHA restrictions.
+  * Zero-Fabrication Contract: Missing weeks are left completely unfilled (no interpolation,
+    no zero-filling, and no synthetic values created).
+
+4. SUMMARY STATISTICS (USD MILLION)
+--------------------------------------------------------------------------------
+       Total_Reserves_USD_Mn  Foreign_Currency_Assets_USD_Mn    Gold_USD_Mn   SDRs_USD_Mn  Reserve_Position_IMF_USD_Mn
+count              36.000000                       36.000000      36.000000     36.000000                    36.000000
+mean           440549.863889                   407255.477778   27817.216667   1922.572222                  3554.652778
+std             47135.486426                    30476.981196   13990.152169   2883.855188                   279.151399
+min            411905.000000                   384053.500000   22958.700000   1428.000000                  2986.400000
+25%            425700.475000                   395953.925000   23232.800000   1435.000000                  3350.325000
+50%            429780.350000                   399048.400000   26766.350000   1442.200000                  3620.200000
+75%            443461.750000                   411253.250000   27058.500000   1449.025000                  3633.500000
+max            707002.000000                   574625.000000  108738.000000  18745.000000                  4894.000000
+
+5. SUMMARY STATISTICS (INR BILLION)
+--------------------------------------------------------------------------------
+       Total_Reserves_INR_Bn  Foreign_Currency_Assets_INR_Bn   Gold_INR_Bn  SDRs_INR_Bn  Reserve_Position_IMF_INR_Bn
+count              36.000000                       36.000000     36.000000    36.000000                    36.000000
+mean            31529.274167                    29088.908611   2038.122778   148.326667                   253.917222
+std              6239.089222                     4505.437069   1432.979132   280.552367                    38.880582
+min             28539.400000                    26565.500000   1602.600000    99.500000                   206.600000
+25%             29465.650000                    27501.350000   1610.875000   100.775000                   233.900000
+50%             30529.025000                    28252.645000   1905.285000   101.700000                   256.715000
+75%             31446.115000                    29162.095000   1924.830000   102.515000                   259.125000
+max             67320.930000                    54716.050000  10354.070000  1784.870000                   465.950000
+
+6. VALIDATION & RECONCILIATION FINDINGS
+--------------------------------------------------------------------------------
+  [PASS] Component sum identity: FCA + Gold + SDRs + IMF_Position == Total_Reserves (within rounding tolerance).
+  [PASS] Zero duplicate reporting dates in processed dataset (100% unique primary key dates).
+  [PASS] All 37 source raw workbooks preserved without alteration.
+  [PASS] Publication manifest kept separate from actual weekly reserve time series.
+================================================================================

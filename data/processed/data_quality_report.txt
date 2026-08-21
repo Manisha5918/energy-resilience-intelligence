@@ -1,0 +1,93 @@
+================================================================================
+ENERGYSHIELD DATA QUALITY AND INTEGRITY REPORT
+DGCIS Official Petroleum Import Ingestion Pipeline
+================================================================================
+
+1. SOURCE FILES USED
+--------------------------------------------------------------------------------
+- Primary Multi-Year Dataset:
+  Path: C:\Dotnet Internship\Projects\energyshield\data\raw\DGCIS_Petroleum_Imports_2019-20_to_2025-26_RAW.xlsx
+  Dimensions: 27 rows x 20 columns
+  Source Sheet: 'Data'
+  Authority: Directorate General of Commercial Intelligence and Statistics (DGCIS),
+             Ministry of Commerce and Industry, Government of India.
+
+- Reference Single-Year Dataset:
+  Path: C:\Dotnet Internship\Projects\energyshield\data\raw\DGCIS_Petroleum_Imports_2025-26_RAW.xlsx
+  Dimensions: 172 rows x 6 columns
+  Scope: FY2025-26 Comprehensive partner country breakdown (107 countries).
+
+2. DATASET DIMENSIONS & COVERAGE (LONG / ANALYTICAL FORMAT)
+--------------------------------------------------------------------------------
+- Total Rows: 216
+- Total Columns: 6
+- Column Names: ['HS Code', 'HS Description', 'Country Name', 'Year', 'INR_Cr', 'USD_Mn']
+- Years Available (8 years): [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
+- Number of Countries (9): ['ANGOLA', 'CANADA', 'IRAQ', 'KUWAIT', 'NIGERIA', 'QATAR', 'RUSSIA', 'SAUDI ARAB', 'U S A']
+- Number of HS Codes (3):
+    * 2709: PETROLEUM OILS AND OILS OBTAINED FROM     BITUMINOUS MINERALS, CRUDE
+    * 2710: PETROLEUM OILSAND OILS OBTND FRM BITMNS     MNRLOTHER THAN CRUDE PRPN NES;CNTNG70% OR MOREBY WEIGHT OF THESE OILS
+    * 2711: PETRLM GASES AND OTHR GASEOUS HYDRCRBNS
+
+3. MISSING VALUE AUDIT
+--------------------------------------------------------------------------------
+Missing values were preserved strictly as genuine NaN (no artificial zero-fill):
+- Total Missing INR_Cr entries: 7 out of 216 (3.24%)
+- Total Missing USD_Mn entries: 7 out of 216 (3.24%)
+
+Exact Records with Missing Values in Source Data:
+  * HS 2710 | NIGERIA | Year 2020: INR_Cr=NaN, USD_Mn=NaN
+    (Reason: DGCIS reported no trade record for this specific partner/commodity in that fiscal period)
+  * HS 2711 | CANADA | Year 2019: INR_Cr=NaN, USD_Mn=NaN
+    (Reason: DGCIS reported no trade record for this specific partner/commodity in that fiscal period)
+  * HS 2711 | CANADA | Year 2020: INR_Cr=NaN, USD_Mn=NaN
+    (Reason: DGCIS reported no trade record for this specific partner/commodity in that fiscal period)
+  * HS 2711 | CANADA | Year 2021: INR_Cr=NaN, USD_Mn=NaN
+    (Reason: DGCIS reported no trade record for this specific partner/commodity in that fiscal period)
+  * HS 2711 | CANADA | Year 2022: INR_Cr=NaN, USD_Mn=NaN
+    (Reason: DGCIS reported no trade record for this specific partner/commodity in that fiscal period)
+  * HS 2711 | CANADA | Year 2025: INR_Cr=NaN, USD_Mn=NaN
+    (Reason: DGCIS reported no trade record for this specific partner/commodity in that fiscal period)
+  * HS 2711 | CANADA | Year 2026: INR_Cr=NaN, USD_Mn=NaN
+    (Reason: DGCIS reported no trade record for this specific partner/commodity in that fiscal period)
+
+4. DUPLICATE RECORDS AUDIT
+--------------------------------------------------------------------------------
+- Duplicate wide rows in source: 0
+- Duplicate (HS Code, Country Name, Year) primary key combinations in long format: 0
+- Fully unique primary keys verified: 100% (216 / 216 records).
+
+5. TRANSFORMATIONS PERFORMED
+--------------------------------------------------------------------------------
+1. READ-ONLY raw file ingestion from data\raw without in-place mutation.
+2. Stripped whitespace from HS Description and Country Name string fields.
+3. Preserved HS codes exactly as numeric integer classifications (2709, 2710, 2711).
+4. Enforced IEEE 64-bit floating point types for all INR_Cr and USD_Mn fields.
+5. Reshaped matrix from Wide (27 rows x 20 cols) into Long analytical format (216 rows x 6 cols).
+6. Generated petroleum_imports_long.csv, petroleum_imports_long.xlsx, and petroleum_imports_wide_clean.xlsx.
+
+6. MATHEMATICAL RECONCILIATION & VALIDATION CHECKS
+--------------------------------------------------------------------------------
+  [PASS] Row count validation: 216 rows generated from 27 wide rows x 8 years.
+  [PASS] Duplicate (HS Code, Country Name, Year) check: 0 duplicates found.
+  [PASS] Missing values in Long: INR_Cr = 7, USD_Mn = 7.
+  [PASS] Year 2019 Reconciliation: Wide INR=574366.5134 == Long INR=574366.5134 | Wide USD=81587.0317 == Long USD=81587.0317
+  [PASS] Year 2020 Reconciliation: Wide INR=416778.9797 == Long INR=416778.9797 | Wide USD=56577.9230 == Long USD=56577.9230
+  [PASS] Year 2021 Reconciliation: Wide INR=686816.6338 == Long INR=686816.6338 | Wide USD=92768.5370 == Long USD=92768.5370
+  [PASS] Year 2022 Reconciliation: Wide INR=1141219.1073 == Long INR=1141219.1073 | Wide USD=144983.2244 == Long USD=144983.2244
+  [PASS] Year 2023 Reconciliation: Wide INR=1133723.4605 == Long INR=1133723.4605 | Wide USD=137237.2980 == Long USD=137237.2980
+  [PASS] Year 2024 Reconciliation: Wide INR=1197647.7104 == Long INR=1197647.7104 | Wide USD=143187.8432 == Long USD=143187.8432
+  [PASS] Year 2025 Reconciliation: Wide INR=1178019.0378 == Long INR=1178019.0378 | Wide USD=135298.9902 == Long USD=135298.9902
+  [PASS] Year 2026 Reconciliation: Wide INR=616178.7992 == Long INR=616178.7992 | Wide USD=66005.8353 == Long USD=66005.8353
+
+  Cumulative All-Year Total (INR): ₹6,944,750.2422 Crore
+  Cumulative All-Year Total (USD): $857,646.6828 Million
+
+7. ANOMALIES & AUDIT FINDINGS
+--------------------------------------------------------------------------------
+1. Canada HS 2711 (Petroleum Gases): Trade is only recorded for 2023 (₹1.82 Cr / $0.22 Mn) and
+   2024 (₹0.00 Cr / $0.00 Mn). All other years (2019, 2020, 2021, 2022, 2025, 2026) are blank in DGCIS.
+2. Nigeria HS 2710 (Refined POL): Year 2020 is blank in DGCIS statutory records.
+3. Single-year FY2025-26 dataset (172 rows) contains minor trade from 98 additional partner nations
+   not part of the historical top-tier supplier series.
+================================================================================

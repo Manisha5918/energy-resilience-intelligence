@@ -1,0 +1,66 @@
+================================================================================
+ENERGYSHIELD DGCIS PETROLEUM IMPORT DATASET METADATA
+================================================================================
+
+1. DATASET OVERVIEW & DUAL ARCHITECTURE SPECIFICATION
+--------------------------------------------------------------------------------
+EnergyShield maintains two analytically distinct, non-merged DGCIS datasets to
+prevent synthetic survivorship bias or false time-series interpolation:
+
+A. HISTORICAL TIME-SERIES DATASET (2019-2026):
+   - Source File (Raw): data/raw/DGCIS_Petroleum_Imports_2019-20_to_2025-26_RAW.xlsx
+   - Processed Outputs: petroleum_imports_long.csv, petroleum_imports_long.xlsx,
+                        petroleum_imports_wide_clean.xlsx
+   - Scope: Longitudinal multi-year tracking of India's top 9 strategic sovereign suppliers.
+   - Years Covered: 8 Fiscal Years (2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026)
+   - Number of Countries: 9 (ANGOLA, CANADA, IRAQ, KUWAIT, NIGERIA, QATAR, RUSSIA,
+                             SAUDI ARAB, U S A)
+   - Number of HS Codes: 3 (2709, 2710, 2711)
+   - Number of Records: 216 records (Long format) / 27 records (Wide format)
+   - Total INR Value: INR 6,944,750.2422 Crore
+   - Total USD Value: USD 857,646.6828 Million
+
+B. DETAILED 2025-26 ALL-COUNTRIES CENSUS DATASET:
+   - Source File (Raw): data/raw/DGCIS_Petroleum_Imports_2025-26_RAW.xlsx
+   - Processed Outputs: petroleum_imports_2025_26_all_countries.csv,
+                        petroleum_imports_2025_26_all_countries.xlsx
+   - Scope: Comprehensive cross-sectional census of all global import origins for FY2025-26.
+   - Years Covered: 1 Fiscal Year (2025-26)
+   - Number of Countries: 107 partner countries / sovereign territories
+   - Number of HS Codes: 3 (2709, 2710, 2711)
+   - Number of Records: 172 records
+   - Total INR Value: INR 1,504,533.314426 Crore
+   - Total USD Value: USD 170,670.076852 Million
+
+2. HS CODES & COMMODITY DEFINITIONS
+--------------------------------------------------------------------------------
+   * HS 2709: PETROLEUM OILS AND OILS OBTAINED FROM BITUMINOUS MINERALS, CRUDE
+              (Crude oil feedstock for domestic refinery processing)
+   * HS 2710: PETROLEUM OILS AND OILS OBTAINED FROM BITUMINOUS MINERALS OTHER THAN CRUDE
+              (Refined petroleum products, middle distillates, motor fuels, lube oils)
+   * HS 2711: PETROLEUM GASES AND OTHER GASEOUS HYDROCARBONS
+              (Liquefied Natural Gas [LNG], Liquefied Petroleum Gas [LPG], ethane/propane)
+
+3. UNITS OF MEASUREMENT
+--------------------------------------------------------------------------------
+   - INR_Cr: Indian Rupees in Crores (1 Crore = 10,000,000 INR = 10 Million INR)
+   - USD_Mn: United States Dollars in Millions (1 Million USD = 1,000,000 USD)
+
+4. MISSING-VALUE TREATMENT & DATA INTEGRITY POLICY
+--------------------------------------------------------------------------------
+   - Zero-Fabrication Contract: Genuine missing values in source records are preserved
+     strictly as NaN (null/empty), and are NEVER artificially replaced by 0.
+   - Zero Distinction: A value of 0.0 indicates a recorded trade value of zero or below
+     reporting threshold, whereas NaN indicates no trade return filed for that period.
+   - Missing Values in 2025-26 Dataset: 0 missing values (100% complete returns).
+   - Missing Values in 2019-2026 Historical Dataset: 7 missing metric pairs (Canada HS 2711
+     for 6 years, Nigeria HS 2710 for 2020).
+
+5. SEPARATION RATIONALE & ANALYTICAL INTEGRITY
+--------------------------------------------------------------------------------
+   CRITICAL: The 107-country 2025-26 dataset is intentionally NOT merged into the
+   8-year historical time series because historical time-series data for the 98 minor
+   partner countries is not present in the historical source table.
+   Merging would create artificial sparsity (98 countries x 7 years of NaNs) or falsely
+   imply trade existed where unrecorded.
+================================================================================

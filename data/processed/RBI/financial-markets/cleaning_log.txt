@@ -1,0 +1,47 @@
+================================================================================
+ENERGYSHIELD CLEANING LOG: RBI / FBIL REFERENCE EXCHANGE RATES PIPELINE
+================================================================================
+
+Pipeline Version: 1.0.0
+Target Directory: C:\Dotnet Internship\Projects\energyshield\data\processed\RBI\financial-markets
+
+[STEP 1] Raw Source Ingestion & Integrity Check
+  Source File: C:\Dotnet Internship\Projects\energyshield\data\raw\RBI\financial-markets\rbi_usd_inr_reference_rates_2019_2026_RAW.xlsx.xls
+  Mode: READ-ONLY in-memory byte buffer (No file modification or renaming in data/raw/).
+  Raw Rows Read: 6881 total rows (6878 quote records).
+  Status: SUCCESS
+
+[STEP 2] Header Parsing & Whitespace Normalization
+  Actions:
+  - Skipped title rows 0-1 and mapped data headers from row index 2.
+  - Standardized currency pair matching to handle spacing variations (e.g., 'INR/1 USD' vs 'INR / 1 USD').
+  - Extracted 4 target pairs: USD/INR, GBP/INR, EUR/INR, AED/INR.
+  Status: SUCCESS
+
+[STEP 3] Temporal Parsing & Financial Year Indexing
+  Actions:
+  - Converted 'Date' strings ('DD Mon YYYY') to ISO format 'YYYY-MM-DD'.
+  - Assigned Indian Financial Year labels based on April 1 - March 31 accounting cycle.
+  - Sorted observations chronologically ascending from 2019-04-02 to 2026-03-30.
+  Status: SUCCESS (7 Financial Years mapped)
+
+[STEP 4] Missing Value & Data Integrity Enforcement
+  Actions:
+  - Preserved 1,637 missing AED rates prior to 05-Jan-2026 as genuine NaN / null (no artificial backfilling).
+  - Enforced IEEE float64 precision on all rate columns.
+  Status: SUCCESS
+
+[STEP 5] Aggregations & Export
+  Generated Outputs:
+  1. C:\Dotnet Internship\Projects\energyshield\data\processed\RBI\financial-markets\rbi_fbil_reference_rates_daily.csv (1,692 rows)
+  2. C:\Dotnet Internship\Projects\energyshield\data\processed\RBI\financial-markets\rbi_fbil_reference_rates_daily.xlsx (Sheet: Daily_Reference_Rates)
+  3. C:\Dotnet Internship\Projects\energyshield\data\processed\RBI\financial-markets\rbi_fbil_reference_rates_monthly_averages.csv (84 rows)
+  4. C:\Dotnet Internship\Projects\energyshield\data\processed\RBI\financial-markets\rbi_fbil_reference_rates_monthly_averages.xlsx (Sheet: Monthly_Averages)
+  5. C:\Dotnet Internship\Projects\energyshield\data\processed\RBI\financial-markets\rbi_fbil_reference_rates_fy_averages.csv (7 rows)
+  6. C:\Dotnet Internship\Projects\energyshield\data\processed\RBI\financial-markets\rbi_fbil_reference_rates_fy_averages.xlsx (Sheet: FY_Averages)
+  Status: SUCCESS
+
+[STEP 6] Cross-Dataset Validation Check
+  - Confirmed 0 duplicate dates across 1,692 trading sessions.
+  - Confirmed mathematical consistency of monthly and FY means.
+  Status: VALIDATED 100%

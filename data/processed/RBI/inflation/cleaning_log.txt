@@ -1,0 +1,45 @@
+================================================================================
+ENERGYSHIELD CLEANING LOG: RBI WPI & CPI INFLATION PIPELINE
+================================================================================
+
+Pipeline Version: 1.0.0
+Target Directory: c:\Dotnet Internship\Projects\energyshield\data\processed\RBI\inflation
+
+[STEP 1] Master Workbook Ingestion
+  Raw Directory: c:\Dotnet Internship\Projects\energyshield\data\raw\RBI\inflation
+  Sources Ingested:
+    1. oea_dpiit_wpi_2011_12_monthly_master_RAW.xlsx (Sheet: WPI_Monthly_2011_12)
+       Authority: Office of the Economic Adviser (OEA) / DPIIT / MoCI
+       Base Year: 2011-12 = 100
+    2. mospi_cpi_combined_2012_monthly_master_RAW.xlsx (Sheet: CPI_Combined_Monthly_2012)
+       Authority: National Statistical Office (NSO) / MoSPI
+       Base Year: 2012 = 100
+  Status: SUCCESS (100% Ingested)
+
+[STEP 2] Temporal Alignment & Normalization
+  Actions:
+  - Inner join performed on standardized Month_Year key (YYYY-MM).
+  - Filtered to range: 2019-04 (April 2019) through 2026-03 (March 2026).
+  - Verified exactly 84 consecutive monthly observations.
+  Status: SUCCESS (84 Months Aligned)
+
+[STEP 3] Column Standardization & Type Enforcement
+  Mappings:
+  - WPI_All_Commodities      -> WPI_Headline_Index
+  - WPI_Fuel_and_Power       -> WPI_Fuel_and_Power_Index
+  - WPI_Mineral_Oils         -> WPI_Mineral_Oils_SubIndex
+  - CPI_Combined_General     -> CPI_Combined_Headline
+  - CPI_Fuel_and_Light       -> CPI_Fuel_and_Light_Index
+  - Enforced float64 precision on all 5 index columns.
+  Status: SUCCESS
+
+[STEP 4] Integrity Audit & Anomaly Detection
+  - Duplicate Check: 0 duplicate months found.
+  - Missing Value Check: 0 missing values across all columns.
+  - Zero synthetic values, estimates, or interpolation used.
+  Status: SUCCESS
+
+[STEP 5] Output Deliverable Generation
+  1. c:\Dotnet Internship\Projects\energyshield\data\processed\RBI\inflation\rbi_wpi_cpi_fuel_inflation_monthly.csv (84 rows)
+  2. c:\Dotnet Internship\Projects\energyshield\data\processed\RBI\inflation\rbi_wpi_cpi_fuel_inflation_monthly.xlsx (Sheet: Monthly_Inflation)
+  Status: SUCCESS (100% Validated)
