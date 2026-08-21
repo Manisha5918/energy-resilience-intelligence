@@ -10,6 +10,8 @@ import {
   ZapIcon,
   InfoIcon
 } from "@/components/ui/Icons";
+import { SIMULATED_NATIONAL_ENERGY_METRICS } from "@/lib/reserveData";
+import { SIMULATED_CORRIDOR_METRICS } from "@/lib/riskData";
 
 export default function ExecutiveKpiGrid({
   resilienceResult,
@@ -18,6 +20,8 @@ export default function ExecutiveKpiGrid({
   reserveSummary
 }) {
   const { resilienceScore, supplyRiskIndex, riskAssessment, factors } = resilienceResult;
+  const hormuzCorridor = SIMULATED_CORRIDOR_METRICS.find((c) => c.id === "hormuz") || SIMULATED_CORRIDOR_METRICS[0];
+  const freightMultiplier = hormuzCorridor.freightIndex.split(" ")[0] || "1.42x";
 
   // Circular gauge calculations (circumference for radius 36)
   const radius = 38;
@@ -134,8 +138,8 @@ export default function ExecutiveKpiGrid({
           </div>
         </div>
         <div className="mt-3 pt-2 border-t border-slate-800/80 text-[11px] text-slate-400">
-          Evaluated against 4.67 MBD daily import demand.
-          <div className="text-[9px] font-mono text-slate-500 mt-1">SIMULATED INDICATOR</div>
+          Evaluated against {SIMULATED_NATIONAL_ENERGY_METRICS.dailyNetImportRequirementMbd} MBD daily net import demand.
+          <div className="text-[9px] font-mono text-slate-500 mt-1">DERIVED CANONICAL METRIC</div>
         </div>
       </div>
 
@@ -177,7 +181,7 @@ export default function ExecutiveKpiGrid({
             </span>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-bold font-mono text-slate-100">1.42x</span>
+            <span className="text-3xl font-bold font-mono text-slate-100">{freightMultiplier}</span>
             <span className="text-xs text-slate-400 font-mono">freight surcharge</span>
           </div>
           <p className="text-xs text-slate-300 mt-2">
@@ -241,7 +245,7 @@ export default function ExecutiveKpiGrid({
           </div>
         </div>
         <div className="mt-3 pt-2 border-t border-slate-800/80 text-[9px] font-mono text-slate-500">
-          SIMULATED NATIONAL INVENTORY
+          STATUTORY ISPRL + OMC INVENTORY
         </div>
       </div>
 
@@ -258,15 +262,17 @@ export default function ExecutiveKpiGrid({
             </span>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-bold font-mono text-slate-100">88.9%</span>
+            <span className="text-3xl font-bold font-mono text-slate-100">
+              {SIMULATED_NATIONAL_ENERGY_METRICS.crudeImportDependencyPct}%
+            </span>
             <span className="text-xs text-slate-400 font-mono">of consumption</span>
           </div>
           <p className="text-xs text-slate-300 mt-2">
-            Domestic production supplies ~0.58 MBD of total 5.25 MBD demand.
+            Domestic production supplies ~{SIMULATED_NATIONAL_ENERGY_METRICS.domesticCrudeProductionMbd} MBD of total {SIMULATED_NATIONAL_ENERGY_METRICS.nationalDailyConsumptionMbd} MBD demand.
           </p>
         </div>
         <div className="mt-3 pt-2 border-t border-slate-800/80 text-[9px] font-mono text-slate-500">
-          BASELINE STRUCTURAL EXPOSURE
+          PPAC OFFICIAL CANONICAL DATASET
         </div>
       </div>
 
@@ -279,11 +285,11 @@ export default function ExecutiveKpiGrid({
               Critical Corridor
             </span>
             <span className="text-[10px] font-mono text-amber-400 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-800">
-              HORMUZ 58.4%
+              {hormuzCorridor.name.toUpperCase().replace("STRAIT OF ", "")} {hormuzCorridor.shareOfImports}%
             </span>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-bold font-mono text-amber-400">2.92</span>
+            <span className="text-3xl font-bold font-mono text-amber-400">{hormuzCorridor.volumeMbd}</span>
             <span className="text-xs text-slate-400 font-mono">MBD transiting</span>
           </div>
           <p className="text-xs text-slate-300 mt-2">

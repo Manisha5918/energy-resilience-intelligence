@@ -94,7 +94,7 @@ export function buildNetworkState({
       }
       // General multi-scenario elevation
       else {
-        risk = Math.min(100, Math.round(node.baseRisk * (1 + (scenarioResult.inputs.supplyDisruptionPercent / 100))));
+        risk = Math.min(100, Math.round(node.baseRisk * (1 + ((scenarioResult.parameters?.supplyDisruptionPct || 0) / 100))));
         if (risk >= 75) status = "HIGH_STRESS";
       }
     }
@@ -143,8 +143,8 @@ export function buildNetworkState({
   });
 
   // 3. Compute Network-Level Aggregated Metrics
-  const targetSupplyGapMbd = scenarioResult ? scenarioResult.impact.dailySupplyDeficitMbd : 0.0;
-  const supplyAtRiskMbd = scenarioResult ? scenarioResult.impact.dailySupplyDeficitMbd : 0.42;
+  const targetSupplyGapMbd = scenarioResult ? (scenarioResult.supplyImpact?.dailySupplyDeficitMbd || 0.0) : 0.0;
+  const supplyAtRiskMbd = scenarioResult ? (scenarioResult.supplyImpact?.dailySupplyDeficitMbd || 0.42) : 0.42;
   const criticalNodesCount = nodes.filter((n) => n.riskTier === "CRITICAL").length;
   const criticalCorridorsCount = nodes.filter((n) => n.category === "MARITIME_CORRIDOR" && ["CRITICAL", "HIGH"].includes(n.riskTier)).length;
   const refineriesUnderPressureCount = nodes.filter((n) => n.type === "refinery" && ["CRITICAL", "HIGH"].includes(n.riskTier)).length;
@@ -152,7 +152,7 @@ export function buildNetworkState({
   // Network Resilience Indicator
   let networkResilienceIndicator = baselineResilience.resilienceScore;
   if (!isBaseline && scenarioResult) {
-    networkResilienceIndicator = scenarioResult.postScenario.resilienceScore;
+    networkResilienceIndicator = scenarioResult.scenarioResilience?.resilienceScore ?? baselineResilience.resilienceScore;
   }
 
   // 4. Procurement Integration Recommendation (Phase 4)
@@ -169,16 +169,16 @@ export function buildNetworkState({
     {
       step: 1,
       title: "Initiating Disruption Event",
-      detail: isBaseline ? "Steady-State Operational Baseline" : scenarioResult?.scenario?.name,
+      detail: isBaseline ? "Steady-State Operational Baseline" : (scenarioResult?.scenarioTemplate?.name || "Disruption Scenario"),
       status: isBaseline ? "NORMAL" : "DISRUPTED",
-      severity: isBaseline ? "LOW" : scenarioResult?.inputs?.severity
+      severity: isBaseline ? "LOW" : (scenarioResult?.parameters?.severity || "Moderate")
     },
     {
       step: 2,
       title: "Corridor Chokepoint Impairment",
       detail: isBaseline 
         ? "All 4 shipping corridors operating with open navigation" 
-        : `Primary chokepoints compromised. Throughput reduced by ${scenarioResult?.inputs?.supplyDisruptionPercent}%`,
+        : `Primary chokepoints compromised. Throughput reduced by ${scenarioResult?.parameters?.supplyDisruptionPct || 0}%`,
       status: isBaseline ? "NORMAL" : "RESTRICTED",
       affectedCorridors: nodes.filter((n) => n.category === "MARITIME_CORRIDOR" && n.currentRisk >= 60).map((n) => n.shortName)
     },
@@ -210,9 +210,9 @@ export function buildNetworkState({
       step: 6,
       title: "Strategic Petroleum Reserve (SPR) Cavern Injection",
       detail: isBaseline
-        ? "9.5 days emergency cover standing in underground rock caverns"
+        ? "8.1 days statutory nameplate cover standing in underground rock caverns"
         : `Coordinated emergency drawdown of ${procurementPlan.topRecommendation.sprDrawRecommendedMbd} MBD from Padur & Vizag`,
-      sprCoverRemainingDays: isBaseline ? 9.5 : (scenarioResult?.postScenario?.sprCoverDays || 6.8)
+      sprCoverRemainingDays: isBaseline ? 8.1 : (scenarioResult?.reserveImpact?.scenarioSprDaysCover || 6.8)
     },
     {
       step: 7,
@@ -240,7 +240,7 @@ export function buildNetworkState({
       criticalCorridorsCount,
       refineriesUnderPressureCount,
       sprPressureLevel: isBaseline ? "NOMINAL" : "ACTIVE DRAWDOWN",
-      sprCoverDays: isBaseline ? 9.5 : (scenarioResult?.postScenario?.sprCoverDays || 6.8)
+      sprCoverDays: isBaseline ? 8.1 : (scenarioResult?.reserveImpact?.scenarioSprDaysCover || 6.8)
     },
     cascadeSteps,
     procurementPlan,

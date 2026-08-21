@@ -246,7 +246,9 @@ function buildStrategyProfile({
   budgetPriority
 }) {
   const totalAllocatedMbd = Number(allocations.reduce((sum, a) => sum + a.volumeMbd, 0).toFixed(2));
-  const fulfillmentPct = Math.min(100, Math.round((totalAllocatedMbd / targetSupplyGapMbd) * 100));
+  const fulfillmentPct = targetSupplyGapMbd > 0 
+    ? Math.min(100, Math.round((totalAllocatedMbd / targetSupplyGapMbd) * 100))
+    : 100;
   const remainingGapMbd = Math.max(0, Number((targetSupplyGapMbd - totalAllocatedMbd).toFixed(2)));
 
   // Weighted landed cost $/bbl
@@ -335,7 +337,9 @@ function buildStrategyProfile({
   const rationaleBullets = [
     `Reduces Strait of Hormuz chokepoint concentration from 58.4% to ${hormuzShare.toFixed(1)}%.`,
     `Expands open-ocean routing via Cape of Good Hope & Habshan-Fujairah pipeline to ${capeShare + fujairahShare}%.`,
-    `Lowers Herfindahl-Hirschman supplier concentration (HHI) by ${hhiImprovement} points (HHI: ${strategyHhi}).`,
+    hhiImprovement >= 0
+      ? `Lowers Herfindahl-Hirschman supplier concentration (HHI) by ${hhiImprovement} points (HHI: ${strategyHhi}).`
+      : `Concentrates replacement allocation into 5 secure suppliers (HHI: ${strategyHhi}, +${Math.abs(hhiImprovement)} pts vs baseline ${baselineHhi}) to eliminate chokepoint exposure.`,
     `Delivers ${totalAllocatedMbd} MBD of replacement crude (${fulfillmentPct}% fulfillment) with average landed cost of $${weightedLandedCostUsd}/bbl.`,
     remainingGapMbd > 0
       ? `Coordinates ${remainingGapMbd} MBD remaining gap through controlled Strategic Petroleum Reserve (SPR) cavern draw.`
@@ -358,6 +362,7 @@ function buildStrategyProfile({
     weightedLandedCostUsd,
     weightedTransitDays,
     strategyHhi,
+    baselineHhi,
     hhiImprovement,
     hormuzSharePct: hormuzShare,
     capeSharePct: capeShare,

@@ -23,8 +23,10 @@ export default function DiversificationAnalysis({ strategy, baselineMetrics }) {
           </p>
         </div>
 
-        <div className="text-[10px] font-mono text-emerald-400 font-bold">
-          HHI REDUCTION: -{strategy.hhiImprovement} PTS
+        <div className={`text-[10px] font-mono font-bold ${strategy.hhiImprovement >= 0 ? "text-emerald-400" : "text-amber-400"}`}>
+          {strategy.hhiImprovement >= 0 
+            ? `HHI REDUCTION: -${strategy.hhiImprovement} PTS` 
+            : `HHI SHIFT: +${Math.abs(strategy.hhiImprovement)} PTS`}
         </div>
       </div>
 
@@ -35,11 +37,17 @@ export default function DiversificationAnalysis({ strategy, baselineMetrics }) {
         <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
           <span className="text-[10px] text-slate-500 uppercase block">Herfindahl-Hirschman Index</span>
           <div className="flex items-baseline gap-2">
-            <span className="text-xl font-bold text-slate-400 line-through">2,140</span>
-            <span className="text-2xl font-bold text-emerald-400">{strategy.strategyHhi}</span>
+            <span className="text-xl font-bold text-slate-400 line-through">
+              {baselineMetrics?.baselineHhi || strategy.baselineHhi || 2063}
+            </span>
+            <span className={`text-2xl font-bold ${strategy.hhiImprovement >= 0 ? "text-emerald-400" : "text-cyan-300"}`}>
+              {strategy.strategyHhi}
+            </span>
           </div>
           <p className="text-[10px] text-slate-400 font-sans mt-1">
-            Rebalances market power below high concentration thresholds.
+            {strategy.hhiImprovement >= 0 
+              ? "Rebalances market power below high concentration thresholds." 
+              : "Concentrated allocation across 5 secure bypass partners."}
           </p>
         </div>
 
@@ -72,7 +80,11 @@ export default function DiversificationAnalysis({ strategy, baselineMetrics }) {
         <span className="font-mono text-[10px] uppercase font-bold text-cyan-400 block mb-1">
           Diversification Rationale:
         </span>
-        Lowering the Herfindahl-Hirschman Index from 2,140 to {strategy.strategyHhi} ensures that an embargo or maritime closure by any single major producer cannot disrupt more than 30% of India&apos;s daily refining throughput.
+        {strategy.hhiImprovement >= 0 ? (
+          <>Lowering the Herfindahl-Hirschman Index from {baselineMetrics?.baselineHhi || strategy.baselineHhi || 2063} to {strategy.strategyHhi} ensures that an embargo or maritime closure by any single major producer cannot disrupt more than 30% of India&apos;s daily refining throughput.</>
+        ) : (
+          <>Concentrating replacement crude among 5 partner origins shifts the Herfindahl-Hirschman Index from {baselineMetrics?.baselineHhi || strategy.baselineHhi || 2063} to {strategy.strategyHhi} (+{Math.abs(strategy.hhiImprovement)} pts) in order to achieve 100% chokepoint bypass via the Habshan-Fujairah pipeline and Cape of Good Hope open ocean highways.</>
+        )}
       </div>
 
     </div>

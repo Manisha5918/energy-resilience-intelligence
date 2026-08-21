@@ -69,9 +69,12 @@ export default function TopProcurementRecommendation({ strategy }) {
         <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
           <span className="text-[10px] text-slate-500 uppercase block">Concentration (HHI)</span>
           <div className="text-lg font-bold text-cyan-300 mt-0.5">
-            {strategy.strategyHhi} <span className="text-xs text-emerald-400 font-normal">(-{strategy.hhiImprovement})</span>
+            {strategy.strategyHhi}{" "}
+            <span className={`text-xs font-normal ${strategy.hhiImprovement >= 0 ? "text-emerald-400" : "text-amber-400"}`}>
+              ({strategy.hhiImprovement >= 0 ? `-${strategy.hhiImprovement}` : `+${Math.abs(strategy.hhiImprovement)}`})
+            </span>
           </div>
-          <span className="text-[9px] text-slate-500">Baseline HHI: 2,140</span>
+          <span className="text-[9px] text-slate-500">Baseline HHI: {strategy.baselineHhi || 2063}</span>
         </div>
       </div>
 
