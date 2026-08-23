@@ -32,6 +32,30 @@
 > 
 > **Operational Status**: `Decision-support / Simulation-ready`. EnergyShield does not claim live SCADA, live AIS, refinery-control, sovereign operational, or autonomous procurement capability.
 
+## 📸 Platform Interface & Live Cockpit Showcase
+
+### 1. Executive Operations Cockpit & Strategic Infrastructure Hero
+![Executive Operations Cockpit](docs/screenshots/dashboard_hero.png)
+*Real-world energy infrastructure hero featuring automatic 4.5s HD photographic crossfade carousel, continuous running intelligence status marquee ticker, and statutory sovereign metric tiles.*
+
+---
+
+### 2. 3D Maritime Spatial Sphere & National Crude Supply Chain Map
+![3D Maritime Spatial Sphere](docs/screenshots/maritime_spatial_sphere.png)
+*Interactive 3D geodesic spatial sphere with horizontal geographic projection, automated label collision detection, leader lines, and 40s continuous auto-orbit.*
+
+---
+
+### 3. Disruption Simulation Console & Scenario Shock Modeling
+![Disruption Simulation Console](docs/screenshots/disruption_simulation.png)
+*Deterministic scenario modeling engine simulating physical crude deficits, Brent price escalation, freight multipliers, and emergency SPR drawdown trajectories.*
+
+---
+
+### 4. Dataset Provenance Ledger & Confidence Scoring
+![Dataset Provenance Ledger](docs/screenshots/provenance_ledger.png)
+*Immutable data provenance ledger classifying official statutory datasets (PPAC/ISPRL/DGCIS), derived calculations, model assumptions, and pending-validation items.*
+
 ---
 
 ## 1. Problem Statement
