@@ -275,8 +275,24 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* Hackathon & Team Details Banner */}
+        <div className="p-4 rounded-2xl bg-[#09182E] border border-cyan-500/30 flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="px-2.5 py-1 rounded-lg bg-cyan-950 border border-cyan-500/40 text-cyan-300 font-bold text-[11px] font-mono">
+              🏆 OOSC 4.0 HACKATHON
+            </span>
+            <span className="text-slate-300 font-sans">
+              IIIT Allahabad × Google Developer Groups (GDG) • <em>Code for Community</em>
+            </span>
+          </div>
+          <div className="text-slate-300 font-mono text-[11px] flex items-center gap-2">
+            <span className="text-[#00C7E8] font-bold">Team TechSparkX:</span>
+            <span>Manisha G (Lead) • Harini B • Clement Paul Prabhu</span>
+          </div>
+        </div>
+
         <div className="pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-slate-400 font-mono">
-          <span>© 2026 EnergyShield • Mathematical Invariants &amp; Provenance Protection Enforced</span>
+          <span>© 2026 EnergyShield • Developed by Team TechSparkX for OOSC 4.0</span>
           <span>Verified Software Build: Turbopack Production Ready (283/283 Tests Passed)</span>
         </div>
       </footer>

@@ -100,8 +100,8 @@ export default function Navbar({ onToggleMobileMenu, isMobileMenuOpen }) {
           </Link>
         </div>
 
-        {/* Center: Data Status Banner */}
-        <div className="hidden sm:flex items-center gap-2">
+        {/* Center: Data Status Banner & Hackathon Badge */}
+        <div className="hidden sm:flex items-center gap-2.5">
           <Link
             href="/data-center"
             title="Inspect Data Center & Provider Ingestion Health"
@@ -115,6 +115,12 @@ export default function Navbar({ onToggleMobileMenu, isMobileMenuOpen }) {
             <span className="text-sky-300 hidden md:inline">|</span>
             <span className="text-sky-700 text-[11px] hidden md:inline group-hover:underline font-bold">AUDIT →</span>
           </Link>
+
+          <span className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EFF8FF] border border-[#B9DDF5] text-[#0C2340] text-[11px] font-mono font-semibold">
+            <span className="text-sky-600 font-bold">OOSC 4.0</span>
+            <span className="text-slate-400">•</span>
+            <span className="text-slate-700">Team TechSparkX</span>
+          </span>
         </div>
 
         {/* Right: Operational Telemetry & Controls */}

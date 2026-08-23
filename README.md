@@ -1,11 +1,36 @@
-# EnergyShield: Accuracy-First Petroleum Security Decision-Support Platform
+# 🛡️ EnergyShield: Accuracy-First Petroleum Security Decision-Support Platform
+
+[![OOSC 4.0](https://img.shields.io/badge/Hackathon-OOSC%204.0%20%7C%20IIIT%20Allahabad%20%C3%97%20GDG-00C7E8?style=for-the-badge)](https://unstop.com)
+[![Team](https://img.shields.io/badge/Team-TechSparkX-0284C7?style=for-the-badge)](https://github.com/Manisha5918/energy-resilience-intelligence)
+[![Build Status](https://img.shields.io/badge/Build-Passing%20(283%2F283%20Tests)-059669?style=for-the-badge)](https://github.com/Manisha5918/energy-resilience-intelligence)
+[![Readiness](https://img.shields.io/badge/Status-Simulation--Ready%20%7C%20Decision--Support-F59E0B?style=for-the-badge)](https://github.com/Manisha5918/energy-resilience-intelligence)
+
+---
+
+## 🏆 Hackathon & Team Details
+
+> **🏆 Built for OOSC X GDG Hackathon 2026 (Opportunity Open Source Conference - 4.0)**  
+> **Organized by**: Indian Institute of Information Technology (IIIT), Allahabad × Google Developer Groups (GDG)  
+> **Track / Theme**: *Code for Community — Where Open Innovation Meets Real-World Impact* (Software Development)  
+> **Project Title**: **EnergyShield — AI-Driven Crude Supply Chain Resilience & Decision-Support Platform**  
+> **Team Name**: **TechSparkX**
+
+### 👥 Team Members
+
+| Name | Role | Core Contributions |
+| :--- | :--- | :--- |
+| **Manisha G** | 👑 **Team Leader** | Full-Stack Architecture, Strategic Resiliency Models, Mathematical Engines, Data Governance |
+| **Harini B** | 🛠️ **Core Contributor** | Data Ingestion Pipelines, ISPRL Reserves Integration, UI/UX Design System, Multi-Device Testing |
+| **Clement Paul Prabhu** | ⚡ **Core Contributor** | Scenario Simulation, Digital Twin Network Topology, Multi-Provider Intelligence Normalization |
+
+---
 
 > **National Energy Security Intelligence Platform for India**  
 > EnergyShield integrates source-provenance tracking, strategic-reserve simulation, supply-disruption analysis, refinery allocation modelling, logistics scenarios, and macroeconomic impact analysis.
 > 
 > The platform explicitly distinguishes authoritative source data, derived calculations, conversion assumptions, model assumptions, simulated inputs, and pending-validation information.
 > 
-> **Current Status**: `Decision-support / Simulation-ready`. EnergyShield does not claim live SCADA, live AIS, refinery-control, sovereign operational, or autonomous procurement capability.
+> **Operational Status**: `Decision-support / Simulation-ready`. EnergyShield does not claim live SCADA, live AIS, refinery-control, sovereign operational, or autonomous procurement capability.
 
 ---
 
@@ -138,128 +163,82 @@ $$\text{Resilience Score} = 100 - \left( \sum_{i=1}^5 w_i \times F_i \right)$$
 | :--- | :---: | :---: | :---: | :--- |
 | **Geopolitical Risk** | 30% | 72 | 21.60 | Naval tensions in Persian Gulf & Bab-el-Mandeb |
 | **Logistics & Maritime Risk** | 25% | 64 | 16.00 | Single-point-of-failure chokepoint transit (Hormuz) |
-| **Supplier Concentration (HHI)** | 20% | 60 | 12.00 | Over-reliance on Top 3 suppliers (70.9% share) |
-| **Crude Price Volatility** | 15% | 68 | 10.20 | Landed import bill variance vs Brent benchmark |
-| **Supply Gap & Buffer Stress** | 10% | 40 | 4.00 | Ratio of daily deficit to accessible buffer stock |
-| **Total Baseline Penalty** | **100%** | — | **63.80** | **Baseline Resilience Score: 36 / 100 (CRITICAL)** |
+| **Macro & Price Volatility** | 20% | 58 | 11.60 | Brent benchmark escalation & CAD sensitivity |
+| **Supplier Concentration** | 15% | 65 | 9.75 | Bilateral import concentration (HHI: 2,063) |
+| **Strategic Reserve Risk** | 10% | 48 | 4.80 | Inverse buffer metric based on statutory cover |
+| **TOTAL** | **100%** | — | **63.75** | **Baseline Resilience = 36.25 / 100 [CRITICAL]** |
 
 ---
 
-### 5.2. Adaptive Procurement Engine (`procurementEngine.js`)
-When a disruption occurs, the orchestrator evaluates replacement volumes across 3 distinct strategy packages:
+### 5.2. Multi-Objective Procurement Optimizer (`procurementEngine.js`)
+Evaluates candidate replacement crude suppliers using composite Pareto scoring:
 
-1. **Strategy 1: Balanced Resilience (Recommended)**
-   - **40% Chokepoint Bypass**: Lifts Murban via UAE Habshan-Fujairah direct deepwater terminal and Yanbu Red Sea bypass.
-   - **37% Open Ocean Long-Haul**: Expands US Gulf Coast (LOOP) and West African sweet crude (Bonny Light).
-   - **Concentration Trade-off**: Reallocates volume across 5 secure suppliers, shifting HHI from baseline **2,063** to **2,298 (+235 points)** to achieve 100% Hormuz avoidance.
-2. **Strategy 2: Maximum Resilience & Chokepoint Immunity**
-   - 100% open-ocean and deepwater bypass routing; zero Persian Gulf entry.
-3. **Strategy 3: Cost-Optimized Value Flow**
-   - Maximizes discounted Urals and Basrah Heavy barrels at higher geopolitical route risk.
+$$\text{Score} = w_c \cdot (1 - \hat{C}) + w_r \cdot (1 - \hat{R}) + w_d \cdot (1 - \hat{D}) + w_t \cdot \hat{T}$$
 
----
-
-### 5.3. Strategic Petroleum Reserves Model (`reserveProvider.js`)
-- **Phase-1 Statutory Caverns**:
-  - Visakhapatnam, AP: 1.33 MMT (9.78 MBBL)
-  - Mangalore, KA: 1.50 MMT (11.03 MBBL)
-  - Padur, KA: 2.50 MMT (18.37 MBBL)
-  - **Total Statutory SPR Physical Installed Capacity**: **5.33 MMT (39.18 MBBL) = 8.1 Days Theoretical Net Import Cover**
-- **Commercial OMC Tank Stock**: **315.0 MBBL = 65.2 Days Cover**
-- **Combined Modeled Strategic Buffer**: **73.3 Days Total Cover**
+Where:
+- $\hat{C}$ = Normalized landed cost ($/bbl) including freight, demurrage, canal dues, and war-risk premiums.
+- $\hat{R}$ = Route risk penalty (chokepoint exposure: Hormuz 0.85, Red Sea 0.70, Cape 0.25).
+- $\hat{D}$ = Supplier concentration impact (post-allocation HHI penalty).
+- $\hat{T}$ = Refinery assay technical compatibility match (0.0 to 1.0).
 
 ---
 
-### 5.4. Supply Chain Digital Twin (`digitalTwinEngine.js`)
-Topological graph modeling:
-- **Global Origin Nodes**: Russia, Iraq, Saudi Arabia, UAE, USA, West Africa.
-- **Corridors & Chokepoints**: Strait of Hormuz, Bab-el-Mandeb, Cape Route, Arabian Sea.
-- **Port Terminals**: Sikka SPM, Vadinar SPM, Mundra, Mumbai, Kochi SPM, Paradip SPM, Vizag.
-- **Domestic Refineries**: Jamnagar (RIL), Vadinar (Nayara), Panipat (IOCL), Kochi (BPCL), Paradip (IOCL), Visakh (HPCL).
-- **Cavern Reserves**: ISPRL Vizag, ISPRL Mangalore, ISPRL Padur.
+### 5.3. Strategic Reserve Buffer & Drawdown Scheduler (`reserveSchedulerEngine.js`)
+Statutory emergency drawdown calculation adhering to ISPRL Phase-I physical pump limits:
+
+$$\text{SPR Days Cover} = \frac{\text{Statutory Physical Capacity (39.18 MBBL)}}{\text{Daily Net Import Need (4.83 MBD)}} = 8.11\text{ Days}$$
+
+$$\text{Commercial Storage Cover} = \frac{\text{Commercial Industry Stocks (315.00 MBBL)}}{\text{Daily Net Import Need (4.83 MBD)}} = 65.22\text{ Days}$$
+
+$$\text{Total National Energy Cushion} = 8.11 + 65.22 = 73.33\text{ Days}$$
 
 ---
 
-## 6. Server-Side REST API Contracts
+## 6. Verification & Automated Test Suite
 
-All endpoints return uniform JSON envelopes with explicit data provenance headers:
-
-```
-GET/POST /api/risk            ── Calculate resilience score, weights, and explainability
-GET/POST /api/scenarios       ── Execute simulation scenarios and list template registry
-GET/POST /api/procurement     ── Generate multi-objective procurement re-routing plans
-GET      /api/reserves        ── Retrieve statutory SPR capacities and buffer metrics
-GET/POST /api/digital-twin    ── Construct network graph state and disruption cascades
-GET      /api/health          ── Ingestion subsystem health matrix and provider statuses
-GET      /api/intelligence/*  ── Feeds for Market, News, Sanctions, and Shipping AIS
-```
-
----
-
-## 7. Step-by-Step Hackathon Demo Script
-
-Follow this sequence for an end-to-end demonstration:
-
-1. **Executive Command Dashboard (`/`)**:
-   - Inspect baseline resilience score (**36 / 100 - CRITICAL**).
-   - Review national import dependency (**89.1%**, 4.83 MBD net import need).
-   - Click **"Formula & Explainability"** to view mathematical weight contributions.
-2. **Disruption Scenarios Studio (`/scenarios`)**:
-   - Select **"Strait of Hormuz Severe Disruption"**.
-   - Review 15-day disruption impact: **2.03 MBD physical deficit**, remaining SPR cover drops to **5.0 days**.
-   - Click **"Optimize Procurement Response"** to hand off the deficit into the optimizer.
-3. **Adaptive Procurement Workspace (`/procurement`)**:
-   - Inspect **Strategy 1: Balanced Resilience**.
-   - Review why the algorithm recommended this strategy: 100% gap fulfillment, $91.70/bbl landed cost, +235 pt HHI trade-off to achieve complete Hormuz bypass.
-4. **Supply Chain Digital Twin (`/digital-twin`)**:
-   - Toggle between **"Current Baseline"** and **"Hormuz Disruption"**.
-   - Observe real-time color transitions: Hormuz corridor shifts from Green to Red; Fujairah and Cape bypass flows turn active.
-5. **Strategic Reserves Analytics (`/reserves`)**:
-   - Verify ISPRL Phase-1 statutory caverns (Vizag, Mangalore, Padur).
-   - Note defense classification banner for real-time SCADA telemetry.
-6. **Data Quality & Provenance Center (`/data-center`)**:
-   - View the complete audit ledger tracing all formulas and statutory sources.
-
----
-
-## 8. Verification & Test Suite
-
-EnergyShield features a comprehensive automated validation harness:
+EnergyShield features 8 automated validation test suites with **283 / 283 tests passing (100% pass rate)**:
 
 ```bash
-# 1. Official Data Provenance Verification (21 tests)
-node frontend/scripts/validate-provenance.js
-
-# 2. Statutory Datasets Audit (47 tests)
-node frontend/scripts/validate-official-data.js
-
-# 3. Domain Engine Regression Suite (52 tests)
-node frontend/scripts/test-backend-suite.js
-
-# 4. Server-Side API Contract & Integration Tests (56 tests)
-node frontend/scripts/test-api-contracts.js
-
-# 5. Production Lint & Next.js Build
-cd frontend && npm run lint && npm run build
-```
-
-**Total Automated Assertions: 176 / 176 Passing (100% Pass Rate)**
-
----
-
-## 9. Current Limitations & Production Roadmap
-
-- **External Live API Keys**: In demo mode without API credentials, external providers serve structured, calibrated baselines tagged `SIMULATED`. Supplying `NEWS_API_KEY` or `MARKET_API_KEY` in `.env.local` enables live polling.
-- **SCADA Fill Telemetry**: Real-time cavern fill levels are classified by national defense protocol; modeled using statutory nameplate capacities.
-- **Optimization Heuristics**: Optimization operates on multi-factor linear programming formulations; future work includes mixed-integer stochastic optimization with real-time tanker charter books.
-
----
-
-## 10. Local Setup & Execution
-
-```bash
+# Run all master test suites
 cd frontend
+node scripts/run-all-tests.js
+```
+
+1. `test-backend-suite.js` — Core backend architecture & domain logic.
+2. `test-input-output-reactivity.js` — End-to-end parameter registry sensitivity & cascade reactivity.
+3. `test-api-contracts.js` — Domain route handlers, health evaluator, and status contracts.
+4. `test-phase8-modules.js` — Macroeconomic fiscal shield, reserve scheduler, and procurement directives.
+5. `test-isprl-ingestion.js` — Official Excel ingestion & tri-cavern inventory integrity.
+6. `test-accuracy-hardening.js` — Zero NaN, mass conservation invariants, and boundary checks.
+7. `test-adversarial-failure-modes.js` — Resistance to corrupt inputs, negative flows, and edge cases.
+8. `test-independent-crosscheck.js` — Independent formula recomputation across all models.
+
+---
+
+## 7. Quickstart Guide
+
+### Prerequisites
+- Node.js 18.x or 20.x
+- npm / yarn / pnpm
+
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/Manisha5918/energy-resilience-intelligence.git
+cd energy-resilience-intelligence/frontend
+
+# Install dependencies
 npm install
+
+# Start Next.js development server
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+Open [http://localhost:3000](http://localhost:3000) to access the EnergyShield National Resilience Operations Cockpit.
+
+---
+
+## 8. License & Institutional Disclaimer
+
+Developed by **Team TechSparkX** for the **OOSC X GDG Hackathon 2026**.  
+EnergyShield is an accuracy-first decision-support platform designed for simulation and strategic analysis. Not a live SCADA system, not a live AIS tracker, and not an autonomous trading engine.
