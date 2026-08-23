@@ -4,47 +4,47 @@ import { InfoIcon, ShieldIcon } from "@/components/ui/Icons";
 
 export default function ProcurementModelAssumptions() {
   return (
-    <div className="command-card rounded-xl p-5 border border-slate-200 space-y-3.5 bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+    <div className="rounded-2xl p-6 border border-[#C7E3F7] space-y-4 bg-white shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#D5E5F1] pb-3">
         <div className="flex items-center gap-2">
-          <InfoIcon className="w-4 h-4 text-sky-600" />
-          <h3 className="text-xs font-mono uppercase tracking-wider text-slate-700 font-semibold">
-            Procurement Optimization Assumptions & Decision-Support Disclaimers
+          <InfoIcon className="w-4 h-4 text-[#0284c7]" />
+          <h3 className="text-xs font-mono uppercase tracking-wider text-[#16324F] font-bold">
+            Procurement Optimization Assumptions &amp; Decision-Support Disclaimers
           </h3>
         </div>
-        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-800 font-semibold">
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FEF3C7] border border-[#FDE68A] text-[#92400E] font-bold">
           SIMULATED / ILLUSTRATIVE MODEL
         </span>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
-        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-          <span className="text-[9px] text-slate-500 uppercase font-semibold block">Base Crude Benchmark</span>
-          <span className="text-slate-900 font-bold">$84.65 / bbl</span>
-          <span className="text-[9px] text-slate-500 block">Brent spot reference</span>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+        <div className="p-3.5 rounded-xl bg-[#F4F9FD] border border-[#C7E3F7] shadow-2xs">
+          <span className="text-[9px] text-[#58708A] uppercase font-bold block">Base Crude Benchmark</span>
+          <span className="text-[#16324F] font-bold">$84.65 / bbl</span>
+          <span className="text-[9px] text-[#58708A] block font-sans">Brent spot reference</span>
         </div>
 
-        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-          <span className="text-[9px] text-slate-500 uppercase font-semibold block">Freight Cost Baseline</span>
-          <span className="text-slate-900 font-bold">$2.90 – $8.20 / bbl</span>
-          <span className="text-[9px] text-slate-500 block">Corridor-specific indices</span>
+        <div className="p-3.5 rounded-xl bg-[#F4F9FD] border border-[#C7E3F7] shadow-2xs">
+          <span className="text-[9px] text-[#58708A] uppercase font-bold block">Freight Cost Baseline</span>
+          <span className="text-[#16324F] font-bold">$2.90 – $8.20 / bbl</span>
+          <span className="text-[9px] text-[#58708A] block font-sans">Corridor-specific indices</span>
         </div>
 
-        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-          <span className="text-[9px] text-slate-500 uppercase font-semibold block">SPR Discharge Limit</span>
-          <span className="text-slate-900 font-bold">2.50 MBD</span>
-          <span className="text-[9px] text-slate-500 block">Tri-cavern drawdown ceiling</span>
+        <div className="p-3.5 rounded-xl bg-[#F4F9FD] border border-[#C7E3F7] shadow-2xs">
+          <span className="text-[9px] text-[#58708A] uppercase font-bold block">SPR Discharge Limit</span>
+          <span className="text-[#16324F] font-bold">2.50 MBD</span>
+          <span className="text-[9px] text-[#58708A] block font-sans">Tri-cavern drawdown ceiling</span>
         </div>
 
-        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-          <span className="text-[9px] text-slate-500 uppercase font-semibold block">Decision Support Status</span>
-          <span className="text-sky-700 font-bold">Advisory Only</span>
-          <span className="text-[9px] text-slate-500 block">No automated trade execution</span>
+        <div className="p-3.5 rounded-xl bg-[#F4F9FD] border border-[#C7E3F7] shadow-2xs">
+          <span className="text-[9px] text-[#58708A] uppercase font-bold block">Decision Support Status</span>
+          <span className="text-[#0284c7] font-bold">Advisory Only</span>
+          <span className="text-[9px] text-[#58708A] block font-sans">No automated trade execution</span>
         </div>
       </div>
 
-      <div className="text-[11px] text-slate-600 font-sans leading-relaxed pt-1">
-        <span className="font-semibold text-slate-900">Methodological Disclosure: </span>
+      <div className="text-[11px] text-[#58708A] font-sans leading-relaxed pt-1">
+        <strong className="text-[#16324F]">Methodological Disclosure: </strong>
         The Adaptive Procurement Orchestrator generates heuristic, multi-objective ranking to assist human procurement executives and risk committees. It does NOT execute automated purchase orders or claim real-time commercial contract guarantees.
       </div>
     </div>

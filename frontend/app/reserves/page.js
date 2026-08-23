@@ -60,84 +60,84 @@ export default function ReservesPage() {
 
       {/* Overview Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="command-card p-4 rounded-xl border border-slate-800">
-          <div className="text-[10px] font-mono text-slate-400 uppercase">Scenario Inventory (Not Live SCADA)</div>
-          <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">
-            {summary.sprTotalBarrels} <span className="text-xs text-slate-400">MBBL</span>
+        <div className="p-4 rounded-xl border border-[#C7E3F7] bg-[#F4F9FD] shadow-xs">
+          <div className="text-[10px] font-mono text-[#58708A] font-bold uppercase">Scenario Inventory (Not Live SCADA)</div>
+          <div className="text-2xl font-bold font-mono text-[#00C98D] mt-1">
+            {summary.sprTotalBarrels} <span className="text-xs text-[#58708A]">MBBL</span>
           </div>
-          <div className="text-[10px] font-mono text-amber-400/90 mt-1 flex items-center justify-between">
+          <div className="text-[10px] font-mono text-[#92400E] mt-1 flex items-center justify-between">
             <span>85% Assumed Fill</span>
-            <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-950/60 border border-amber-800/40 text-amber-300">SCENARIO ONLY</span>
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#FEF3C7] border border-[#FDE68A] text-[#92400E] font-bold">SCENARIO ONLY</span>
           </div>
         </div>
 
-        <div className="command-card p-4 rounded-xl border border-slate-800">
-          <div className="text-[10px] font-mono text-slate-400 uppercase">Scenario SPR Days Cover</div>
-          <div className="text-2xl font-bold font-mono text-cyan-400 mt-1">
-            {summary.sprDaysCover} <span className="text-xs text-slate-400">Days</span>
+        <div className="p-4 rounded-xl border border-[#C7E3F7] bg-[#F4F9FD] shadow-xs">
+          <div className="text-[10px] font-mono text-[#58708A] font-bold uppercase">Scenario SPR Days Cover</div>
+          <div className="text-2xl font-bold font-mono text-[#0284c7] mt-1">
+            {summary.sprDaysCover} <span className="text-xs text-[#58708A]">Days</span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-[#58708A] mt-1 font-sans">
             Based on {netImportRequirement} MBD net import need.
           </p>
         </div>
 
-        <div className="command-card p-4 rounded-xl border border-slate-800">
-          <div className="text-[10px] font-mono text-slate-400 uppercase">Commercial Industry Buffer</div>
-          <div className="text-2xl font-bold font-mono text-slate-200 mt-1">
-            {summary.commercialDaysCover} <span className="text-xs text-slate-400">Days</span>
+        <div className="p-4 rounded-xl border border-[#C7E3F7] bg-[#F4F9FD] shadow-xs">
+          <div className="text-[10px] font-mono text-[#58708A] font-bold uppercase">Commercial Industry Buffer</div>
+          <div className="text-2xl font-bold font-mono text-[#16324F] mt-1">
+            {summary.commercialDaysCover} <span className="text-xs text-[#58708A]">Days</span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Refinery tank farms & pipeline stocks.
+          <p className="text-xs text-[#58708A] mt-1 font-sans">
+            Refinery tank farms &amp; pipeline stocks.
           </p>
         </div>
 
-        <div className="command-card p-4 rounded-xl border border-slate-800">
-          <div className="text-[10px] font-mono text-slate-400 uppercase">Combined National Cover</div>
-          <div className="text-2xl font-bold font-mono text-emerald-300 mt-1">
-            {summary.totalCombinedCoverDays} <span className="text-xs text-slate-400">Days</span>
+        <div className="p-4 rounded-xl border border-[#C7E3F7] bg-[#F4F9FD] shadow-xs">
+          <div className="text-[10px] font-mono text-[#58708A] font-bold uppercase">Combined National Cover</div>
+          <div className="text-2xl font-bold font-mono text-[#00C98D] mt-1">
+            {summary.totalCombinedCoverDays} <span className="text-xs text-[#58708A]">Days</span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-[#58708A] mt-1 font-sans">
             {summary.statusRecommendation}
           </p>
         </div>
       </div>
 
       {/* Decision-Oriented Strategic Reserve Response Card */}
-      <div className="command-card rounded-xl p-5 border border-cyan-500/30 bg-gradient-to-r from-[#0c1626] via-[#09111c] to-[#070a0f] space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase">
-            <ShieldIcon className="w-4 h-4" />
-            <span>Decision Response: Strategic Petroleum Reserve Bridge Protocol</span>
+      <div className="rounded-2xl p-6 border border-[#C7E3F7] bg-white space-y-4 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#C7E3F7] pb-3">
+          <div className="flex items-center gap-2 text-[#00B8D9] font-mono text-xs font-bold uppercase">
+            <ShieldIcon className="w-4 h-4 text-[#0284c7]" />
+            <span className="text-[#16324F]">Decision Response: Strategic Petroleum Reserve Bridge Protocol</span>
           </div>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#E0F2FE] border border-[#BAE6FD] text-[#0369A1] font-bold">
             HORMUZ DISRUPTION CONTINGENCY
           </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
-          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 space-y-1">
-            <span className="text-[10px] text-slate-500 uppercase block">Projected Supply Gap</span>
-            <div className="text-xl font-bold text-rose-400">{projectedGapMbd} MBD</div>
-            <span className="text-[10px] text-slate-400 font-sans block">{contingencySimulation.parameters.supplyDisruptionPct}% disruption over {contingencySimulation.parameters.durationDays}-day shock</span>
+          <div className="p-4 rounded-xl bg-[#F4F9FD] border border-[#C7E3F7] space-y-1.5 shadow-2xs">
+            <span className="text-[11px] font-bold text-[#16324F] uppercase tracking-wide block">Projected Supply Gap</span>
+            <div className="text-2xl font-bold text-[#FF3D6E]">{projectedGapMbd} MBD</div>
+            <span className="text-xs text-[#58708A] font-sans block leading-relaxed">{contingencySimulation.parameters.supplyDisruptionPct}% disruption over {contingencySimulation.parameters.durationDays}-day shock</span>
           </div>
 
-          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 space-y-1">
-            <span className="text-[10px] text-slate-500 uppercase block">Recommended Drawdown</span>
-            <div className="text-xl font-bold text-amber-300">{recommendedDrawdownMbd} MBD</div>
-            <span className="text-[10px] text-slate-400 font-sans block">Controlled cavern release to Western SPM grid</span>
+          <div className="p-4 rounded-xl bg-[#F4F9FD] border border-[#C7E3F7] space-y-1.5 shadow-2xs">
+            <span className="text-[11px] font-bold text-[#16324F] uppercase tracking-wide block">Recommended Drawdown</span>
+            <div className="text-2xl font-bold text-[#FFB81C]">{recommendedDrawdownMbd} MBD</div>
+            <span className="text-xs text-[#58708A] font-sans block leading-relaxed">Controlled cavern release to Western SPM grid</span>
           </div>
 
-          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 space-y-1">
-            <span className="text-[10px] text-slate-500 uppercase block">Remaining Emergency Cover</span>
-            <div className="text-xl font-bold text-emerald-400">{remainingCoverDays} Days</div>
-            <span className="text-[10px] text-slate-400 font-sans block">Post-{contingencySimulation.parameters.durationDays}-day residual SPR buffer</span>
+          <div className="p-4 rounded-xl bg-[#F4F9FD] border border-[#C7E3F7] space-y-1.5 shadow-2xs">
+            <span className="text-[11px] font-bold text-[#16324F] uppercase tracking-wide block">Remaining Emergency Cover</span>
+            <div className="text-2xl font-bold text-[#00C98D]">{remainingCoverDays} Days</div>
+            <span className="text-xs text-[#58708A] font-sans block leading-relaxed">Post-{contingencySimulation.parameters.durationDays}-day residual SPR buffer</span>
           </div>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#070e1c] border border-cyan-800/40 text-xs text-slate-300 font-sans leading-relaxed flex items-start gap-2">
-          <InfoIcon className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+        <div className="p-3.5 rounded-xl bg-[#07111F] border border-[#1E293B] text-xs text-slate-200 font-sans leading-relaxed flex items-start gap-2.5">
+          <InfoIcon className="w-4 h-4 text-[#00C7E8] shrink-0 mt-0.5" />
           <span>
-            <strong>Strategic Reserve Role:</strong> Reserve drawdown is deployed as a temporary emergency bridge while alternate crude procurement via UAE Habshan-Fujairah pipeline and Cape of Good Hope routes ramps up to delivery.
+            <strong className="text-white">Strategic Reserve Role:</strong> Reserve drawdown is deployed as a temporary emergency bridge while alternate crude procurement via UAE Habshan-Fujairah pipeline and Cape of Good Hope routes ramps up to delivery.
           </span>
         </div>
       </div>
@@ -166,51 +166,51 @@ export default function ReservesPage() {
       </section>
 
       {/* Cavern Sites Table */}
-      <div className="command-card rounded-xl p-5 border border-slate-800 space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <h2 className="text-sm font-semibold font-mono text-slate-100 flex items-center gap-2">
-            <ActivityIcon className="w-4 h-4 text-emerald-400" />
+      <div className="rounded-2xl p-6 border border-[#C7E3F7] bg-white space-y-4 shadow-xs">
+        <div className="flex items-center justify-between border-b border-[#C7E3F7] pb-3">
+          <h2 className="text-sm font-bold font-mono text-[#16324F] flex items-center gap-2">
+            <ActivityIcon className="w-4 h-4 text-emerald-600" />
             Underground Rock Cavern Storage Facilities (ISPRL Phase-1)
           </h2>
-          <span className="text-[10px] font-mono text-slate-500">STATUTORY LEGAL DISCLOSURES</span>
+          <span className="text-[10px] font-mono text-[#58708A] font-bold">STATUTORY LEGAL DISCLOSURES</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {SIMULATED_SPR_SITES.map((site) => (
-            <div key={site.id} className="p-4 rounded-xl bg-[#070b14] border border-slate-800/80 space-y-3">
+            <div key={site.id} className="p-4 rounded-xl bg-[#F4F9FD] border border-[#C7E3F7] space-y-3 shadow-2xs">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-sm font-bold font-mono text-slate-100">{site.name}</h3>
-                  <span className="text-[11px] text-slate-400">{site.state}</span>
+                  <h3 className="text-sm font-bold font-mono text-[#16324F]">{site.name}</h3>
+                  <span className="text-[11px] text-[#58708A]">{site.state}</span>
                 </div>
-                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded border bg-emerald-950 text-emerald-400 border-emerald-800">
+                <span className="text-[9px] font-mono px-2 py-0.5 rounded border bg-emerald-50 text-emerald-700 border-emerald-200 font-bold">
                   {site.phase || "Phase-1"}
                 </span>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                <div className="p-2 rounded bg-slate-900/60 border border-slate-800">
-                  <span className="text-[9px] text-slate-500 uppercase block">Capacity</span>
-                  <span className="text-slate-200 font-bold">{site.capacityMillionBarrels} MBBL</span>
-                  <span className="text-[9px] text-slate-500 block">({site.capacityMetricTonnes || site.capacityMillionMetricTonnes} MMT)</span>
+                <div className="p-2.5 rounded-lg bg-white border border-[#D5E5F1]">
+                  <span className="text-[9px] text-[#58708A] uppercase font-bold block">Capacity</span>
+                  <span className="text-[#16324F] font-bold">{site.capacityMillionBarrels} MBBL</span>
+                  <span className="text-[9px] text-[#58708A] block">({site.capacityMetricTonnes || site.capacityMillionMetricTonnes} MMT)</span>
                 </div>
-                <div className="p-2 rounded bg-slate-900/60 border border-slate-800">
-                  <span className="text-[9px] text-slate-500 uppercase block">Telemetry Status</span>
-                  <span className="text-amber-400 font-bold text-[10px]">CLASSIFIED</span>
-                  <span className="text-[9px] text-slate-500 block">SCADA restricted</span>
+                <div className="p-2.5 rounded-lg bg-white border border-[#D5E5F1]">
+                  <span className="text-[9px] text-[#58708A] uppercase font-bold block">Telemetry Status</span>
+                  <span className="text-[#D97706] font-bold text-[10px]">CLASSIFIED</span>
+                  <span className="text-[9px] text-[#58708A] block">SCADA restricted</span>
                 </div>
               </div>
 
               <div className="space-y-1 text-xs">
-                <div className="text-[11px] text-slate-400">
-                  <span className="font-mono text-slate-500">Storage Type:</span> {site.cavernType || site.type}
+                <div className="text-[11px] text-[#58708A]">
+                  <span className="font-mono text-[#16324F] font-bold">Storage Type:</span> {site.cavernType || site.type}
                 </div>
-                <div className="text-[11px] text-slate-400">
-                  <span className="font-mono text-slate-500">Connected Refinery:</span> {site.connectedRefinery || site.connectivity}
+                <div className="text-[11px] text-[#58708A]">
+                  <span className="font-mono text-[#16324F] font-bold">Connected Refinery:</span> {site.connectedRefinery || site.connectivity}
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-800/80 text-[9px] font-mono text-slate-500 flex justify-between">
+              <div className="pt-2 border-t border-[#D5E5F1] text-[9px] font-mono text-[#58708A] flex justify-between font-semibold">
                 <span>{site.operationalStatus || site.status}</span>
                 <span>{site.daysCoverAtNationalConsumption} Days Cover</span>
               </div>
@@ -225,13 +225,13 @@ export default function ReservesPage() {
       </section>
 
       {/* Decision Summary & Data Provenance Navigation */}
-      <div className="p-5 rounded-2xl bg-gradient-to-r from-[#0b1626] via-[#09121f] to-[#070a0f] border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[#F0F8FF] via-[#F8FBFE] to-[#F3F9FF] border border-[#C7E3F7] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
         <div>
-          <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase">
-            <CheckCircleIcon className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-emerald-700 font-mono text-xs font-bold uppercase">
+            <CheckCircleIcon className="w-4 h-4 text-emerald-600" />
             <span>Operational Response Protocol Complete</span>
           </div>
-          <p className="text-xs text-slate-300 font-sans mt-1">
+          <p className="text-xs text-[#58708A] font-sans mt-1">
             Review statutory audit trail in Data Quality Center or return to Executive Command Center.
           </p>
         </div>
@@ -239,16 +239,16 @@ export default function ReservesPage() {
         <div className="flex flex-wrap items-center gap-2.5 shrink-0">
           <Link
             href="/data-center"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-700/60 text-emerald-300 font-mono text-xs font-bold transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white hover:bg-[#EEF7FF] border border-[#C7E3F7] text-[#0B2540] font-mono text-xs font-bold transition-all shadow-xs cursor-pointer"
           >
-            <DatabaseIcon className="w-4 h-4" />
+            <DatabaseIcon className="w-4 h-4 text-sky-600" />
             <span>Audit Data Provenance Ledger →</span>
           </Link>
           <Link
             href="/"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono text-xs font-bold transition-all shadow-md cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white font-mono text-xs font-bold transition-all shadow-sm cursor-pointer"
           >
-            <ShieldIcon className="w-4 h-4" />
+            <ShieldIcon className="w-4 h-4 text-white" />
             <span>Return to Executive Command Center →</span>
           </Link>
         </div>

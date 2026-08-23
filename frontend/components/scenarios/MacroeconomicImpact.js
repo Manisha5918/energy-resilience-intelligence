@@ -222,36 +222,36 @@ export default function MacroeconomicImpact({ macroeconomicImpact, priceImpact, 
 
       {/* Configurable Assumptions Expandable Drawer */}
       {showAssumptions && (
-        <div className="rounded-xl p-4 bg-slate-900 text-slate-100 border border-slate-800 space-y-3 animate-fadeIn">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-            <span className="text-xs font-mono uppercase font-bold text-cyan-400">
-              Active Macroeconomic Model Coefficients & Registry Source
+        <div className="rounded-xl p-4 bg-[#F4F9FD] text-[#16324F] border border-[#C7E3F7] space-y-3 animate-fadeIn shadow-xs">
+          <div className="flex items-center justify-between border-b border-[#D5E5F1] pb-2">
+            <span className="text-xs font-mono uppercase font-bold text-[#0284c7]">
+              Active Macroeconomic Model Coefficients &amp; Registry Source
             </span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#E0F2FE] border border-[#BAE6FD] text-[#0369A1] font-bold">
               CONFIGURABLE LAYER
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
-            <div className="space-y-1 bg-slate-800/60 p-3 rounded-lg border border-slate-700">
-              <span className="text-slate-400 text-[11px]">GDP Elasticity:</span>
-              <div className="text-sm font-bold text-slate-100">{assumptions.gdpElasticity.value}</div>
-              <p className="text-[10px] text-slate-400">{assumptions.gdpElasticity.notes}</p>
-              <div className="text-[9px] text-amber-400">Status: {assumptions.gdpElasticity.status}</div>
+            <div className="space-y-1 bg-white p-3 rounded-lg border border-[#D5E5F1] shadow-2xs">
+              <span className="text-[#58708A] text-[11px] font-semibold">GDP Elasticity:</span>
+              <div className="text-sm font-bold text-[#16324F]">{assumptions.gdpElasticity.value}</div>
+              <p className="text-[10px] text-[#58708A]">{assumptions.gdpElasticity.notes}</p>
+              <div className="text-[9px] text-[#D97706] font-bold">Status: {assumptions.gdpElasticity.status}</div>
             </div>
 
-            <div className="space-y-1 bg-slate-800/60 p-3 rounded-lg border border-slate-700">
-              <span className="text-slate-400 text-[11px]">CAD Sensitivity:</span>
-              <div className="text-sm font-bold text-slate-100">${assumptions.cadSensitivity.value}B / $1 shock</div>
-              <p className="text-[10px] text-slate-400">{assumptions.cadSensitivity.notes}</p>
-              <div className="text-[9px] text-amber-400">Status: {assumptions.cadSensitivity.status}</div>
+            <div className="space-y-1 bg-white p-3 rounded-lg border border-[#D5E5F1] shadow-2xs">
+              <span className="text-[#58708A] text-[11px] font-semibold">CAD Sensitivity:</span>
+              <div className="text-sm font-bold text-[#16324F]">${assumptions.cadSensitivity.value}B / $1 shock</div>
+              <p className="text-[10px] text-[#58708A]">{assumptions.cadSensitivity.notes}</p>
+              <div className="text-[9px] text-[#D97706] font-bold">Status: {assumptions.cadSensitivity.status}</div>
             </div>
 
-            <div className="space-y-1 bg-slate-800/60 p-3 rounded-lg border border-slate-700">
-              <span className="text-slate-400 text-[11px]">Baseline Benchmark:</span>
-              <div className="text-sm font-bold text-slate-100">GDP ${assumptions.baselineAnnualGdpUsd.value}B | ₹{assumptions.usdInrExchangeRate.value}/$</div>
-              <p className="text-[10px] text-slate-400">Sourced from {assumptions.baselineAnnualGdpUsd.source}</p>
-              <div className="text-[9px] text-emerald-400">Status: {assumptions.baselineAnnualGdpUsd.status}</div>
+            <div className="space-y-1 bg-white p-3 rounded-lg border border-[#D5E5F1] shadow-2xs">
+              <span className="text-[#58708A] text-[11px] font-semibold">Baseline Benchmark:</span>
+              <div className="text-sm font-bold text-[#16324F]">GDP ${assumptions.baselineAnnualGdpUsd.value}B | ₹{assumptions.usdInrExchangeRate.value}/$</div>
+              <p className="text-[10px] text-[#58708A]">Sourced from {assumptions.baselineAnnualGdpUsd.source}</p>
+              <div className="text-[9px] text-emerald-700 font-bold">Status: {assumptions.baselineAnnualGdpUsd.status}</div>
             </div>
           </div>
         </div>

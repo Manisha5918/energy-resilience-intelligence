@@ -41,21 +41,18 @@ export default function ScenarioControlPanel({
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-mono transition-colors cursor-pointer shadow-sm"
-          >
-            <RefreshCwIcon className="w-3.5 h-3.5" />
-            <span>Reset Baseline</span>
-          </button>
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono font-bold shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>LIVE REACTIVE ENGINE</span>
+          </div>
 
           <button
-            onClick={onRunSimulation}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-mono text-xs font-bold transition-all shadow-sm cursor-pointer"
+            onClick={onReset}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-mono transition-colors cursor-pointer shadow-2xs font-semibold"
           >
-            <ZapIcon className="w-4 h-4" />
-            <span>Run Simulation</span>
+            <RefreshCwIcon className="w-3.5 h-3.5 text-sky-600" />
+            <span>Reset Baseline</span>
           </button>
         </div>
       </div>
