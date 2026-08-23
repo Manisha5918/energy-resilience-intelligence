@@ -11,8 +11,8 @@
  * - Status: MODEL RECOMMENDATION / DECISION SUPPORT (Not an executable trade order)
  */
 
-import { SIMULATED_SUPPLIER_PROFILES } from "@/lib/supplierData";
-import { SIMULATED_SHIPPING_ROUTES } from "@/lib/routeData";
+import { SIMULATED_SUPPLIER_PROFILES } from "./supplierData.js";
+import { SIMULATED_SHIPPING_ROUTES } from "./routeData.js";
 
 export const SIMULATED_PROCUREMENT_OPTIONS = [
   {

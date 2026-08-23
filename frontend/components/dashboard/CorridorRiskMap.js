@@ -1,76 +1,109 @@
 "use client";
 
 import { useState } from "react";
-import { AnchorIcon, AlertTriangleIcon, NavigationIcon, InfoIcon } from "@/components/ui/Icons";
+import { AnchorIcon, AlertTriangleIcon, NavigationIcon, InfoIcon, GlobeIcon } from "@/components/ui/Icons";
 import { SIMULATED_CORRIDOR_METRICS } from "@/lib/riskData";
+import SpatialGlobe from "@/components/ui/SpatialGlobe";
 
 export default function CorridorRiskMap() {
   const [selectedCorridorId, setSelectedCorridorId] = useState("hormuz");
+  const [viewMode, setViewMode] = useState("3d"); // "3d" or "2d"
 
   const selectedCorridor = SIMULATED_CORRIDOR_METRICS.find(
     (c) => c.id === selectedCorridorId
   ) || SIMULATED_CORRIDOR_METRICS[0];
 
   return (
-    <div className="command-card rounded-xl p-5 border border-slate-800 space-y-4">
+    <div className="command-card rounded-2xl p-6 border border-slate-200 space-y-5 bg-white shadow-sm">
       
       {/* Header & Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <NavigationIcon className="w-4 h-4 text-cyan-400" />
-            <h3 className="text-sm font-semibold text-slate-100 font-mono tracking-wide">
+            <NavigationIcon className="w-5 h-5 text-sky-600" />
+            <h3 className="text-base font-semibold text-slate-900 font-heading tracking-wide">
               Critical Maritime Corridors & Supply Network
             </h3>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 font-semibold">
               TACTICAL DIGITAL TWIN
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-1">
             Interactive routing network mapping crude flows from global production hubs to Indian refinery terminals.
           </p>
         </div>
 
-        {/* Corridor Quick Selector Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto py-1">
-          {SIMULATED_CORRIDOR_METRICS.map((corridor) => {
-            const isSelected = corridor.id === selectedCorridorId;
-            const isCritical = corridor.riskLevel === "CRITICAL";
-            const isHigh = corridor.riskLevel === "HIGH";
+        {/* View Mode Toggle (3D Globe vs 2D Schematic) */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center bg-slate-100 border border-slate-200 p-0.5 rounded-lg">
+            <button
+              onClick={() => setViewMode("3d")}
+              className={`px-3 py-1.5 rounded-md text-xs font-mono font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
+                viewMode === "3d"
+                  ? "bg-white text-sky-800 shadow-sm border border-slate-200 font-bold"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              <GlobeIcon className="w-3.5 h-3.5 text-sky-600" />
+              <span>3D Spatial</span>
+            </button>
+            <button
+              onClick={() => setViewMode("2d")}
+              className={`px-3 py-1.5 rounded-md text-xs font-mono font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
+                viewMode === "2d"
+                  ? "bg-white text-sky-800 shadow-sm border border-slate-200 font-bold"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              <NavigationIcon className="w-3.5 h-3.5 text-sky-600" />
+              <span>2D Grid</span>
+            </button>
+          </div>
 
-            return (
-              <button
-                key={corridor.id}
-                onClick={() => setSelectedCorridorId(corridor.id)}
-                className={`px-2.5 py-1 rounded text-xs font-mono font-medium transition-all whitespace-nowrap cursor-pointer ${
-                  isSelected
-                    ? "bg-cyan-950 border border-cyan-500 text-cyan-300 shadow-sm"
-                    : "bg-slate-900/60 border border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700"
-                }`}
-              >
-                <span className="mr-1.5">
-                  {isCritical ? "🔴" : isHigh ? "🟡" : "🟢"}
-                </span>
-                {corridor.name}
-              </button>
-            );
-          })}
+          {/* Corridor Quick Selector Tabs */}
+          <div className="flex items-center gap-1.5 overflow-x-auto py-1">
+            {SIMULATED_CORRIDOR_METRICS.map((corridor) => {
+              const isSelected = corridor.id === selectedCorridorId;
+              const isCritical = corridor.riskLevel === "CRITICAL";
+              const isHigh = corridor.riskLevel === "HIGH";
+
+              return (
+                <button
+                  key={corridor.id}
+                  onClick={() => setSelectedCorridorId(corridor.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all whitespace-nowrap cursor-pointer ${
+                    isSelected
+                      ? "bg-sky-50 border border-sky-300 text-sky-900 shadow-xs font-bold"
+                      : "bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                  }`}
+                >
+                  <span className="mr-1.5">
+                    {isCritical ? "🔴" : isHigh ? "🟡" : "🟢"}
+                  </span>
+                  {corridor.name}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Main Visual: Tactical SVG Supply Chain Network */}
+      {/* Main Visual: Tactical SVG Supply Chain Network OR 3D Spatial Globe */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
         
-        {/* SVG Network Canvas */}
+        {/* Network Canvas (3D or 2D) */}
         <div className="lg:col-span-7 bg-[#070b14] rounded-xl border border-slate-800/90 p-4 relative overflow-hidden flex items-center justify-center min-h-[300px]">
-          
-          {/* Subtle Radar sweep background grid */}
-          <div className="absolute inset-0 tactical-grid-bg opacity-30 pointer-events-none"></div>
+          {viewMode === "3d" ? (
+            <SpatialGlobe activeCorridor={selectedCorridorId} height={340} />
+          ) : (
+            <>
+              {/* Subtle Radar sweep background grid */}
+              <div className="absolute inset-0 tactical-grid-bg opacity-30 pointer-events-none"></div>
 
-          <svg 
-            viewBox="0 0 700 360" 
-            className="w-full h-auto max-h-[340px] select-none"
-          >
+              <svg 
+                viewBox="0 0 700 360" 
+                className="w-full h-auto max-h-[340px] select-none"
+              >
             <defs>
               <linearGradient id="hormuzGlow" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.8" />
@@ -220,74 +253,108 @@ export default function CorridorRiskMap() {
               [Click any corridor or node to inspect risk telemetry]
             </text>
           </svg>
+          </>
+          )}
 
         </div>
 
-        {/* Selected Corridor Telemetry Card */}
-        <div className="lg:col-span-5 bg-[#090d16] rounded-xl border border-slate-800 p-4 space-y-3.5">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        {/* Selected Corridor Telemetry Card (3-Layer Progressive Disclosure) */}
+        <div className="lg:col-span-5 bg-white rounded-xl border border-slate-200 p-5 space-y-4 shadow-sm">
+          
+          {/* LEVEL 1: Always Visible Summary */}
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Selected Corridor</span>
-              <h4 className="text-sm font-bold text-slate-100 font-mono flex items-center gap-1.5 mt-0.5">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold">
+                Corridor Intelligence
+              </span>
+              <h4 className="text-base font-bold text-slate-900 font-heading flex items-center gap-2 mt-0.5">
                 {selectedCorridor.name}
               </h4>
             </div>
-            <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold border ${
+            <span className={`text-xs font-mono px-2.5 py-1 rounded-lg font-bold border ${
               selectedCorridor.riskLevel === "CRITICAL"
-                ? "bg-rose-950 text-rose-400 border-rose-800"
+                ? "bg-rose-50 text-rose-800 border-rose-200"
                 : selectedCorridor.riskLevel === "HIGH"
-                ? "bg-amber-950 text-amber-400 border-amber-800"
-                : "bg-emerald-950 text-emerald-400 border-emerald-800"
+                ? "bg-amber-50 text-amber-800 border-amber-200"
+                : "bg-emerald-50 text-emerald-800 border-emerald-200"
             }`}>
-              RISK: {selectedCorridor.riskScore} / 100 ({selectedCorridor.riskLevel})
+              {selectedCorridor.riskScore} / 100 ({selectedCorridor.riskLevel} RISK)
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-            <div className="p-2.5 rounded bg-slate-900/80 border border-slate-800/80">
-              <span className="text-[10px] text-slate-400 uppercase">National Volume Share</span>
-              <div className="text-base font-bold text-cyan-400 mt-0.5">{selectedCorridor.shareOfImports}%</div>
-              <span className="text-[10px] text-slate-500">{selectedCorridor.volumeMbd} MBD import flow</span>
+          <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="text-[10px] text-slate-500 uppercase font-semibold block">National Import Share</span>
+              <div className="text-xl font-bold text-sky-700 mt-0.5">{selectedCorridor.shareOfImports}%</div>
+              <span className="text-[11px] text-slate-600 font-medium block mt-0.5">{selectedCorridor.volumeMbd} MBD import flow</span>
             </div>
 
-            <div className="p-2.5 rounded bg-slate-900/80 border border-slate-800/80">
-              <span className="text-[10px] text-slate-400 uppercase">Transit Duration</span>
-              <div className="text-base font-bold text-slate-200 mt-0.5">{selectedCorridor.transitDaysAvg}</div>
-              <span className="text-[10px] text-slate-500">{selectedCorridor.freightIndex}</span>
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="text-[10px] text-slate-500 uppercase font-semibold block">Transit Duration</span>
+              <div className="text-xl font-bold text-slate-900 mt-0.5">{selectedCorridor.transitDaysAvg}</div>
+              <span className="text-[11px] text-slate-600 font-medium block mt-0.5">{selectedCorridor.freightIndex}</span>
             </div>
           </div>
 
-          <div>
-            <span className="text-[10px] font-mono text-slate-400 uppercase font-semibold">Primary Risk Drivers</span>
-            <div className="flex flex-wrap gap-1.5 mt-1">
-              {selectedCorridor.primaryRiskDrivers.map((driver, idx) => (
-                <span key={idx} className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                  {driver}
+          {/* LEVEL 2: Expandable Risk Drivers */}
+          <div className="border border-slate-200 rounded-xl overflow-hidden">
+            <details className="group">
+              <summary className="flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-100/80 cursor-pointer font-mono text-xs font-semibold text-slate-700 select-none">
+                <span className="flex items-center gap-1.5">
+                  <AlertTriangleIcon className="w-3.5 h-3.5 text-amber-600" />
+                  <span>Primary Risk Drivers ({selectedCorridor.primaryRiskDrivers.length})</span>
                 </span>
-              ))}
-            </div>
+                <span className="text-[11px] text-slate-500 font-normal">Click to toggle</span>
+              </summary>
+              <div className="p-3 bg-white space-y-2 border-t border-slate-200">
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedCorridor.primaryRiskDrivers.map((driver, idx) => (
+                    <span key={idx} className="text-xs font-mono px-2.5 py-1 rounded-md bg-amber-50 text-amber-900 border border-amber-200 font-medium">
+                      {driver}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </details>
           </div>
 
-          <div>
-            <span className="text-[10px] font-mono text-slate-400 uppercase font-semibold">Dependent Refineries & Terminals</span>
-            <p className="text-xs text-slate-300 mt-1 font-sans">
-              {selectedCorridor.dependentRefineries.join(" • ")}
-            </p>
+          {/* LEVEL 3: Expandable Analyst Deep Dive / Technical Details */}
+          <div className="border border-slate-200 rounded-xl overflow-hidden">
+            <details className="group">
+              <summary className="flex items-center justify-between p-3 bg-slate-50 hover:bg-slate-100/80 cursor-pointer font-mono text-xs font-semibold text-slate-700 select-none">
+                <span className="flex items-center gap-1.5">
+                  <InfoIcon className="w-3.5 h-3.5 text-sky-600" />
+                  <span>Technical & Refinery Linkages</span>
+                </span>
+                <span className="text-[11px] text-slate-500 font-normal">Analyst detail</span>
+              </summary>
+              <div className="p-3 bg-white space-y-3 border-t border-slate-200 text-xs">
+                <div>
+                  <span className="text-[10px] font-mono text-slate-500 uppercase font-semibold block">
+                    Dependent Refineries & Terminals
+                  </span>
+                  <p className="text-xs text-slate-700 mt-1 font-sans leading-relaxed">
+                    {selectedCorridor.dependentRefineries.join(" • ")}
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-lg bg-sky-50/70 border border-sky-200">
+                  <span className="text-[10px] font-mono text-sky-900 uppercase font-bold block mb-1">
+                    Strategic Fallback / Bypass Corridor
+                  </span>
+                  <p className="text-xs text-slate-700 font-sans leading-relaxed">
+                    {selectedCorridor.alternativeRoute}
+                  </p>
+                </div>
+
+                <div className="text-[10px] font-mono text-slate-500 flex justify-between pt-1 border-t border-slate-100">
+                  <span>Data Source: PPAC / DGCIS Verified</span>
+                  <span className="font-semibold text-sky-700">[MODELLED TELEMETRY]</span>
+                </div>
+              </div>
+            </details>
           </div>
 
-          <div className="p-2.5 rounded bg-[#060a10] border border-cyan-900/50 text-xs">
-            <span className="text-[10px] font-mono text-cyan-400 uppercase font-semibold flex items-center gap-1">
-              <InfoIcon className="w-3 h-3" />
-              Strategic Fallback / Bypass
-            </span>
-            <p className="text-[11px] text-slate-300 mt-1 font-sans leading-relaxed">
-              {selectedCorridor.alternativeRoute}
-            </p>
-          </div>
-
-          <div className="text-[9px] font-mono text-slate-500 pt-1 text-right">
-            SIMULATED CORRIDOR MODEL
-          </div>
         </div>
 
       </div>

@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import DataReadinessDashboard from "@/components/dataCenter/DataReadinessDashboard";
 import DataStatusPanel from "@/components/system/DataStatusPanel";
 import ProviderHealthMatrix from "@/components/dataCenter/ProviderHealthMatrix";
 import DataFreshnessMonitor from "@/components/dataCenter/DataFreshnessMonitor";
 import ConflictingSignalsAlert from "@/components/dataCenter/ConflictingSignalsAlert";
 import AuditLogViewer from "@/components/dataCenter/AuditLogViewer";
 import MissingDataPanel from "@/components/system/MissingDataPanel";
+import VisualStorySection from "@/components/VisualStorySection";
+import DataProvenancePipeline from "@/components/landing/DataProvenancePipeline";
 import { DatabaseIcon, ShieldIcon, ActivityIcon, CheckCircleIcon } from "@/components/ui/Icons";
 
 const DEFAULT_PROVIDERS = [
@@ -66,21 +69,21 @@ export default function DataCenterPage() {
     <div className="space-y-6">
       
       {/* Executive Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-[#0d1e34] via-[#09121f] to-[#070a0f] border border-cyan-500/30 shadow-xl">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-cyan-950/80 border border-cyan-700/60 text-cyan-400">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-3.5">
+          <div className="p-3 rounded-xl bg-sky-50 border border-sky-200 text-sky-700">
             <DatabaseIcon className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-mono">
-                Data Quality Center & Source Provenance Terminal
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 font-heading">
+                Data Quality Center &amp; Source Provenance Terminal
               </h1>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300">
-                AUDIT & INGESTION TELEMETRY
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 font-bold">
+                AUDIT &amp; INGESTION TELEMETRY
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               Live audit of external adapters, server-side caching latency, telemetry freshness, and conflict reconciliation.
             </p>
           </div>
@@ -88,15 +91,20 @@ export default function DataCenterPage() {
 
         {/* Safety & Honesty Badges */}
         <div className="flex flex-wrap items-center gap-2">
-          <div className="px-3 py-1 rounded-lg bg-amber-950/60 border border-amber-600/50 text-amber-300 font-mono text-xs flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-            <span className="font-bold">DEMO MODE — SIMULATED DATA</span>
+          <div className="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 font-mono text-xs flex items-center gap-1.5 font-semibold">
+            <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse"></span>
+            <span>DEMO MODE — SIMULATED DATA</span>
           </div>
-          <div className="px-3 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-400 font-mono text-[11px]">
-            ZERO CLIENT SECRETS • IMMUTABLE AUDIT TRAIL
+          <div className="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 font-mono text-xs font-semibold">
+            IMMUTABLE AUDIT TRAIL
           </div>
         </div>
       </div>
+
+      {/* 0. DATA READINESS & PROVENANCE AUDIT */}
+      <section aria-label="Data Readiness & Provenance Dashboard">
+        <DataReadinessDashboard />
+      </section>
 
       {/* 1. DATA STATUS TELEMETRY */}
       <section aria-label="System Ingestion Status">
@@ -105,6 +113,22 @@ export default function DataCenterPage() {
           systemHealth={systemHealth}
         />
       </section>
+
+      {/* CINEMATIC VISUAL STORY BREAK: ENERGY DATA INTELLIGENCE */}
+      <VisualStorySection
+        eyebrow="FROM SOURCE TO DECISION"
+        title="Every analytical output is connected to a provenance category."
+        description="Statutory baseline datasets, physical cavern conservation laws, calibrated model assumptions, and pending-validation telemetry are explicitly bounded across all endpoints."
+        image="/images/refinery_infrastructure.jpg"
+        imageAlt="Illustrative energy data intelligence and physical infrastructure network"
+        caption="Illustrative energy data intelligence architecture — bound to statutory citations and deterministic formulas."
+        theme="cyan"
+        position="left"
+        flowSteps={["OFFICIAL", "DERIVED", "MODEL ASSUMPTION", "SIMULATED", "PENDING VALIDATION"]}
+      />
+
+      {/* DATA PROVENANCE PIPELINE */}
+      <DataProvenancePipeline />
 
       {/* 2. PROVIDER HEALTH & AUTHENTICATION MATRIX */}
       <section aria-label="Provider Health Matrix">

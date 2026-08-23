@@ -14,7 +14,7 @@
  * NOTE: All cost figures are SIMULATED / ILLUSTRATIVE decision-support calculations.
  */
 
-import { SIMULATED_CRUDE_PRICES } from "@/lib/riskData";
+import { SIMULATED_CRUDE_PRICES } from "./riskData.js";
 
 export const BENCHMARK_FREIGHT_RATES = {
   "persian_gulf": 3.80,    // $/bbl VLCC Ras Tanura/Basra to West Coast

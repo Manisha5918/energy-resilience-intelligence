@@ -95,9 +95,10 @@ export const OFFICIAL_COMMERCIAL_STORAGE = {
   }
 };
 
-/**
- * Calculate total reserve cover strictly derived from verified ISPRL & PPAC inputs
- */
+import { getISPRLStructuredInventory, getISPRLOfficialRecords, getISPRLReconciliationReport } from "../officialData/isprlOfficialReader.js";
+
+export { getISPRLStructuredInventory, getISPRLOfficialRecords, getISPRLReconciliationReport };
+
 export function getReserveCoverAnalysis() {
   const energyBalance = getNationalEnergyBalance();
   const dailyImportRequirement = energyBalance.netImportNeedMbd.value; // 4.83 MBD
@@ -112,14 +113,17 @@ export function getReserveCoverAnalysis() {
   const commercialDaysCover = Number((OFFICIAL_COMMERCIAL_STORAGE.totalCommercialStorageMillionBarrels.value / dailyImportRequirement).toFixed(1));
   const combinedDesignDaysCover = Number((sprDesignDaysCover + commercialDaysCover).toFixed(1));
 
+  const isprlDetailed = getISPRLStructuredInventory();
+
   return {
     sprDaysCover: {
       value: sprDesignDaysCover,
-      unit: "Days (Nameplate Capacity)",
-      source: `Derived (${sprCapacityBarrels.toFixed(2)}M bbl statutory capacity / ${dailyImportRequirement} MBD import need)`,
+      unit: "Days (Theoretical Physical-Capacity Coverage)",
+      source: `Derived (${sprCapacityBarrels.toFixed(2)}M bbl physical capacity / ${dailyImportRequirement} MBD net import requirement)`,
       provider: "EnergyShield Mathematical Engine",
       dataStatus: "DERIVED",
-      confidence: "HIGH"
+      confidence: "HIGH",
+      notes: "THEORETICAL PHYSICAL-CAPACITY COVERAGE (Calculated as 39.16 MBBL physical capacity / 4.83 MBD import demand; not actual strategic reserve coverage due to HPCL commercial lease and classified SCADA fill)."
     },
     commercialDaysCover: {
       value: commercialDaysCover,
@@ -132,7 +136,7 @@ export function getReserveCoverAnalysis() {
     combinedDaysCover: {
       value: combinedDesignDaysCover,
       unit: "Days",
-      source: "Derived (SPR Nameplate Cover + Commercial Cover)",
+      source: "Derived (SPR Theoretical Physical Cover + Commercial Cover)",
       provider: "EnergyShield Mathematical Engine",
       dataStatus: "DERIVED",
       confidence: "HIGH"
@@ -140,6 +144,8 @@ export function getReserveCoverAnalysis() {
     totalSprCapacityMillionBarrels: sprCapacityBarrels,
     totalSprCapacityMmt: 5.33,
     sprSites: OFFICIAL_SPR_SITES,
-    commercialStorage: OFFICIAL_COMMERCIAL_STORAGE
+    commercialStorage: OFFICIAL_COMMERCIAL_STORAGE,
+    isprlDetailedInventory: isprlDetailed,
+    reconciliationReport: isprlDetailed.reconciliationFlags
   };
 }

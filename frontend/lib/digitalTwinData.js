@@ -12,10 +12,10 @@
  * - Port Terminals: Indian Ports Association & Deendayal / Mumbai / Kochi Port Trusts
  */
 
-import { SIMULATED_SUPPLIER_PROFILES } from "@/lib/supplierData";
-import { SIMULATED_SHIPPING_ROUTES, SIMULATED_CORRIDORS } from "@/lib/routeData";
-import { SIMULATED_REFINERY_PROFILES } from "@/lib/riskData";
-import { SIMULATED_SPR_SITES } from "@/lib/reserveData";
+import { SIMULATED_SUPPLIER_PROFILES } from "./supplierData.js";
+import { SIMULATED_SHIPPING_ROUTES } from "./routeData.js";
+import { SIMULATED_REFINERY_PROFILES } from "./riskData.js";
+import { SIMULATED_SPR_SITES } from "./reserveData.js";
 
 export const DIGITAL_TWIN_NODES = [
   // 1. GLOBAL CRUDE SUPPLIER ORIGINS

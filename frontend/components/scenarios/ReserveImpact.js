@@ -7,31 +7,31 @@ export default function ReserveImpact({ reserveImpact }) {
   const isHigh = reserveImpact.sprPressureLevel === "HIGH";
 
   return (
-    <div className="command-card rounded-xl p-5 border border-slate-800 space-y-4">
+    <div className="command-card rounded-2xl p-6 border border-slate-200 space-y-5 bg-white shadow-sm">
       
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <DatabaseIcon className="w-4 h-4 text-emerald-400" />
-            <h3 className="text-sm font-semibold text-slate-100 font-mono tracking-wide">
+            <DatabaseIcon className="w-5 h-5 text-emerald-600" />
+            <h3 className="text-base font-semibold text-slate-900 font-heading tracking-wide">
               Strategic Petroleum Reserve (SPR) Drawdown Analysis
             </h3>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-800 text-emerald-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold">
               STOCKPILE DEPLETION
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-1">
             Model-projected underground rock cavern drawdown rates and emergency cover duration under disruption stress.
           </p>
         </div>
 
-        <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold border ${
+        <span className={`text-[10px] font-mono px-2.5 py-1 rounded font-bold border self-start sm:self-auto ${
           isCritical
-            ? "bg-rose-950 text-rose-400 border-rose-800"
+            ? "bg-rose-50 text-rose-800 border-rose-200"
             : isHigh
-            ? "bg-amber-950 text-amber-400 border-amber-800"
-            : "bg-emerald-950 text-emerald-400 border-emerald-800"
+            ? "bg-amber-50 text-amber-800 border-amber-200"
+            : "bg-emerald-50 text-emerald-800 border-emerald-200"
         }`}>
           PRESSURE: {reserveImpact.sprPressureLevel}
         </span>
@@ -39,59 +39,59 @@ export default function ReserveImpact({ reserveImpact }) {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-        <div className="p-3 rounded-lg bg-[#080d16] border border-slate-800">
-          <span className="text-[10px] text-slate-500 uppercase block">Baseline Cover</span>
-          <div className="text-xl font-bold text-slate-300 mt-0.5">
+        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
+          <span className="text-[10px] text-slate-500 uppercase block font-semibold">Baseline Cover</span>
+          <div className="text-xl font-bold text-slate-900 mt-1">
             {reserveImpact.baselineSprDaysCover} <span className="text-xs font-normal text-slate-500">Days</span>
           </div>
-          <span className="text-[9px] text-slate-500">~33.4 MBBL inventory</span>
+          <span className="text-[10px] text-slate-500 mt-0.5 block">~33.4 MBBL inventory</span>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#080d16] border border-slate-800">
-          <span className="text-[10px] text-slate-500 uppercase block">Scenario Cover Left</span>
-          <div className={`text-xl font-bold mt-0.5 ${
-            reserveImpact.scenarioSprDaysCover < 4 ? "text-rose-400" : "text-amber-400"
+        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
+          <span className="text-[10px] text-slate-500 uppercase block font-semibold">Scenario Cover Left</span>
+          <div className={`text-xl font-bold mt-1 ${
+            reserveImpact.scenarioSprDaysCover < 4 ? "text-rose-700" : "text-amber-700"
           }`}>
             {reserveImpact.scenarioSprDaysCover} <span className="text-xs font-normal text-slate-500">Days</span>
           </div>
-          <span className="text-[9px] text-slate-500">{reserveImpact.remainingSprInventoryMbbl} MBBL remaining</span>
+          <span className="text-[10px] text-slate-500 mt-0.5 block">{reserveImpact.remainingSprInventoryMbbl} MBBL remaining</span>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#080d16] border border-slate-800">
-          <span className="text-[10px] text-slate-500 uppercase block">Drawdown Rate</span>
-          <div className="text-xl font-bold text-rose-400 mt-0.5">
+        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
+          <span className="text-[10px] text-slate-500 uppercase block font-semibold">Drawdown Rate</span>
+          <div className="text-xl font-bold text-rose-700 mt-1">
             {reserveImpact.sprDrawdownRateMbd} <span className="text-xs font-normal text-slate-500">MBD</span>
           </div>
-          <span className="text-[9px] text-slate-500">Max limit: 2.5 MBD</span>
+          <span className="text-[10px] text-slate-500 mt-0.5 block">Max limit: 2.5 MBD</span>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#080d16] border border-slate-800">
-          <span className="text-[10px] text-slate-500 uppercase block">Total Draw Volume</span>
-          <div className="text-xl font-bold text-amber-400 mt-0.5">
+        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 shadow-xs">
+          <span className="text-[10px] text-slate-500 uppercase block font-semibold">Total Draw Volume</span>
+          <div className="text-xl font-bold text-amber-700 mt-1">
             {reserveImpact.sprDepletionMbbl} <span className="text-xs font-normal text-slate-500">MBBL</span>
           </div>
-          <span className="text-[9px] text-slate-500">Over scenario horizon</span>
+          <span className="text-[10px] text-slate-500 mt-0.5 block">Over scenario horizon</span>
         </div>
       </div>
 
       {/* Visual Stockpile Fill Bar */}
-      <div className="space-y-1.5 pt-1">
-        <div className="flex justify-between text-[11px] font-mono text-slate-400">
+      <div className="space-y-2 pt-1">
+        <div className="flex justify-between text-xs font-mono text-slate-600">
           <span>Remaining Underground Cavern Inventory (Vizag, Mangalore, Padur)</span>
-          <span className="text-emerald-400 font-bold">
-            {((reserveImpact.remainingSprInventoryMbbl / 39.16) * 100).toFixed(1)}% Capacity
+          <span className="text-emerald-700 font-bold">
+            {((reserveImpact.remainingSprInventoryMbbl / 39.18) * 100).toFixed(1)}% Capacity
           </span>
         </div>
-        <div className="h-3 w-full bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/80">
+        <div className="h-3.5 w-full bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
           <div
             className={`h-full rounded-full transition-all duration-500 ${
               reserveImpact.scenarioSprDaysCover < 4
-                ? "bg-rose-500"
+                ? "bg-rose-600"
                 : reserveImpact.scenarioSprDaysCover < 7
-                ? "bg-amber-500"
-                : "bg-emerald-500"
+                ? "bg-amber-600"
+                : "bg-emerald-600"
             }`}
-            style={{ width: `${Math.max(5, (reserveImpact.remainingSprInventoryMbbl / 39.16) * 100)}%` }}
+            style={{ width: `${Math.max(5, (reserveImpact.remainingSprInventoryMbbl / 39.18) * 100)}%` }}
           />
         </div>
       </div>

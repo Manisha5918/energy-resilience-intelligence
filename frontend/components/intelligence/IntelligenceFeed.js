@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FilterIcon, GlobeIcon, AlertTriangleIcon, InfoIcon, ShieldIcon } from "@/components/ui/Icons";
+import { GlobeIcon, FilterIcon } from "@/components/ui/Icons";
 
 export default function IntelligenceFeed({ events, selectedEventId, onSelectEvent }) {
   const [filterType, setFilterType] = useState("ALL");
@@ -17,21 +17,21 @@ export default function IntelligenceFeed({ events, selectedEventId, onSelectEven
   });
 
   return (
-    <div className="command-card rounded-xl p-5 border border-slate-800 space-y-4">
+    <div className="command-card rounded-2xl p-6 border border-slate-200 bg-white shadow-sm space-y-5">
       
       {/* Header & Filter Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <GlobeIcon className="w-4 h-4 text-purple-400" />
-            <h3 className="text-sm font-semibold text-slate-100 font-mono tracking-wide">
+            <GlobeIcon className="w-5 h-5 text-purple-600" />
+            <h3 className="text-base font-semibold text-slate-900 font-heading tracking-wide">
               Live Ingested Intelligence Feed
             </h3>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950/80 border border-purple-800 text-purple-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-50 border border-purple-200 text-purple-800 font-bold">
               {filteredEvents.length} SIGNALS
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-1">
             Normalized geopolitical, naval, sanctions, and infrastructure threat stream.
           </p>
         </div>
@@ -43,7 +43,7 @@ export default function IntelligenceFeed({ events, selectedEventId, onSelectEven
             placeholder="Search signals..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 w-36 sm:w-44"
+            className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 w-36 sm:w-44"
           />
 
           <div className="flex items-center gap-1 overflow-x-auto py-0.5">
@@ -53,10 +53,10 @@ export default function IntelligenceFeed({ events, selectedEventId, onSelectEven
                 <button
                   key={t}
                   onClick={() => setFilterType(t)}
-                  className={`px-2 py-1 rounded text-[11px] font-mono uppercase transition-colors cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-mono uppercase transition-colors cursor-pointer ${
                     isSelected
-                      ? "bg-slate-100 text-slate-950 font-bold shadow-sm"
-                      : "bg-slate-900/60 border border-slate-800 text-slate-400 hover:text-slate-200"
+                      ? "bg-purple-700 text-white font-bold shadow-sm"
+                      : "bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                   }`}
                 >
                   {t === "ALL" ? "All" : t}
@@ -68,9 +68,9 @@ export default function IntelligenceFeed({ events, selectedEventId, onSelectEven
       </div>
 
       {/* Events List */}
-      <div className="space-y-2.5 max-h-[540px] overflow-y-auto pr-1">
+      <div className="space-y-3 max-h-[540px] overflow-y-auto pr-1">
         {filteredEvents.length === 0 ? (
-          <div className="p-8 text-center text-slate-500 font-mono text-xs border border-dashed border-slate-800 rounded-lg">
+          <div className="p-8 text-center text-slate-500 font-mono text-xs border border-dashed border-slate-300 rounded-xl bg-slate-50">
             No intelligence signals matching current filter criteria.
           </div>
         ) : (
@@ -81,12 +81,12 @@ export default function IntelligenceFeed({ events, selectedEventId, onSelectEven
             const isMedium = ev.severity === "MEDIUM";
 
             const badgeColor = isCritical
-              ? "bg-rose-950/80 text-rose-400 border-rose-800"
+              ? "bg-rose-50 text-rose-800 border-rose-200"
               : isHigh
-              ? "bg-amber-950/80 text-amber-400 border-amber-800"
+              ? "bg-amber-50 text-amber-800 border-amber-200"
               : isMedium
-              ? "bg-cyan-950/80 text-cyan-400 border-cyan-800"
-              : "bg-slate-800 text-slate-300 border-slate-700";
+              ? "bg-sky-50 text-sky-800 border-sky-200"
+              : "bg-slate-100 text-slate-700 border-slate-200";
 
             return (
               <div
@@ -94,40 +94,40 @@ export default function IntelligenceFeed({ events, selectedEventId, onSelectEven
                 onClick={() => onSelectEvent(ev.id)}
                 className={`p-4 rounded-xl border transition-all cursor-pointer ${
                   isSelected
-                    ? "bg-[#101726] border-cyan-500 shadow-md ring-1 ring-cyan-500/40"
-                    : "bg-[#080d16] border-slate-800/80 hover:border-slate-700"
+                    ? "bg-purple-50/60 border-purple-500 shadow-md ring-2 ring-purple-500/20"
+                    : "bg-slate-50/70 border-slate-200 hover:bg-slate-100/80 hover:border-slate-300"
                 }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
                   <div className="flex items-center gap-2">
-                    <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border ${badgeColor}`}>
+                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${badgeColor}`}>
                       {ev.severity}
                     </span>
-                    <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-white text-slate-700 border border-slate-200 font-semibold">
                       {ev.eventType}
                     </span>
-                    <span className="text-xs font-mono text-slate-400">
+                    <span className="text-xs font-mono text-slate-500">
                       {ev.publishedAt?.slice(0, 10)}
                     </span>
                   </div>
 
-                  <span className="text-[10px] font-mono text-emerald-400">
+                  <span className="text-[11px] font-mono text-emerald-700 font-bold">
                     CONFIDENCE: {ev.confidence} ({Math.round(ev.confidenceScore * 100)}%)
                   </span>
                 </div>
 
-                <h4 className="text-sm font-bold text-slate-100 font-sans mt-2 leading-snug">
+                <h4 className="text-sm font-bold text-slate-900 font-heading mt-2 leading-snug">
                   {ev.title}
                 </h4>
 
-                <p className="text-xs text-slate-400 font-sans mt-1 leading-relaxed line-clamp-2">
+                <p className="text-xs text-slate-600 font-sans mt-1.5 leading-relaxed line-clamp-2">
                   {ev.summary}
                 </p>
 
-                <div className="mt-3 pt-2.5 border-t border-slate-800/60 flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono">
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <span>Corridors:</span>
-                    <span className="text-cyan-300 font-medium">
+                <div className="mt-3 pt-2.5 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono">
+                  <div className="flex items-center gap-1.5 text-slate-600">
+                    <span className="font-semibold">Corridors:</span>
+                    <span className="text-sky-800 font-medium">
                       {ev.affectedCorridors?.join(", ") || "Global / Open Waters"}
                     </span>
                   </div>

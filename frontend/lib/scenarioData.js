@@ -123,6 +123,8 @@ export const SIMULATED_SCENARIOS = [
   }
 ];
 
+export const SCENARIO_PRESETS = SIMULATED_SCENARIOS;
+
 export function getScenarioData() {
   return SIMULATED_SCENARIOS;
 }

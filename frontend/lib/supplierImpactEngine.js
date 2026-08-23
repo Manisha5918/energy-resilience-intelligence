@@ -5,8 +5,8 @@
  * and computes dynamic supplier exposure deltas.
  */
 
-import { SIMULATED_SUPPLIER_PROFILES } from "@/lib/supplierData";
-import { SIMULATED_INTELLIGENCE_EVENTS } from "@/lib/intelligenceData";
+import { SIMULATED_SUPPLIER_PROFILES } from "./supplierData.js";
+import { SIMULATED_INTELLIGENCE_EVENTS } from "./intelligenceData.js";
 
 export function mapSupplierSignals(events = SIMULATED_INTELLIGENCE_EVENTS) {
   return SIMULATED_SUPPLIER_PROFILES.map((supplier) => {

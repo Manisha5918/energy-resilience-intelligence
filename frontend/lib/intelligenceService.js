@@ -5,12 +5,12 @@
  * and exposes normalized signal streams to client components and backend engines.
  */
 
-import { fetchNewsSignals } from "@/lib/providers/newsProvider";
-import { fetchShippingSignals } from "@/lib/providers/shippingProvider";
-import { fetchSanctionsSignals } from "@/lib/providers/sanctionsProvider";
-import { fetchMarketSignals } from "@/lib/providers/marketProvider";
-import { SIMULATED_INTELLIGENCE_EVENTS } from "@/lib/intelligenceData";
-import { getSystemDataHealth } from "@/lib/dataFreshness";
+import { fetchNewsSignals } from "./providers/newsProvider.js";
+import { fetchShippingSignals } from "./providers/shippingProvider.js";
+import { fetchSanctionsSignals } from "./providers/sanctionsProvider.js";
+import { fetchMarketSignals } from "./providers/marketProvider.js";
+import { SIMULATED_INTELLIGENCE_EVENTS } from "./intelligenceData.js";
+import { getSystemDataHealth } from "./dataFreshness.js";
 
 export async function getNewsSignals() {
   return await fetchNewsSignals();

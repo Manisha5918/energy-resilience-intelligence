@@ -9,156 +9,191 @@ import {
   AlertTriangleIcon, 
   SlidersIcon, 
   DatabaseIcon, 
-  AnchorIcon,
-  ChevronRightIcon,
-  ActivityIcon
+  ActivityIcon 
 } from "@/components/ui/Icons";
 
-const NAV_ITEMS = [
+const NAV_GROUPS = [
   {
-    label: "Executive Dashboard",
-    href: "/",
-    icon: ShieldIcon,
-    badge: "Active",
-    badgeColor: "bg-cyan-950 text-cyan-400 border-cyan-800",
-    description: "Main resilience overview & metrics"
+    groupTitle: "MONITORING",
+    items: [
+      {
+        label: "Executive Dashboard",
+        shortLabel: "Executive Dashboard",
+        fullTitle: "National Resilience Cockpit & Executive Decision Briefing",
+        href: "/",
+        icon: ShieldIcon,
+        badge: "Active",
+      },
+      {
+        label: "Geopolitical Intel",
+        shortLabel: "Geopolitical Intel",
+        fullTitle: "Geopolitical Threat Telemetry & Chokepoint Signal Feeds",
+        href: "/intelligence",
+        icon: GlobeIcon,
+        badge: "Live Mock",
+      },
+      {
+        label: "Risk Alert Center",
+        shortLabel: "Risk Alert Center",
+        fullTitle: "Active Real-Time Threat Alerts & Incident Log",
+        href: "/alerts",
+        icon: AlertTriangleIcon,
+        badge: "5 Alerts",
+      }
+    ]
   },
   {
-    label: "Geopolitical Intelligence",
-    href: "/intelligence",
-    icon: GlobeIcon,
-    badge: "Live Mock",
-    badgeColor: "bg-purple-950 text-purple-300 border-purple-800",
-    description: "Chokepoint & regional threat feed"
+    groupTitle: "SIMULATION",
+    items: [
+      {
+        label: "Maritime Routes",
+        shortLabel: "Maritime Routes",
+        fullTitle: "Maritime Corridors, Chokepoint Delays & Freight Surcharges",
+        href: "/routes",
+        icon: NavigationIcon,
+        badge: "4 Corridors",
+      },
+      {
+        label: "Disruption Simulator",
+        shortLabel: "Disruption Simulator",
+        fullTitle: "Stress Simulation Engine & Disruption Variance Matrix",
+        href: "/scenarios",
+        icon: SlidersIcon,
+        badge: "Simulator",
+      },
+      {
+        label: "Supply Chain Twin",
+        shortLabel: "Supply Chain Twin",
+        fullTitle: "Topological Network Digital Twin & Node Flow Graph",
+        href: "/digital-twin",
+        icon: ActivityIcon,
+        badge: "25 Nodes",
+      }
+    ]
   },
   {
-    label: "Maritime Routes",
-    href: "/routes",
-    icon: NavigationIcon,
-    badge: "4 Corridors",
-    badgeColor: "bg-blue-950 text-blue-300 border-blue-800",
-    description: "Hormuz, Red Sea & Cape analysis"
-  },
-  {
-    label: "Risk Alert Center",
-    href: "/alerts",
-    icon: AlertTriangleIcon,
-    badge: "5 Alerts",
-    badgeColor: "bg-amber-950 text-amber-300 border-amber-800",
-    description: "Critical & High priority warnings"
-  },
-  {
-    label: "Disruption Scenarios",
-    href: "/scenarios",
-    icon: SlidersIcon,
-    badge: "Simulator",
-    badgeColor: "bg-cyan-950 text-cyan-300 border-cyan-800",
-    description: "Simulate Hormuz / Red Sea blockages"
-  },
-  {
-    label: "Adaptive Procurement",
-    href: "/procurement",
-    icon: ShieldIcon,
-    badge: "Orchestrator",
-    badgeColor: "bg-emerald-950 text-emerald-300 border-emerald-800",
-    description: "Ranked resilience-adjusted sourcing"
-  },
-  {
-    label: "Supply Chain Twin",
-    href: "/digital-twin",
-    icon: ActivityIcon,
-    badge: "Digital Twin",
-    badgeColor: "bg-cyan-950 text-cyan-300 border-cyan-800",
-    description: "Topological graph & network flows"
-  },
-  {
-    label: "Strategic Reserves (SPR)",
-    href: "/reserves",
-    icon: DatabaseIcon,
-    badge: "9.5 Days",
-    badgeColor: "bg-emerald-950 text-emerald-300 border-emerald-800",
-    description: "Vizag, Mangalore, Padur inventory"
-  },
-  {
-    label: "Data Quality Center",
-    href: "/data-center",
-    icon: DatabaseIcon,
-    badge: "Provenance",
-    badgeColor: "bg-purple-950 text-purple-300 border-purple-800",
-    description: "Provider health, freshness & audit trail"
+    groupTitle: "OPERATIONS",
+    items: [
+      {
+        label: "Procurement Orchestrator",
+        shortLabel: "Procurement Orchestrator",
+        fullTitle: "Adaptive Multi-Sourcing & Contingency Sourcing Rebalancer",
+        href: "/procurement",
+        icon: ShieldIcon,
+        badge: "Optimizer",
+      },
+      {
+        label: "Strategic Reserves",
+        shortLabel: "Strategic Reserves",
+        fullTitle: "ISPRL Tri-Cavern Inventory & Commercial Depletion Modeling",
+        href: "/reserves",
+        icon: DatabaseIcon,
+        badge: "8.1 Days",
+      },
+      {
+        label: "Data Quality Center",
+        shortLabel: "Data Quality Center",
+        fullTitle: "Data Provenance, Quality Scores & Audit Traceability",
+        href: "/data-center",
+        icon: DatabaseIcon,
+        badge: "4 Datasets",
+      }
+    ]
   }
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 shrink-0 border-r border-slate-800/80 bg-[#090d15]/90 hidden md:flex flex-col justify-between p-4">
-      <div className="space-y-6">
-        
-        {/* Section Header */}
-        <div>
-          <div className="text-[11px] font-mono uppercase tracking-widest text-slate-500 px-3 mb-2 font-semibold">
-            Command Modules
-          </div>
+    <>
+      {/* Mobile Backdrop Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 md:hidden transition-opacity"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
 
-          {/* Navigation Links */}
-          <nav className="space-y-1">
-            {NAV_ITEMS.map((item) => {
-              const isActive = pathname === item.href;
-              const Icon = item.icon;
+      <aside 
+        className={`fixed inset-y-0 left-0 z-45 w-[280px] shrink-0 border-r border-[#D8E8F5] bg-[#F4F9FD] flex flex-col justify-between p-4 shadow-xs md:sticky md:top-16 md:h-[calc(100vh-4rem)] md:z-30 transform transition-transform duration-200 ease-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
+        aria-label="Platform Sidebar Navigation"
+      >
+        <div className="space-y-4 overflow-y-auto flex-1 pr-1">
+          
+          {NAV_GROUPS.map((group, groupIdx) => (
+            <div key={group.groupTitle} className={groupIdx > 0 ? "pt-3 border-t border-[#E2EEF8]" : ""}>
+              {/* Section Header: Muted Blue-Gray, Uppercase, Letter-Spaced */}
+              <div className="text-[11px] font-mono uppercase tracking-widest text-[#627D98] px-3 mb-2 font-bold flex items-center justify-between">
+                <span>{group.groupTitle}</span>
+              </div>
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`group flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-all ${
-                    isActive
-                      ? "bg-cyan-950/40 text-cyan-300 border border-cyan-700/50 shadow-sm"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 border border-transparent"
-                  }`}
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <Icon className={`w-4 h-4 shrink-0 transition-colors ${
-                      isActive ? "text-cyan-400" : "text-slate-500 group-hover:text-slate-300"
-                    }`} />
-                    <span className="truncate">{item.label}</span>
-                  </div>
+              {/* Navigation Links */}
+              <nav className="space-y-1" aria-label={`${group.groupTitle} Navigation`}>
+                {group.items.map((item) => {
+                  const isActive = pathname === item.href;
+                  const Icon = item.icon;
 
-                  {item.badge && (
-                    <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded border text-[9px] ${item.badgeColor}`}>
-                      {item.badge}
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      title={item.fullTitle}
+                      onClick={onClose}
+                      className={`sidebar-nav-item group flex items-center justify-between px-3 py-2.5 min-h-[44px] rounded-xl text-xs transition-all duration-200 ease-out ${
+                        isActive
+                          ? "bg-[#E6F4FF] text-[#0B3C61] border border-[#8DD3FF] shadow-[0_2px_8px_rgba(2,132,199,0.08)] font-bold"
+                          : "text-[#102A43] hover:text-[#0B3C61] hover:bg-[#EEF7FD] border border-transparent font-medium"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0 pr-1">
+                        {/* Unified Blue-Gray/Blue Icon System */}
+                        <Icon className={`w-4 h-4 shrink-0 transition-colors ${
+                          isActive 
+                            ? "text-[#0284C7]" 
+                            : "text-[#829AB1] group-hover:text-[#334E68]"
+                        }`} />
+                        <span className="truncate">{item.shortLabel}</span>
+                      </div>
+
+                      {/* Clean Status Badges */}
+                      {item.badge && (
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md border shrink-0 font-medium ${
+                          isActive 
+                            ? "bg-white border-[#BEE3F8] text-[#0B3C61] font-bold shadow-2xs" 
+                            : "bg-[#EDF5FB] border-[#D5E4F0] text-[#45627D]"
+                        }`}>
+                          {item.badge}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+          ))}
+
         </div>
 
-        {/* Tactical Status Snapshot */}
-        <div className="p-3 rounded-lg border border-slate-800 bg-slate-900/40 font-mono text-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-1.5">
-            <span className="text-[10px] uppercase tracking-wider text-slate-500">Chokepoint Alert</span>
-            <span className="text-[10px] text-amber-400 font-bold">HORMUZ ELEVATED</span>
+        {/* Clean Status & System Footer */}
+        <div className="pt-4 border-t border-[#D8E8F5] space-y-2 shrink-0">
+          <div className="flex items-center justify-between px-2.5 py-2 rounded-lg bg-[#EDF5FB] border border-[#D8E8F5] text-[11px] font-mono">
+            <div className="flex items-center gap-1.5 text-[#334E68] font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>SYSTEM READY</span>
+            </div>
+            <span className="text-[10px] text-[#627D98] font-semibold">SOVEREIGN</span>
           </div>
-          <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-            <div className="bg-amber-500 h-1.5 rounded-full w-[78%] animate-pulse"></div>
+
+          <div className="text-[10px] text-[#829AB1] font-mono px-2 flex items-center justify-between">
+            <span>India Energy Resilience</span>
+            <span>PPAC Verified</span>
           </div>
-          <p className="text-[10px] text-slate-400 mt-2 leading-relaxed">
-            58.4% of imports vulnerable to single chokepoint transit disruption.
-          </p>
         </div>
-
-      </div>
-
-      {/* Safety Notice Footer */}
-      <div className="pt-4 border-t border-slate-800/80">
-        <div className="text-[10px] text-slate-500 font-mono flex items-start gap-1.5">
-          <AnchorIcon className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
-          <span>India Strategic Energy Architecture Prototype</span>
-        </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }

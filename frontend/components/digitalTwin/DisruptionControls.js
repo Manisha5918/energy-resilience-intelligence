@@ -16,21 +16,21 @@ export default function DisruptionControls({
   onReset
 }) {
   return (
-    <div className="command-card rounded-2xl p-5 border border-slate-800 space-y-4 bg-gradient-to-b from-[#0f1626] to-[#080d16]">
+    <div className="command-card rounded-2xl p-5 border border-slate-200 space-y-4 bg-white shadow-sm">
       
       {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-200 pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <SlidersIcon className="w-4 h-4 text-cyan-400" />
-            <h3 className="text-sm font-semibold text-slate-100 font-mono tracking-wide">
+            <SlidersIcon className="w-4 h-4 text-sky-600" />
+            <h3 className="text-sm font-semibold text-slate-900 font-heading tracking-wide">
               Disruption Simulation & Timeline Console
             </h3>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 font-semibold">
               CROSS-CORRIDOR INJECTION
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Inject synthetic shocks to observe supply cascade dynamics, port chokepoints, and refinery feedstock starvation.
           </p>
         </div>
@@ -38,7 +38,7 @@ export default function DisruptionControls({
         <div className="flex items-center gap-2">
           <button
             onClick={onReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs font-mono transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-mono transition-colors cursor-pointer shadow-sm"
           >
             <RefreshCwIcon className="w-3.5 h-3.5" />
             <span>Reset Steady-State</span>
@@ -46,7 +46,7 @@ export default function DisruptionControls({
 
           <Link
             href={`/procurement?scenario=${scenarioId}`}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono text-xs font-bold transition-all shadow-sm cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-mono text-xs font-bold transition-all shadow-sm cursor-pointer"
           >
             <ShieldIcon className="w-3.5 h-3.5" />
             <span>Optimize Procurement Plan →</span>
@@ -59,13 +59,13 @@ export default function DisruptionControls({
         
         {/* 1. Scenario Selector */}
         <div className="space-y-1.5">
-          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
+          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold block">
             Disruption Scenario
           </label>
           <select
             value={scenarioId}
             onChange={(e) => onSelectScenario(e.target.value)}
-            className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-700 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500 cursor-pointer"
+            className="w-full py-2 px-3 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-800 focus:outline-none focus:border-sky-500 focus:bg-white cursor-pointer shadow-sm"
           >
             <option value="current-conditions">Baseline Operations (Steady-State)</option>
             {SIMULATED_SCENARIOS.map((sc) => (
@@ -78,7 +78,7 @@ export default function DisruptionControls({
 
         {/* 2. Duration Selector */}
         <div className="space-y-1.5">
-          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
+          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold block">
             Disruption Duration
           </label>
           <div className="grid grid-cols-4 gap-1">
@@ -88,10 +88,10 @@ export default function DisruptionControls({
                 <button
                   key={d}
                   onClick={() => onChangeDuration(d)}
-                  className={`py-2 rounded-lg text-xs font-mono font-medium transition-colors cursor-pointer text-center ${
+                  className={`py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer text-center ${
                     isSelected
-                      ? "bg-cyan-950 text-cyan-300 border border-cyan-600 font-bold"
-                      : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200"
+                      ? "bg-sky-600 text-white border border-sky-600 font-bold shadow-sm"
+                      : "bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                   }`}
                 >
                   {d}d
@@ -103,7 +103,7 @@ export default function DisruptionControls({
 
         {/* 3. Severity Selector */}
         <div className="space-y-1.5">
-          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
+          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold block">
             Impact Severity
           </label>
           <div className="grid grid-cols-3 gap-1">
@@ -113,10 +113,10 @@ export default function DisruptionControls({
                 <button
                   key={s}
                   onClick={() => onChangeSeverity(s)}
-                  className={`py-2 rounded-lg text-xs font-mono font-medium uppercase transition-colors cursor-pointer text-center ${
+                  className={`py-2 rounded-lg text-xs font-mono font-medium uppercase transition-all cursor-pointer text-center ${
                     isSelected
-                      ? "bg-rose-950 text-rose-300 border border-rose-600 font-bold"
-                      : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200"
+                      ? "bg-rose-600 text-white border border-rose-600 font-bold shadow-sm"
+                      : "bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                   }`}
                 >
                   {s}
@@ -128,8 +128,8 @@ export default function DisruptionControls({
 
         {/* 4. Timeline Scrubber (Day 0 to 60) */}
         <div className="space-y-1.5">
-          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
-            Timeline Progression: <b className="text-cyan-300">Day {timelineDay}</b>
+          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold block">
+            Timeline Progression: <b className="text-sky-700">Day {timelineDay}</b>
           </label>
           <div className="grid grid-cols-5 gap-1">
             {[0, 7, 15, 30, 60].map((t) => {
@@ -138,10 +138,10 @@ export default function DisruptionControls({
                 <button
                   key={t}
                   onClick={() => onChangeTimelineDay(t)}
-                  className={`py-2 rounded-lg text-[10px] font-mono font-medium transition-colors cursor-pointer text-center ${
+                  className={`py-2 rounded-lg text-[10px] font-mono font-medium transition-all cursor-pointer text-center ${
                     isSelected
-                      ? "bg-slate-100 text-slate-950 font-bold shadow-sm"
-                      : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200"
+                      ? "bg-slate-900 text-white font-bold shadow-sm"
+                      : "bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                   }`}
                 >
                   D{t}

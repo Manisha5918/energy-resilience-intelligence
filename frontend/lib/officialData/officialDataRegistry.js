@@ -12,6 +12,7 @@ import { readPpacTrade } from "./ppacTradeReader.js";
 import { readPpacPrices } from "./ppacPriceReader.js";
 import { readPpacGas } from "./ppacGasReader.js";
 import { createUnavailableMetric } from "./provenance.js";
+import { getISPRLStructuredInventory } from "./isprlOfficialReader.js";
 
 export function getOfficialDataRegistry() {
   const snapshot = readPpacSnapshot();
@@ -20,6 +21,7 @@ export function getOfficialDataRegistry() {
   const trade = readPpacTrade();
   const prices = readPpacPrices();
   const gas = readPpacGas();
+  const isprlDetailed = getISPRLStructuredInventory();
 
   // ISPRL Statutory Storage vs Live Inventory
   const isprlSites = [
@@ -29,12 +31,14 @@ export function getOfficialDataRegistry() {
       state: "Andhra Pradesh",
       statutoryCapacityMmt: 1.33,
       statutoryCapacityMbbl: 9.77,
+      cavernA_CapacityMmt: 1.03,
+      cavernB_HpclLeasedMmt: 0.30,
       liveInventoryMbbl: null,
       dataStatus: "OFFICIAL_DATA",
       inventoryStatus: "UNAVAILABLE",
-      source: "ISPRL Parliamentary Standing Committee Report No. 27",
+      source: "ISPRL Annual Report 2024-25 & Parliamentary Standing Committee Report No. 27",
       sourceUrl: "https://isprlindia.com",
-      originalFile: "official-data/ISPRL/visakhapatnam/isprl-source.md"
+      originalFile: "data/EnergyShield_ISPRL_Reserve_Data.xlsx"
     },
     {
       id: "SPR-MAN",
@@ -42,12 +46,15 @@ export function getOfficialDataRegistry() {
       state: "Karnataka",
       statutoryCapacityMmt: 1.50,
       statutoryCapacityMbbl: 11.02,
+      cavernA_CapacityMmt: 0.75,
+      cavernB_CapacityMmt: 0.75,
+      mrplLeasedMmt: 0.76,
       liveInventoryMbbl: null,
       dataStatus: "OFFICIAL_DATA",
       inventoryStatus: "UNAVAILABLE",
-      source: "ISPRL Parliamentary Standing Committee Report No. 27",
+      source: "ISPRL Annual Report 2024-25 & Parliamentary Standing Committee Report No. 27",
       sourceUrl: "https://isprlindia.com",
-      originalFile: "official-data/ISPRL/mangalore/isprl-source.md"
+      originalFile: "data/EnergyShield_ISPRL_Reserve_Data.xlsx"
     },
     {
       id: "SPR-PAD",
@@ -55,16 +62,18 @@ export function getOfficialDataRegistry() {
       state: "Karnataka",
       statutoryCapacityMmt: 2.50,
       statutoryCapacityMbbl: 18.37,
+      numberOfCaverns: 4,
+      capacityPerCavernMmt: 0.625,
       liveInventoryMbbl: null,
       dataStatus: "OFFICIAL_DATA",
       inventoryStatus: "UNAVAILABLE",
-      source: "ISPRL Parliamentary Standing Committee Report No. 27",
+      source: "ISPRL Annual Report 2024-25 & Parliamentary Standing Committee Report No. 27",
       sourceUrl: "https://isprlindia.com",
-      originalFile: "official-data/ISPRL/padur/isprl-source.md"
+      originalFile: "data/EnergyShield_ISPRL_Reserve_Data.xlsx"
     }
   ];
 
-  const totalSprCapacityMbbl = 39.16;
+  const totalSprCapacityMbbl = 39.18;
   const commercialStorageMbbl = 315.0;
   const netImportMbd = snapshot.netImportRequirement.value; // 4.83 MBD
 
@@ -87,10 +96,12 @@ export function getOfficialDataRegistry() {
       sprDaysCover,
       commercialDaysCover,
       combinedDaysCover,
+      structuredInventory: isprlDetailed,
+      reconciliationFlags: isprlDetailed.reconciliationFlags,
       liveInventoryMetric: createUnavailableMetric({
         metricName: "Subterranean Cavern Live Inventory",
         reason: "Sovereign defense-classified telemetry; no public real-time feed published by ISPRL",
-        statutoryCapacity: "5.33 MMT (39.16 Million Barrels)"
+        statutoryCapacity: "5.33 MMT (39.18 Million Barrels)"
       })
     }
   };

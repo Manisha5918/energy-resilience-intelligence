@@ -19,8 +19,8 @@ export default function NetworkComparison({
     },
     {
       metric: "Daily National Crude Supply Flow",
-      baseline: "4.67 MBD",
-      disrupted: `${isBaseline ? "4.67" : (4.67 - metrics.supplyAtRiskMbd).toFixed(2)} MBD`,
+      baseline: "4.83 MBD",
+      disrupted: `${isBaseline ? "4.83" : (4.83 - metrics.supplyAtRiskMbd).toFixed(2)} MBD`,
       delta: isBaseline ? "0.0 MBD" : `-${metrics.supplyAtRiskMbd} MBD`,
       isNegative: !isBaseline && metrics.supplyAtRiskMbd > 0
     },
@@ -40,57 +40,57 @@ export default function NetworkComparison({
     },
     {
       metric: "Strategic Petroleum Reserve (SPR) Cover",
-      baseline: "9.5 Days",
+      baseline: "8.1 Days",
       disrupted: `${metrics.sprCoverDays} Days`,
-      delta: isBaseline ? "0.0 d" : `-${(9.5 - metrics.sprCoverDays).toFixed(1)} d`,
-      isNegative: metrics.sprCoverDays < 9.5
+      delta: isBaseline ? "0.0 d" : `-${(8.1 - metrics.sprCoverDays).toFixed(1)} d`,
+      isNegative: metrics.sprCoverDays < 8.1
     }
   ];
 
   return (
-    <div className="command-card rounded-xl p-5 border border-slate-800 space-y-4">
+    <div className="command-card rounded-2xl p-6 border border-slate-200 bg-white shadow-sm space-y-5">
       
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <ActivityIcon className="w-4 h-4 text-cyan-400" />
-            <h3 className="text-sm font-semibold text-slate-100 font-mono tracking-wide">
+            <ActivityIcon className="w-5 h-5 text-sky-600" />
+            <h3 className="text-base font-semibold text-slate-900 font-heading tracking-wide">
               Baseline vs. Disrupted Network Telemetry
             </h3>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 font-semibold">
               STATE AUDIT
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-1">
             Evaluates system-wide degradation when primary arterial corridors and sovereign suppliers are impaired.
           </p>
         </div>
 
-        <div className="text-[10px] font-mono text-slate-400">
-          STATUS: <b className="text-cyan-400">{isBaseline ? "STEADY-STATE" : "ACTIVE SHOCK"}</b>
+        <div className="text-xs font-mono text-slate-600 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200 self-start sm:self-auto font-semibold">
+          STATUS: <b className="text-sky-700">{isBaseline ? "STEADY-STATE" : "ACTIVE SHOCK"}</b>
         </div>
       </div>
 
       {/* Comparison Table */}
-      <div className="overflow-x-auto rounded-lg border border-slate-800">
-        <table className="w-full text-left text-xs font-mono text-slate-300">
-          <thead className="bg-slate-900/90 text-[10px] uppercase text-slate-400 border-b border-slate-800">
+      <div className="overflow-x-auto rounded-xl border border-slate-200">
+        <table className="w-full text-left text-xs font-mono">
+          <thead className="bg-slate-100 text-[10px] uppercase text-slate-600 border-b border-slate-200">
             <tr>
-              <th className="py-2.5 px-3">Network Key Metric</th>
-              <th className="py-2.5 px-2 text-center">Baseline State</th>
-              <th className="py-2.5 px-2 text-center">Disrupted State</th>
-              <th className="py-2.5 px-3 text-right">Net Impact (Delta)</th>
+              <th className="py-3 px-3.5">Network Key Metric</th>
+              <th className="py-3 px-2.5 text-center">Baseline State</th>
+              <th className="py-3 px-2.5 text-center">Disrupted State</th>
+              <th className="py-3 px-3.5 text-right">Net Impact (Delta)</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60 bg-[#070b12]">
+          <tbody className="divide-y divide-slate-200 bg-white">
             {compRows.map((r, idx) => (
-              <tr key={idx} className="hover:bg-slate-800/20 transition-colors">
-                <td className="py-2.5 px-3 font-medium text-slate-100">{r.metric}</td>
-                <td className="py-2.5 px-2 text-center text-slate-400">{r.baseline}</td>
-                <td className="py-2.5 px-2 text-center font-bold text-white">{r.disrupted}</td>
-                <td className={`py-2.5 px-3 text-right font-bold ${
-                  r.isNegative ? "text-rose-400" : "text-emerald-400"
+              <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                <td className="py-3 px-3.5 font-semibold text-slate-900">{r.metric}</td>
+                <td className="py-3 px-2.5 text-center text-slate-600 font-mono">{r.baseline}</td>
+                <td className="py-3 px-2.5 text-center font-bold text-slate-900 font-mono">{r.disrupted}</td>
+                <td className={`py-3 px-3.5 text-right font-bold font-mono ${
+                  r.isNegative ? "text-rose-700" : "text-emerald-700"
                 }`}>
                   {r.delta}
                 </td>

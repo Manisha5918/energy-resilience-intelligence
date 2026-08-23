@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { ShieldIcon, NavigationIcon, AlertTriangleIcon, CheckCircleIcon, ExternalLink } from "@/components/ui/Icons";
+import { ShieldIcon, NavigationIcon, AlertTriangleIcon, CheckCircleIcon } from "@/components/ui/Icons";
 import { calculateAlternativePaths } from "@/lib/digitalTwinEngine";
 
 export default function NodeDetailPanel({ node, scenarioId }) {
   if (!node) {
     return (
-      <div className="command-card rounded-2xl p-8 border border-slate-800 text-center text-slate-500 font-mono text-xs">
+      <div className="rounded-2xl p-8 border border-[#D5E5F1] bg-[#F8FBFE] shadow-sm text-center text-[#526B84] font-mono text-xs">
         Click any node on the Digital Twin graph to inspect infrastructure telemetry and bypass routing.
       </div>
     );
@@ -18,92 +18,99 @@ export default function NodeDetailPanel({ node, scenarioId }) {
   const isHigh = node.riskTier === "HIGH";
 
   return (
-    <div className="command-card rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-4 bg-gradient-to-br from-[#0c1424] via-[#080d16] to-[#04070c]">
+    <div className="rounded-2xl p-5 sm:p-6 border border-[#D5E5F1] space-y-4 bg-[#F8FBFE] shadow-sm">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#D5E5F1] pb-3">
         <div>
           <div className="flex items-center gap-2">
             <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded border ${
               isCritical
-                ? "bg-rose-950 text-rose-400 border-rose-800"
+                ? "bg-rose-50 text-rose-800 border-rose-200"
                 : isHigh
-                ? "bg-amber-950 text-amber-400 border-amber-800"
-                : "bg-cyan-950 text-cyan-400 border-cyan-800"
+                ? "bg-amber-50 text-amber-800 border-amber-200"
+                : "bg-sky-50 text-sky-800 border-sky-200"
             }`}>
               {node.riskTier} RISK ({node.currentRisk}/100)
             </span>
-            <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+            <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[#EDF5FB] text-[#45627D] border border-[#D5E4F0]">
               {node.type}
             </span>
           </div>
 
-          <h3 className="text-base font-bold font-mono text-white mt-2">
+          <h3 className="text-base font-bold font-heading text-[#10233F] mt-2">
             {node.name}
           </h3>
         </div>
 
-        <div className="text-[10px] font-mono text-slate-400">
-          STATUS: <span className="text-cyan-400 font-bold">{node.status}</span>
+        <div className="text-[10px] font-mono text-[#526B84]">
+          STATUS: <span className="text-sky-700 font-bold">{node.status}</span>
         </div>
       </div>
 
       {/* Core Flow & Operational KPIs */}
       <div className="grid grid-cols-3 gap-2.5 text-xs font-mono">
-        <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-          <span className="text-[9px] text-slate-500 uppercase block">Active Throughput</span>
-          <div className="text-base font-bold text-cyan-300 mt-0.5">
-            {node.currentFlowMbd || 0} <span className="text-xs text-slate-400 font-normal">MBD</span>
+        <div className="p-3 rounded-xl bg-[#F4F9FD] border border-[#D5E5F1] shadow-2xs hover:bg-[#EEF7FD] transition-colors">
+          <span className="text-[9px] text-[#7189A1] uppercase block font-semibold">Active Throughput</span>
+          <div className="text-base font-bold text-sky-700 mt-0.5">
+            {node.currentFlowMbd || 0} <span className="text-xs text-[#7189A1] font-normal">MBD</span>
           </div>
-          <span className="text-[9px] text-slate-500">Flow volume</span>
+          <span className="text-[9px] text-[#526B84]">Flow volume</span>
         </div>
 
-        <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-          <span className="text-[9px] text-slate-500 uppercase block">Total Capacity</span>
-          <div className="text-base font-bold text-slate-200 mt-0.5">
-            {node.flowCapacityMbd || node.capacityMmT || "--"} <span className="text-xs text-slate-400 font-normal">{node.capacityMmT ? "MMT" : "MBD"}</span>
+        <div className="p-3 rounded-xl bg-[#F4F9FD] border border-[#D5E5F1] shadow-2xs hover:bg-[#EEF7FD] transition-colors">
+          <span className="text-[9px] text-[#7189A1] uppercase block font-semibold">Total Capacity</span>
+          <div className="text-base font-bold text-[#10233F] mt-0.5">
+            {node.flowCapacityMbd || node.capacityMmT || "--"} <span className="text-xs text-[#7189A1] font-normal">{node.capacityMmT ? "MMT" : "MBD"}</span>
           </div>
-          <span className="text-[9px] text-slate-500">Nominal limit</span>
+          <span className="text-[9px] text-[#526B84]">Nominal limit</span>
         </div>
 
-        <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-          <span className="text-[9px] text-slate-500 uppercase block">Utilization</span>
-          <div className="text-base font-bold text-emerald-400 mt-0.5">
+        <div className="p-3 rounded-xl bg-[#F4F9FD] border border-[#D5E5F1] shadow-2xs hover:bg-[#EEF7FD] transition-colors">
+          <span className="text-[9px] text-[#7189A1] uppercase block font-semibold">Utilization</span>
+          <div className="text-base font-bold text-emerald-700 mt-0.5">
             {node.utilizationPct || 85}%
           </div>
-          <span className="text-[9px] text-slate-500">Operating rate</span>
+          <span className="text-[9px] text-[#526B84]">Operating rate</span>
         </div>
       </div>
 
       {/* Description */}
-      <p className="text-xs text-slate-300 font-sans leading-relaxed">
+      <p className="text-xs text-[#526B84] font-sans leading-relaxed">
         {node.description}
       </p>
 
       {/* Alternative Paths & Bypass Routing */}
       {alternativePaths.length > 0 && (
-        <div className="p-3.5 rounded-xl bg-[#060a12] border border-cyan-900/40 space-y-2">
-          <div className="flex items-center justify-between text-cyan-400 font-mono text-xs font-bold uppercase">
+        <div className="p-3.5 rounded-xl bg-[#EDF5FB] border border-[#D5E4F0] space-y-2">
+          <div className="flex items-center justify-between text-[#0B3C61] font-mono text-xs font-bold uppercase">
             <span className="flex items-center gap-1.5">
-              <NavigationIcon className="w-3.5 h-3.5" />
+              <NavigationIcon className="w-3.5 h-3.5 text-sky-600" />
               <span>Available Network Bypass Paths</span>
             </span>
-            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300 font-normal">
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-white border border-[#D5E4F0] text-[#0B3C61] font-normal">
               {alternativePaths.length} ALTERNATIVES
             </span>
           </div>
 
           <div className="space-y-2">
             {alternativePaths.map((alt, idx) => (
-              <div key={idx} className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-xs font-mono flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div key={idx} className="p-2.5 rounded-lg bg-white border border-[#D5E5F1] text-xs font-mono flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-2xs">
                 <div>
-                  <h5 className="font-bold text-slate-100">{alt.name}</h5>
-                  <span className="text-[10px] text-slate-400 font-sans block">{alt.corridor}</span>
+                  <h5 className="font-bold text-[#10233F]">{alt.name}</h5>
+                  <div className="text-[10px] text-[#526B84] mt-0.5">
+                    Mode: {alt.mode} • Extra Transit: +{alt.additionalDays} Days
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-3 text-[10px]">
-                  <span className="text-slate-300">Transit: <b className="text-cyan-300">{alt.transitDeltaDays > 0 ? `+${alt.transitDeltaDays}d` : `${alt.transitDeltaDays}d`}</b></span>
-                  <span className="text-slate-300">Capacity: <b className="text-emerald-400">{alt.capacityMbd} MBD</b></span>
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <span className="text-[10px] text-[#7189A1] block">Cost Delta</span>
+                    <span className="text-amber-700 font-bold font-mono text-xs">+${alt.freightCostDeltaUsd}/bbl</span>
+                  </div>
+                  <span className="text-xs px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">
+                    {alt.bypassCapacityMbd} MBD
+                  </span>
                 </div>
               </div>
             ))}
@@ -111,16 +118,13 @@ export default function NodeDetailPanel({ node, scenarioId }) {
         </div>
       )}
 
-      {/* Action Footer linking to Scenario Simulator / Procurement */}
-      <div className="pt-2 flex items-center justify-between border-t border-slate-800 text-[11px] font-mono">
-        <span className="text-slate-500">Topology Layer: {node.category}</span>
-
+      {/* Link to Scenario Disruption Simulator */}
+      <div className="pt-2 flex justify-end">
         <Link
-          href={`/procurement?scenario=${scenarioId}`}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition-all shadow-sm cursor-pointer"
+          href={`/scenarios?node=${node.id}`}
+          className="text-xs font-mono text-sky-700 hover:text-sky-900 font-bold flex items-center gap-1 cursor-pointer"
         >
-          <ShieldIcon className="w-3.5 h-3.5" />
-          <span>Optimize Route in Procurement →</span>
+          <span>Run Custom Disruption on this Node →</span>
         </Link>
       </div>
 

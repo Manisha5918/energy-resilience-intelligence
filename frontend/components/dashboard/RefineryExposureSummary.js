@@ -79,32 +79,32 @@ const SIMULATED_REFINERY_DATA = [
 
 export default function RefineryExposureSummary() {
   return (
-    <div className="command-card rounded-xl p-5 border border-slate-800 space-y-4">
+    <div className="command-card rounded-2xl p-6 border border-slate-200 space-y-5 bg-white shadow-sm">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <DatabaseIcon className="w-4 h-4 text-cyan-400" />
-            <h3 className="text-sm font-semibold text-slate-100 font-mono tracking-wide">
+            <DatabaseIcon className="w-5 h-5 text-sky-600" />
+            <h3 className="text-base font-semibold text-slate-900 font-heading tracking-wide">
               Refinery Node Exposure & Pipeline Dependency
             </h3>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 font-semibold">
               NATIONAL REFINING INFRASTRUCTURE
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-1">
             Evaluates individual refinery exposure to maritime chokepoints and crude tankage buffer reserves.
           </p>
         </div>
 
-        <div className="text-[10px] font-mono text-slate-400">
-          TOTAL CAPACITY: <span className="text-cyan-400 font-bold">~5.2 MBD (~255 MMTPA)</span>
+        <div className="text-xs font-mono text-slate-600 font-medium">
+          TOTAL CAPACITY: <span className="text-sky-800 font-bold">~5.2 MBD (~255 MMTPA)</span>
         </div>
       </div>
 
       {/* Grid of Refineries */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {SIMULATED_REFINERY_DATA.map((refinery) => {
           const isCritical = refinery.riskLevel === "CRITICAL";
           const isHigh = refinery.riskLevel === "HIGH";
@@ -112,54 +112,54 @@ export default function RefineryExposureSummary() {
           return (
             <div
               key={refinery.id}
-              className="p-3.5 rounded-lg bg-[#080d16] border border-slate-800/90 hover:border-slate-700 transition-all flex flex-col justify-between space-y-2.5"
+              className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 transition-all flex flex-col justify-between space-y-3"
             >
               <div>
                 <div className="flex items-start justify-between gap-2">
-                  <h4 className="text-xs font-bold text-slate-100 font-mono">
+                  <h4 className="text-xs font-bold text-slate-900 font-heading">
                     {refinery.name}
                   </h4>
-                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded border shrink-0 ${
+                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold border shrink-0 ${
                     isCritical
-                      ? "bg-rose-950 text-rose-400 border-rose-800"
+                      ? "bg-rose-50 text-rose-800 border-rose-200"
                       : isHigh
-                      ? "bg-amber-950 text-amber-400 border-amber-800"
-                      : "bg-emerald-950 text-emerald-400 border-emerald-800"
+                      ? "bg-amber-50 text-amber-800 border-amber-200"
+                      : "bg-emerald-50 text-emerald-800 border-emerald-200"
                   }`}>
                     {refinery.riskLevel}
                   </span>
                 </div>
-                <div className="text-[11px] text-slate-400 mt-0.5 font-sans">
+                <div className="text-xs text-slate-500 mt-0.5 font-sans">
                   {refinery.location}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-[11px] font-mono">
-                <div className="p-2 rounded bg-slate-900/60 border border-slate-800">
-                  <span className="text-[9px] text-slate-500 uppercase block">Throughput</span>
-                  <span className="text-slate-200 font-bold">{refinery.capacityMbd} MBD</span>
-                  <span className="text-[9px] text-slate-500 block">({refinery.capacityMmtpa} MMTPA)</span>
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200 shadow-xs">
+                  <span className="text-[10px] text-slate-500 uppercase block font-semibold">Throughput</span>
+                  <span className="text-slate-900 font-bold text-sm block mt-0.5">{refinery.capacityMbd} MBD</span>
+                  <span className="text-[10px] text-slate-500 block">({refinery.capacityMmtpa} MMTPA)</span>
                 </div>
-                <div className="p-2 rounded bg-slate-900/60 border border-slate-800">
-                  <span className="text-[9px] text-slate-500 uppercase block">Crude Buffer</span>
-                  <span className={`font-bold ${refinery.crudeBufferDays < 10 ? "text-amber-400" : "text-emerald-400"}`}>
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200 shadow-xs">
+                  <span className="text-[10px] text-slate-500 uppercase block font-semibold">Crude Buffer</span>
+                  <span className={`font-bold text-sm block mt-0.5 ${refinery.crudeBufferDays < 10 ? "text-amber-700" : "text-emerald-700"}`}>
                     {refinery.crudeBufferDays} Days
                   </span>
-                  <span className="text-[9px] text-slate-500 block">Onsite / Pipe</span>
+                  <span className="text-[10px] text-slate-500 block">Onsite / Pipe</span>
                 </div>
               </div>
 
-              <div className="space-y-1 text-xs">
-                <div className="text-[10px] font-mono text-slate-400">
-                  <span className="text-slate-500">Exposed Corridor:</span>{" "}
-                  <span className="text-slate-300">{refinery.exposedCorridor}</span>
+              <div className="space-y-1.5 text-xs">
+                <div className="text-xs font-mono">
+                  <span className="text-slate-500 font-semibold">Exposed Corridor:</span>{" "}
+                  <span className="text-slate-800 font-medium">{refinery.exposedCorridor}</span>
                 </div>
-                <div className="text-[10px] text-slate-400 leading-snug font-sans">
+                <div className="text-xs text-slate-600 leading-relaxed font-sans">
                   {refinery.status}
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-800/80 text-[9px] font-mono text-slate-500 flex justify-between items-center">
+              <div className="pt-2 border-t border-slate-200 text-[10px] font-mono text-slate-500 flex justify-between items-center">
                 <span className="truncate">{refinery.connectivity}</span>
               </div>
             </div>
@@ -167,7 +167,7 @@ export default function RefineryExposureSummary() {
         })}
       </div>
 
-      <div className="text-[9px] font-mono text-slate-500 text-right pt-1">
+      <div className="text-[10px] font-mono text-slate-400 text-right pt-1 font-medium">
         [SIMULATED REFINERY NETWORK & CRUDE RUN METRICS]
       </div>
 

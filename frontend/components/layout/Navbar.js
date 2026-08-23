@@ -1,11 +1,46 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { ShieldIcon, ActivityIcon, RefreshCwIcon } from "@/components/ui/Icons";
+import { useRouter } from "next/navigation";
+import { ShieldIcon, ActivityIcon, RefreshCwIcon, SunIcon, MoonIcon, MenuIcon, XIcon } from "@/components/ui/Icons";
 
-export default function Navbar() {
+const subscribe = (callback) => {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+};
+
+const getThemeSnapshot = () => {
+  return localStorage.getItem("energyshield-theme") || "light";
+};
+
+const getServerSnapshot = () => {
+  return "light";
+};
+
+export default function Navbar({ onToggleMobileMenu, isMobileMenuOpen }) {
+  const router = useRouter();
   const [simulatedTime, setSimulatedTime] = useState("2026-08-19 21:05:00 IST");
+  
+  // Hydration-safe external store subscription to localStorage
+  const currentTheme = useSyncExternalStore(subscribe, getThemeSnapshot, getServerSnapshot);
+  const isLightMode = currentTheme === "light";
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.classList.toggle("light-theme", isLightMode);
+      document.documentElement.classList.toggle("dark", !isLightMode);
+    }
+  }, [isLightMode]);
+
+  const toggleTheme = () => {
+    const nextTheme = isLightMode ? "dark" : "light";
+    if (typeof window !== "undefined") {
+      localStorage.setItem("energyshield-theme", nextTheme);
+      window.dispatchEvent(new Event("storage"));
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -19,77 +54,115 @@ export default function Navbar() {
 
   const handleResetSimulation = () => {
     if (typeof window !== "undefined") {
-      window.location.reload();
+      if (window.confirm("Reset all scenario variables and simulation parameters to default baseline?")) {
+        router.push("/");
+        router.refresh();
+      }
     }
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#090d16]/95 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         
-        {/* Brand & Platform Identity */}
-        <div className="flex items-center gap-3.5">
+        {/* Left: Mobile Hamburger & Brand Platform Identity */}
+        <div className="flex items-center gap-3">
+          {/* Mobile Drawer Toggle */}
+          <button
+            onClick={onToggleMobileMenu}
+            className="md:hidden p-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
+            aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          >
+            {isMobileMenuOpen ? (
+              <XIcon className="w-5 h-5" />
+            ) : (
+              <MenuIcon className="w-5 h-5" />
+            )}
+          </button>
+
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-500/40 text-cyan-400 group-hover:border-cyan-400 transition-colors shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-50 border border-sky-200 text-sky-600 group-hover:border-sky-400 transition-colors shadow-xs">
               <ShieldIcon className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-lg tracking-wider text-slate-100 font-mono">
-                  ENERGY<span className="text-cyan-400">SHIELD</span>
+                <span className="font-bold text-lg tracking-wider text-slate-900 font-heading">
+                  ENERGY<span className="text-sky-600">SHIELD</span>
                 </span>
-                <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-700/50 text-cyan-300">
-                  v1.0-alpha
+                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-800 font-bold">
+                  DECISION-SUPPORT
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 hidden sm:block">
-                AI-Driven Energy Supply Chain Resilience • India Strategic Model
+              <p className="text-[11px] text-slate-500 hidden lg:block">
+                National Energy Supply Chain Resilience Intelligence Platform
               </p>
             </div>
           </Link>
         </div>
 
-        {/* Center: Prominent Safety & Dynamic Data Status Banner */}
-        <div className="flex items-center gap-2">
+        {/* Center: Data Status Banner */}
+        <div className="hidden sm:flex items-center gap-2">
           <Link
             href="/data-center"
             title="Inspect Data Center & Provider Ingestion Health"
-            className="flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/40 hover:bg-cyan-950/70 border border-cyan-600/40 text-cyan-300 text-xs font-mono transition-all cursor-pointer shadow-sm group"
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-800 text-xs font-mono transition-all cursor-pointer shadow-xs group"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-600"></span>
             </span>
-            <span className="font-semibold tracking-wide group-hover:text-cyan-200">DATA: OFFICIAL BASELINE (4 DATASETS)</span>
-            <span className="text-cyan-500/80 hidden md:inline">|</span>
-            <span className="text-cyan-400/90 text-[11px] hidden md:inline group-hover:underline">DATA CENTER →</span>
+            <span className="font-semibold tracking-wide group-hover:text-sky-950">DATA: OFFICIAL BASELINE</span>
+            <span className="text-sky-300 hidden md:inline">|</span>
+            <span className="text-sky-700 text-[11px] hidden md:inline group-hover:underline font-bold">AUDIT →</span>
           </Link>
         </div>
 
         {/* Right: Operational Telemetry & Controls */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-3">
           
           {/* Simulated Time */}
-          <div className="hidden lg:flex flex-col text-right font-mono">
-            <span className="text-[10px] text-slate-500 uppercase tracking-wider">Simulated Clock</span>
-            <span className="text-xs text-slate-300 font-medium">{simulatedTime}</span>
+          <div className="hidden xl:flex flex-col text-right font-mono">
+            <span className="text-[10px] text-slate-400 uppercase tracking-wider">Simulated Clock</span>
+            <span className="text-xs text-slate-700 font-medium">{simulatedTime}</span>
           </div>
 
           {/* Engine Status Pill */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded border border-slate-800 bg-slate-900/60 text-slate-300 text-xs font-mono">
-            <ActivityIcon className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-            <span className="text-slate-400">ENGINE:</span>
-            <span className="text-emerald-400 font-medium">READY</span>
+          <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 text-xs font-mono">
+            <ActivityIcon className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+            <span className="text-slate-500">ENGINE:</span>
+            <span className="text-emerald-700 font-bold">READY</span>
           </div>
+
+          {/* Theme Toggle (Light / Dark) */}
+          <button
+            onClick={toggleTheme}
+            title={isLightMode ? "Switch to Sovereign Dark Mode" : "Switch to Refined Light Mode"}
+            aria-label={isLightMode ? "Switch to dark mode" : "Switch to light mode"}
+            suppressHydrationWarning
+            className="flex items-center gap-1.5 px-3 py-2 min-h-[40px] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors cursor-pointer shadow-xs"
+          >
+            {isLightMode ? (
+              <>
+                <SunIcon className="w-4 h-4 text-amber-500" />
+                <span className="hidden sm:inline" suppressHydrationWarning>Light</span>
+              </>
+            ) : (
+              <>
+                <MoonIcon className="w-4 h-4 text-sky-600" />
+                <span className="hidden sm:inline" suppressHydrationWarning>Dark</span>
+              </>
+            )}
+          </button>
 
           {/* Reset Action */}
           <button
             onClick={handleResetSimulation}
             title="Reset Simulation to Default Baseline"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700/80 bg-slate-800/60 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors cursor-pointer"
+            aria-label="Reset simulation state"
+            className="flex items-center gap-1.5 px-3 py-2 min-h-[40px] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors cursor-pointer shadow-xs"
           >
-            <RefreshCwIcon className="w-3.5 h-3.5 text-slate-400" />
-            <span className="hidden sm:inline">Reset State</span>
+            <RefreshCwIcon className="w-4 h-4 text-slate-500" />
+            <span className="hidden sm:inline">Reset</span>
           </button>
 
         </div>

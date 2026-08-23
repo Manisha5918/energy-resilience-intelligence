@@ -7,11 +7,28 @@
  * NOTE: All outputs are SIMULATED / ILLUSTRATIVE decision-support calculations.
  */
 
-import { calculateResilienceScore } from "@/lib/riskScoringEngine";
-import { SIMULATED_NATIONAL_ENERGY_METRICS, calculateTotalReserveCover } from "@/lib/reserveData";
-import { SIMULATED_CORRIDOR_METRICS, SIMULATED_CRUDE_PRICES } from "@/lib/riskData";
-import { SIMULATED_SUPPLIER_PROFILES } from "@/lib/supplierData";
-import { getScenarioById } from "@/lib/scenarioData";
+import { calculateResilienceScore } from "./riskScoringEngine.js";
+import { SIMULATED_NATIONAL_ENERGY_METRICS, calculateTotalReserveCover } from "./reserveData.js";
+import { SIMULATED_CORRIDOR_METRICS, SIMULATED_CRUDE_PRICES } from "./riskData.js";
+import { SIMULATED_SUPPLIER_PROFILES } from "./supplierData.js";
+import { getScenarioById } from "./scenarioData.js";
+import { getEconomicAssumptions } from "./data/schemas/economicSchema.js";
+
+/**
+ * CANONICAL MODEL PARAMETERS: Strategic Petroleum Reserve Policy & Engineering Constraints
+ */
+export const SPR_ENGINEERING_CONSTRAINTS = {
+  // Physical aggregate cavern discharge pump capacity across Phase-1 caverns (MBD)
+  // Provenance: ISPRL Phase-1 Technical Design & Engineering Specifications
+  MAX_WITHDRAWAL_RATE_MBD: 2.50,
+  // Policy Drawdown Ratio: 75% deficit replacement to preserve strategic reserve longevity
+  // Provenance: National Emergency Energy Response Policy Guidelines
+  POLICY_DRAWDOWN_RATIO: 0.75,
+  // Pressure Thresholds (Days Cover remaining)
+  CRITICAL_DAYS_COVER_THRESHOLD: 3.0,
+  HIGH_PRESSURE_DAYS_COVER_THRESHOLD: 6.0,
+  MODERATE_PRESSURE_DAYS_COVER_THRESHOLD: 8.5
+};
 
 /**
  * Main simulation runner
@@ -20,11 +37,11 @@ import { getScenarioById } from "@/lib/scenarioData";
 export function runScenario(params = {}) {
   const scenarioTemplate = getScenarioById(params.scenarioId || "hormuz-closure");
 
-  const durationDays = Number(params.durationDays ?? scenarioTemplate.defaultDurationDays);
+  const durationDays = Math.max(1, Number(params.durationDays ?? scenarioTemplate.defaultDurationDays) || 30);
   const severity = params.severity || scenarioTemplate.defaultSeverity; // Low | Moderate | Severe
-  const supplyDisruptionPct = Number(params.supplyDisruptionPercent ?? scenarioTemplate.supplyDisruptionPercent);
-  const priceShockPct = Number(params.priceShockPercent ?? scenarioTemplate.priceShockPercent);
-  const freightImpactPct = Number(params.freightImpactPercent ?? scenarioTemplate.freightImpactPercent);
+  const supplyDisruptionPct = Math.max(0, Math.min(100, Number(params.supplyDisruptionPercent ?? scenarioTemplate.supplyDisruptionPercent) || 0));
+  const priceShockPct = Math.max(-50, Math.min(200, Number(params.priceShockPercent ?? scenarioTemplate.priceShockPercent) || 0));
+  const freightImpactPct = Math.max(-50, Math.min(300, Number(params.freightImpactPercent ?? scenarioTemplate.freightImpactPercent) || 0));
 
   // Severity scaling factor (Low = 0.7x, Moderate = 1.0x, Severe = 1.35x)
   const severityMultiplier = severity === "Severe" ? 1.35 : severity === "Low" ? 0.7 : 1.0;
@@ -46,7 +63,7 @@ export function runScenario(params = {}) {
   const supplyRiskDelta = scenarioResilience.supplyRiskIndex - baselineResilience.supplyRiskIndex;
 
   // 2. Calculate Physical Supply Gap
-  const dailyImportDemandMbd = SIMULATED_NATIONAL_ENERGY_METRICS.dailyNetImportRequirementMbd; // 4.67 MBD
+  const dailyImportDemandMbd = SIMULATED_NATIONAL_ENERGY_METRICS.dailyNetImportRequirementMbd; // 4.83 MBD
   const dailySupplyDeficitMbd = Number((dailyImportDemandMbd * (supplyDisruptionPct / 100)).toFixed(2));
   const cumulativeSupplyDeficitMbbl = Number((dailySupplyDeficitMbd * durationDays).toFixed(2));
 
@@ -63,18 +80,21 @@ export function runScenario(params = {}) {
 
   // 5. Calculate Strategic Reserve (SPR) Pressure
   const baselineReserves = calculateTotalReserveCover();
-  const sprTotalInventoryMbbl = baselineReserves.sprTotalBarrels; // ~33.4 MBBL
-  const sprDrawdownRateMbd = Math.min(2.5, dailySupplyDeficitMbd * 0.75); // SPR discharge capacity limit ~2.5 MBD
+  const sprTotalInventoryMbbl = baselineReserves.sprTotalBarrels; // Statutory Phase-1 capacity
+  const sprDrawdownRateMbd = Math.min(
+    SPR_ENGINEERING_CONSTRAINTS.MAX_WITHDRAWAL_RATE_MBD,
+    dailySupplyDeficitMbd * SPR_ENGINEERING_CONSTRAINTS.POLICY_DRAWDOWN_RATIO
+  );
   const sprDepletionMbbl = Number((sprDrawdownRateMbd * durationDays).toFixed(2));
   const remainingSprInventoryMbbl = Math.max(0, Number((sprTotalInventoryMbbl - sprDepletionMbbl).toFixed(2)));
   const scenarioSprDaysCover = Number((remainingSprInventoryMbbl / dailyImportDemandMbd).toFixed(1));
 
   let sprPressureLevel = "LOW";
-  if (scenarioSprDaysCover < 3.0 || supplyDisruptionPct > 45) {
+  if (scenarioSprDaysCover < SPR_ENGINEERING_CONSTRAINTS.CRITICAL_DAYS_COVER_THRESHOLD || supplyDisruptionPct > 45) {
     sprPressureLevel = "CRITICAL";
-  } else if (scenarioSprDaysCover < 6.0 || supplyDisruptionPct > 25) {
+  } else if (scenarioSprDaysCover < SPR_ENGINEERING_CONSTRAINTS.HIGH_PRESSURE_DAYS_COVER_THRESHOLD || supplyDisruptionPct > 25) {
     sprPressureLevel = "HIGH";
-  } else if (scenarioSprDaysCover < 8.5) {
+  } else if (scenarioSprDaysCover < SPR_ENGINEERING_CONSTRAINTS.MODERATE_PRESSURE_DAYS_COVER_THRESHOLD) {
     sprPressureLevel = "MODERATE";
   }
 
@@ -304,7 +324,121 @@ export function runScenario(params = {}) {
     supplierImpacts,
     refineryExposures,
     recoveryTrajectory,
-    recommendations
+    recommendations,
+    macroeconomicImpact: calculateMacroeconomicImpact({
+      priceDeltaUsd,
+      durationDays,
+      dailyImportDemandMbd,
+      dailySupplyDeficitMbd,
+      customAssumptions: params.customEconomicAssumptions
+    })
+  };
+}
+
+/**
+ * Calculates macroeconomic impacts (Import bill shock, GDP drag, CAD expansion, price sensitivity)
+ */
+export function calculateMacroeconomicImpact({
+  priceDeltaUsd = 0,
+  durationDays = 30,
+  dailyImportDemandMbd = 4.83,
+  dailySupplyDeficitMbd = 0,
+  customAssumptions = null
+} = {}) {
+  const safePriceDelta = Math.max(0, isNaN(Number(priceDeltaUsd)) ? 0 : Number(priceDeltaUsd));
+  const safeDuration = Math.max(0, isNaN(Number(durationDays)) ? 30 : Number(durationDays));
+  const safeImportDemand = Math.max(0, isNaN(Number(dailyImportDemandMbd)) ? 4.83 : Number(dailyImportDemandMbd));
+  const safeDeficit = Math.max(0, isNaN(Number(dailySupplyDeficitMbd)) ? 0 : Number(dailySupplyDeficitMbd));
+
+  const assumptions = customAssumptions || getEconomicAssumptions();
+  const exchangeRate = Number(assumptions.usdInrExchangeRate?.value) || 84.50;
+  const baselineGdpUsdB = Number(assumptions.baselineAnnualGdpUsd?.value) || 3940;
+  const gdpElasticity = Number(assumptions.gdpElasticity?.value) || 0.050; // % drag per $1/bbl sustained shock
+  const cadSensitivity = Number(assumptions.cadSensitivity?.value) || 1.50; // $B per $1/bbl per year
+
+  // 1. Daily and Cumulative Import Bill Shocks
+  const activeImportMbd = Math.max(0, safeImportDemand - (safeDeficit * 0.3));
+  const effectivePriceShock = safePriceDelta;
+  const additionalDailyImportBillUsdM = Number(((activeImportMbd * effectivePriceShock)).toFixed(2));
+  // Conversion: $1M * 84.50 = ₹8.45 Crore
+  const additionalDailyImportBillInrCr = Number(((additionalDailyImportBillUsdM * exchangeRate * 10) / 100).toFixed(1));
+  
+  const cumulativeImportBillShockUsdB = Number(((additionalDailyImportBillUsdM * safeDuration) / 1000).toFixed(2));
+  const cumulativeImportBillShockInrCr = Number((additionalDailyImportBillInrCr * safeDuration).toFixed(0));
+
+  // 2. Estimated GDP Growth Drag (%)
+  const annualizedWeight = Math.min(1.0, safeDuration / 365);
+  const gdpGrowthDragPct = Number((effectivePriceShock * gdpElasticity * Math.max(0.25, Math.min(1.0, annualizedWeight * 2.0))).toFixed(3));
+  const gdpFiscalLossInrCr = Number(((gdpGrowthDragPct / 100) * baselineGdpUsdB * (exchangeRate * 100) * Math.max(0.08, safeDuration / 365)).toFixed(0));
+
+  // 3. Estimated Current Account Deficit (CAD) Expansion ($B & % of GDP)
+  const cadExpansionUsdB = Number((effectivePriceShock * (cadSensitivity / 365) * safeDuration).toFixed(2));
+  const cadExpansionGdpPct = Number(((cadExpansionUsdB / (baselineGdpUsdB * Math.max(0.08, safeDuration / 365))) * 100).toFixed(2));
+
+  // 4. Sensitivity Curve across Crude Price Increments ($0 to +$50/bbl)
+  const priceSweepDeltas = [0, 10, 20, 30, 40, 50];
+  const sensitivityCurve = priceSweepDeltas.map(delta => {
+    const sweepDailyUsdM = Number((activeImportMbd * delta).toFixed(1));
+    const sweepCumUsdB = Number(((sweepDailyUsdM * safeDuration) / 1000).toFixed(2));
+    const sweepGdpDragPct = Number((delta * gdpElasticity * Math.max(0.25, Math.min(1.0, annualizedWeight * 2.0))).toFixed(3));
+    const sweepCadUsdB = Number((delta * (cadSensitivity / 365) * safeDuration).toFixed(2));
+    return {
+      priceIncreaseUsd: delta,
+      dailyImportBillShockUsdM: sweepDailyUsdM,
+      cumulativeImportBillShockUsdB: sweepCumUsdB,
+      gdpGrowthDragPct: sweepGdpDragPct,
+      cadExpansionUsdB: sweepCadUsdB
+    };
+  });
+
+  // 5. Uncertainty Propagation: Low, Central, and High Cases
+  const gdpElasticityLow = 0.025;
+  const gdpElasticityHigh = 0.080;
+  const cadSensitivityLow = 1.00;
+  const cadSensitivityHigh = 2.20;
+
+  const uncertaintyBands = {
+    gdpGrowthDragPct: {
+      lowCase: Number((effectivePriceShock * gdpElasticityLow * Math.max(0.25, Math.min(1.0, annualizedWeight * 2.0))).toFixed(3)),
+      centralCase: gdpGrowthDragPct,
+      highCase: Number((effectivePriceShock * gdpElasticityHigh * Math.max(0.25, Math.min(1.0, annualizedWeight * 2.0))).toFixed(3)),
+      confidenceStatus: "UNVALIDATED_EMPIRICAL_COEFFICIENT"
+    },
+    cadExpansionUsdB: {
+      lowCase: Number((effectivePriceShock * (cadSensitivityLow / 365) * durationDays).toFixed(2)),
+      centralCase: cadExpansionUsdB,
+      highCase: Number((effectivePriceShock * (cadSensitivityHigh / 365) * durationDays).toFixed(2)),
+      confidenceStatus: "UNVALIDATED_EMPIRICAL_COEFFICIENT"
+    }
+  };
+
+  return {
+    inputs: {
+      priceDeltaUsd: effectivePriceShock,
+      durationDays,
+      dailyImportDemandMbd,
+      dailySupplyDeficitMbd,
+      exchangeRate,
+      baselineGdpUsdB,
+      gdpElasticity,
+      cadSensitivity
+    },
+    metrics: {
+      additionalDailyImportBillUsdM,
+      additionalDailyImportBillInrCr,
+      cumulativeImportBillShockUsdB,
+      cumulativeImportBillShockInrCr,
+      gdpGrowthDragPct,
+      gdpFiscalLossInrCr,
+      cadExpansionUsdB,
+      cadExpansionGdpPct
+    },
+    uncertaintyBands,
+    sensitivityCurve,
+    assumptions,
+    validationStatus: "UNVALIDATED_EMPIRICAL_COEFFICIENT",
+    validationNote: "Coefficient not independently validated by RBI or Ministry of Finance.",
+    disclaimer: "MODEL ASSUMPTION — NOT AN OFFICIAL FORECAST (Illustrative decision support; coefficients require authoritative validation from MoF/RBI)."
   };
 }
 

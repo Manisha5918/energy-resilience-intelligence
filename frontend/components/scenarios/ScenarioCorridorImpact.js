@@ -4,32 +4,32 @@ import { NavigationIcon, AnchorIcon, AlertTriangleIcon } from "@/components/ui/I
 
 export default function ScenarioCorridorImpact({ corridorImpacts }) {
   return (
-    <div className="command-card rounded-xl p-5 border border-slate-800 space-y-4">
+    <div className="command-card rounded-2xl p-6 border border-slate-200 space-y-5 bg-white shadow-sm">
       
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <NavigationIcon className="w-4 h-4 text-cyan-400" />
-            <h3 className="text-sm font-semibold text-slate-100 font-mono tracking-wide">
+            <NavigationIcon className="w-5 h-5 text-sky-600" />
+            <h3 className="text-base font-semibold text-slate-900 font-heading tracking-wide">
               Maritime Corridor Stress & Vulnerability
             </h3>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 font-semibold">
               CHOKEPOINT TELEMETRY
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-1">
             Scenario impact on tanker transit latencies, freight surcharges, and corridor throughput.
           </p>
         </div>
 
-        <div className="text-[10px] font-mono text-slate-400">
+        <div className="text-xs font-mono text-slate-500 font-semibold">
           4 CORRIDORS ANALYZED
         </div>
       </div>
 
       {/* Corridor Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {corridorImpacts.map((corridor) => {
           const isCritical = corridor.scenarioRiskLevel === "CRITICAL";
           const isHigh = corridor.scenarioRiskLevel === "HIGH";
@@ -37,50 +37,50 @@ export default function ScenarioCorridorImpact({ corridorImpacts }) {
           return (
             <div
               key={corridor.id}
-              className="p-3.5 rounded-xl bg-[#080d16] border border-slate-800/80 hover:border-slate-700 transition-all flex flex-col justify-between space-y-3"
+              className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 transition-all flex flex-col justify-between space-y-3"
             >
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <span className="text-[9px] font-mono uppercase text-slate-500">{corridor.origin}</span>
-                  <h4 className="text-xs font-bold font-mono text-slate-100 mt-0.5">{corridor.name}</h4>
+                  <span className="text-[10px] font-mono uppercase text-slate-500 font-semibold">{corridor.origin}</span>
+                  <h4 className="text-sm font-bold font-heading text-slate-900 mt-0.5">{corridor.name}</h4>
                 </div>
 
-                <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded border shrink-0 ${
+                <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold border shrink-0 ${
                   isCritical
-                    ? "bg-rose-950 text-rose-400 border-rose-800 font-bold"
+                    ? "bg-rose-50 text-rose-800 border-rose-200"
                     : isHigh
-                    ? "bg-amber-950 text-amber-400 border-amber-800 font-bold"
-                    : "bg-emerald-950 text-emerald-400 border-emerald-800"
+                    ? "bg-amber-50 text-amber-800 border-amber-200"
+                    : "bg-emerald-50 text-emerald-800 border-emerald-200"
                 }`}>
                   RISK: {corridor.scenarioRisk} / 100 ({corridor.scenarioRiskLevel})
                 </span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 text-[11px] font-mono">
-                <div className="p-2 rounded bg-slate-900/60 border border-slate-800">
-                  <span className="text-[9px] text-slate-500 uppercase block">Throughput</span>
-                  <span className="text-slate-200 font-bold">{corridor.volumeMbd} MBD</span>
-                  <span className="text-[9px] text-rose-400 block">
+              <div className="grid grid-cols-3 gap-2 text-xs font-mono">
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200 shadow-xs">
+                  <span className="text-[10px] text-slate-500 uppercase block font-semibold">Throughput</span>
+                  <span className="text-slate-900 font-bold text-sm block mt-0.5">{corridor.volumeMbd} MBD</span>
+                  <span className="text-[10px] text-rose-700 font-semibold block">
                     {corridor.throughputImpactMbd > 0 ? `-${corridor.throughputImpactMbd} MBD` : "Normal"}
                   </span>
                 </div>
 
-                <div className="p-2 rounded bg-slate-900/60 border border-slate-800">
-                  <span className="text-[9px] text-slate-500 uppercase block">Transit Latency</span>
-                  <span className="text-slate-200 font-bold">+{corridor.extraTransitDays} Days</span>
-                  <span className="text-[9px] text-slate-500 block">Delay</span>
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200 shadow-xs">
+                  <span className="text-[10px] text-slate-500 uppercase block font-semibold">Transit Delay</span>
+                  <span className="text-slate-900 font-bold text-sm block mt-0.5">+{corridor.extraTransitDays} Days</span>
+                  <span className="text-[10px] text-slate-500 block">Latency</span>
                 </div>
 
-                <div className="p-2 rounded bg-slate-900/60 border border-slate-800">
-                  <span className="text-[9px] text-slate-500 uppercase block">Freight Cost</span>
-                  <span className="text-cyan-400 font-bold">{corridor.scenarioFreightMultiplier}x</span>
-                  <span className="text-[9px] text-slate-500 block">Index</span>
+                <div className="p-2.5 rounded-lg bg-white border border-slate-200 shadow-xs">
+                  <span className="text-[10px] text-slate-500 uppercase block font-semibold">Freight Cost</span>
+                  <span className="text-sky-800 font-bold text-sm block mt-0.5">{corridor.scenarioFreightMultiplier}x</span>
+                  <span className="text-[10px] text-slate-500 block">Multiplier</span>
                 </div>
               </div>
 
-              <div className="p-2 rounded bg-slate-900/40 border border-slate-800/80 text-xs flex items-center justify-between">
-                <span className="text-[10px] font-mono text-slate-400 uppercase">Availability Status:</span>
-                <span className="text-[11px] font-mono text-cyan-300 font-semibold">{corridor.availabilityStatus}</span>
+              <div className="p-2.5 rounded-lg bg-white border border-slate-200 text-xs flex items-center justify-between shadow-xs">
+                <span className="text-[10px] font-mono text-slate-500 uppercase font-semibold">Availability Status:</span>
+                <span className="text-xs font-mono text-sky-800 font-bold">{corridor.availabilityStatus}</span>
               </div>
             </div>
           );

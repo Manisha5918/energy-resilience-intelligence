@@ -15,11 +15,11 @@
  * NOTE: All optimization outputs represent explainable heuristic decision-support models.
  */
 
-import { SIMULATED_PROCUREMENT_OPTIONS } from "@/lib/procurementData";
-import { calculateLandedCost } from "@/lib/landedCostEngine";
-import { SIMULATED_SUPPLIER_PROFILES, calculateSupplierConcentration } from "@/lib/supplierData";
-import { SIMULATED_NATIONAL_ENERGY_METRICS, calculateTotalReserveCover } from "@/lib/reserveData";
-import { SIMULATED_CRUDE_PRICES } from "@/lib/riskData";
+import { SIMULATED_PROCUREMENT_OPTIONS } from "./procurementData.js";
+import { calculateLandedCost } from "./landedCostEngine.js";
+import { SIMULATED_SUPPLIER_PROFILES, calculateSupplierConcentration } from "./supplierData.js";
+import { SIMULATED_NATIONAL_ENERGY_METRICS, calculateTotalReserveCover } from "./reserveData.js";
+import { SIMULATED_CRUDE_PRICES } from "./riskData.js";
 
 export const OPTIMIZATION_WEIGHTS = {
   resilienceBenefit: 0.35,
@@ -40,6 +40,8 @@ export function generateProcurementPlan({
   budgetPriority = "Balanced", // Cost | Balanced | Resilience
   planningHorizonDays = 30
 } = {}) {
+  const safeSupplyGap = Math.max(0, Number(targetSupplyGapMbd) || 0);
+  const safeHorizon = Math.max(1, Number(planningHorizonDays) || 30);
   const options = SIMULATED_PROCUREMENT_OPTIONS;
   const baseBrent = SIMULATED_CRUDE_PRICES.spotPriceUsd;
 
@@ -47,7 +49,7 @@ export function generateProcurementPlan({
   const balancedAllocations = [
     {
       supplierId: "saudi_arabia",
-      volumeMbd: Number((targetSupplyGapMbd * 0.30).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.30).toFixed(2)),
       sharePct: 30,
       route: "Yanbu (Red Sea Bypass) / Ras Tanura Split",
       routeType: "Dual Arterial",
@@ -57,7 +59,7 @@ export function generateProcurementPlan({
     },
     {
       supplierId: "uae",
-      volumeMbd: Number((targetSupplyGapMbd * 0.25).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.25).toFixed(2)),
       sharePct: 25,
       route: "Fujairah Habshan Pipeline (Hormuz Bypass)",
       routeType: "Direct Deepwater",
@@ -67,7 +69,7 @@ export function generateProcurementPlan({
     },
     {
       supplierId: "usa",
-      volumeMbd: Number((targetSupplyGapMbd * 0.22).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.22).toFixed(2)),
       sharePct: 22,
       route: "US Gulf (LOOP) → Cape of Good Hope → India",
       routeType: "Open Ocean Long-Haul",
@@ -77,7 +79,7 @@ export function generateProcurementPlan({
     },
     {
       supplierId: "west_africa",
-      volumeMbd: Number((targetSupplyGapMbd * 0.15).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.15).toFixed(2)),
       sharePct: 15,
       route: "Gulf of Guinea (Bonny) → Cape of Good Hope",
       routeType: "Open Ocean",
@@ -87,7 +89,7 @@ export function generateProcurementPlan({
     },
     {
       supplierId: "russia",
-      volumeMbd: Number((targetSupplyGapMbd * 0.08).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.08).toFixed(2)),
       sharePct: 8,
       route: "Baltic / Primorsk → Cape of Good Hope Diversion",
       routeType: "Diversion Long-Haul",
@@ -101,7 +103,7 @@ export function generateProcurementPlan({
   const maxResilienceAllocations = [
     {
       supplierId: "uae",
-      volumeMbd: Number((targetSupplyGapMbd * 0.35).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.35).toFixed(2)),
       sharePct: 35,
       route: "Fujairah Habshan Pipeline (Hormuz Bypass)",
       routeType: "Direct Deepwater",
@@ -111,7 +113,7 @@ export function generateProcurementPlan({
     },
     {
       supplierId: "usa",
-      volumeMbd: Number((targetSupplyGapMbd * 0.35).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.35).toFixed(2)),
       sharePct: 35,
       route: "US Gulf Coast → Cape of Good Hope",
       routeType: "Open Ocean Long-Haul",
@@ -121,7 +123,7 @@ export function generateProcurementPlan({
     },
     {
       supplierId: "west_africa",
-      volumeMbd: Number((targetSupplyGapMbd * 0.25).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.25).toFixed(2)),
       sharePct: 25,
       route: "West Africa (Bonny Light) → Cape of Good Hope",
       routeType: "Open Ocean",
@@ -131,7 +133,7 @@ export function generateProcurementPlan({
     },
     {
       supplierId: "saudi_arabia",
-      volumeMbd: Number((targetSupplyGapMbd * 0.05).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.05).toFixed(2)),
       sharePct: 5,
       route: "Yanbu Pipeline Terminal Only",
       routeType: "Red Sea Western Link",
@@ -145,7 +147,7 @@ export function generateProcurementPlan({
   const costOptimizedAllocations = [
     {
       supplierId: "russia",
-      volumeMbd: Number((targetSupplyGapMbd * 0.45).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.45).toFixed(2)),
       sharePct: 45,
       route: "Novorossiysk / Primorsk → Suez / Red Sea",
       routeType: "Discounted High-Volume",
@@ -155,7 +157,7 @@ export function generateProcurementPlan({
     },
     {
       supplierId: "iraq",
-      volumeMbd: Number((targetSupplyGapMbd * 0.35).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.35).toFixed(2)),
       sharePct: 35,
       route: "Basra SPM → Strait of Hormuz",
       routeType: "Persian Gulf Basrah Heavy",
@@ -165,7 +167,7 @@ export function generateProcurementPlan({
     },
     {
       supplierId: "saudi_arabia",
-      volumeMbd: Number((targetSupplyGapMbd * 0.20).toFixed(2)),
+      volumeMbd: Number((safeSupplyGap * 0.20).toFixed(2)),
       sharePct: 20,
       route: "Ras Tanura → Strait of Hormuz",
       routeType: "Standard Gulf Lift",
@@ -183,10 +185,10 @@ export function generateProcurementPlan({
       type: "Balanced",
       tagline: "Optimum balance between chokepoint bypass, supplier diversity, and landed cost.",
       allocations: balancedAllocations,
-      targetSupplyGapMbd,
+      targetSupplyGapMbd: safeSupplyGap,
       riskTolerance,
       budgetPriority,
-      planningHorizonDays
+      planningHorizonDays: safeHorizon
     }),
     buildStrategyProfile({
       id: "strat-max-resilience",
@@ -194,21 +196,21 @@ export function generateProcurementPlan({
       type: "Maximum Resilience",
       tagline: "Prioritizes 100% open-ocean and pipeline bypass liftings (Fujairah, US Gulf, West Africa).",
       allocations: maxResilienceAllocations,
-      targetSupplyGapMbd,
+      targetSupplyGapMbd: safeSupplyGap,
       riskTolerance,
       budgetPriority,
-      planningHorizonDays
+      planningHorizonDays: safeHorizon
     }),
     buildStrategyProfile({
       id: "strat-cost-optimized",
-      name: "Strategy 3: Cost-Optimized Value Flow",
+      name: "Strategy 3: Cost-Optimized (Higher Route Risk)",
       type: "Cost Optimized",
-      tagline: "Maximizes discounted Urals and Basrah Heavy barrels via legacy routes at higher risk.",
+      tagline: "Leverages discounted grades and Persian Gulf term volumes at higher geopolitical risk.",
       allocations: costOptimizedAllocations,
-      targetSupplyGapMbd,
+      targetSupplyGapMbd: safeSupplyGap,
       riskTolerance,
       budgetPriority,
-      planningHorizonDays
+      planningHorizonDays: safeHorizon
     })
   ];
 

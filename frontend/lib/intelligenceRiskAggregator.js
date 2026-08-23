@@ -5,8 +5,8 @@
  * and dynamically modifies the 5-factor inputs for the existing EnergyShield Risk Scoring Engine.
  */
 
-import { calculateResilienceScore } from "@/lib/riskScoringEngine";
-import { SIMULATED_INTELLIGENCE_EVENTS } from "@/lib/intelligenceData";
+import { calculateResilienceScore } from "./riskScoringEngine.js";
+import { SIMULATED_INTELLIGENCE_EVENTS } from "./intelligenceData.js";
 
 /**
  * Compute recency decay factor based on event timestamp

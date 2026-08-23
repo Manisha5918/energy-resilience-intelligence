@@ -199,7 +199,7 @@ export function generateRiskExplanation(resilienceResult = calculateResilienceSc
       weightPct: RISK_WEIGHTS.supplyGap.weightPct,
       contribution: contributions.supplyGap,
       severity: factors.supplyGap >= 70 ? "High Impact" : factors.supplyGap >= 45 ? "Moderate Impact" : "Low Impact",
-      rationale: "SPR cover at ~9.5 days total capacity combined with commercial refinery tanks provides an operational cushion."
+      rationale: "ISPRL SPR nameplate cover (8.1 days) combined with commercial refinery buffer storage (~65 days) provides an operational cushion."
     }
   ];
 

@@ -6,8 +6,8 @@
  * - Petroleum Planning & Analysis Cell (PPAC), MoPNG, Government of India (https://www.ppac.gov.in)
  */
 
-import { OFFICIAL_SPR_SITES, OFFICIAL_COMMERCIAL_STORAGE, getReserveCoverAnalysis } from "@/lib/providers/reserveProvider";
-import { OFFICIAL_NATIONAL_ENERGY_METRICS } from "@/lib/providers/energyProvider";
+import { OFFICIAL_SPR_SITES, OFFICIAL_COMMERCIAL_STORAGE, getReserveCoverAnalysis } from "./providers/reserveProvider.js";
+import { OFFICIAL_NATIONAL_ENERGY_METRICS } from "./providers/energyProvider.js";
 
 export const SIMULATED_NATIONAL_ENERGY_METRICS = {
   nationalDailyConsumptionMbd: OFFICIAL_NATIONAL_ENERGY_METRICS.nationalDailyConsumptionMbd.value,

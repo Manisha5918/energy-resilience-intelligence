@@ -4,9 +4,9 @@
  * Secure server-side adapter with in-memory TTL caching and graceful fallback.
  */
 
-import { SIMULATED_INTELLIGENCE_EVENTS } from "@/lib/intelligenceData";
-import { SIMULATED_CRUDE_PRICES } from "@/lib/riskData";
-import { normalizeMarketSignal } from "@/lib/dataNormalizer";
+import { SIMULATED_INTELLIGENCE_EVENTS } from "../intelligenceData.js";
+import { SIMULATED_CRUDE_PRICES } from "../riskData.js";
+import { normalizeMarketSignal } from "../dataNormalizer.js";
 
 let marketCache = null;
 let cacheTimestamp = 0;

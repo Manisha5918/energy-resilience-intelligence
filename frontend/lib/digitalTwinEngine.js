@@ -6,12 +6,12 @@
  * into a live, interactive topological graph simulation of India's crude supply network.
  */
 
-import { DIGITAL_TWIN_NODES, DIGITAL_TWIN_EDGES } from "@/lib/digitalTwinData";
-import { runScenario } from "@/lib/scenarioEngine";
-import { getScenarioById, SIMULATED_SCENARIOS } from "@/lib/scenarioData";
-import { calculateResilienceScore } from "@/lib/riskScoringEngine";
-import { aggregateIntelligenceRisk } from "@/lib/intelligenceRiskAggregator";
-import { generateProcurementPlan } from "@/lib/procurementEngine";
+import { DIGITAL_TWIN_NODES, DIGITAL_TWIN_EDGES } from "./digitalTwinData.js";
+import { runScenario } from "./scenarioEngine.js";
+import { getScenarioById, SIMULATED_SCENARIOS } from "./scenarioData.js";
+import { calculateResilienceScore } from "./riskScoringEngine.js";
+import { aggregateIntelligenceRisk } from "./intelligenceRiskAggregator.js";
+import { generateProcurementPlan } from "./procurementEngine.js";
 
 /**
  * Builds the complete digital twin network state for a given scenario & timeline

@@ -18,21 +18,21 @@ export default function ProcurementControlPanel({
   onReset
 }) {
   return (
-    <div className="command-card rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-5 bg-gradient-to-b from-[#0f172a] to-[#090e18]">
+    <div className="command-card rounded-2xl p-5 sm:p-6 border border-slate-200 space-y-5 bg-white shadow-sm">
       
       {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <ShieldIcon className="w-5 h-5 text-cyan-400" />
-            <h2 className="text-base font-semibold text-slate-100 font-mono tracking-wide">
+            <ShieldIcon className="w-5 h-5 text-sky-600" />
+            <h2 className="text-base font-semibold text-slate-900 font-heading tracking-wide">
               Adaptive Procurement Optimization Console
             </h2>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800 font-semibold">
               HEURISTIC DECISION ENGINE
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Rebalances sovereign crude liftings and maritime routes to maximize national resilience against active supply shocks.
           </p>
         </div>
@@ -40,7 +40,7 @@ export default function ProcurementControlPanel({
         <div className="flex items-center gap-2">
           <button
             onClick={onReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs font-mono transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-mono transition-colors cursor-pointer shadow-sm"
           >
             <RefreshCwIcon className="w-3.5 h-3.5" />
             <span>Reset Baseline</span>
@@ -48,7 +48,7 @@ export default function ProcurementControlPanel({
 
           <button
             onClick={onRunAnalysis}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono text-xs font-bold transition-all shadow-md cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-mono text-xs font-bold transition-all shadow-sm cursor-pointer"
           >
             <ZapIcon className="w-4 h-4" />
             <span>Run Optimization</span>
@@ -61,13 +61,13 @@ export default function ProcurementControlPanel({
         
         {/* 1. Scenario Context Selector */}
         <div className="space-y-1.5">
-          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
+          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold block">
             Scenario Ingestion Context
           </label>
           <select
             value={selectedScenarioId}
             onChange={(e) => onSelectScenario(e.target.value)}
-            className="w-full py-2 px-3 rounded-lg bg-slate-900 border border-slate-700 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500 cursor-pointer"
+            className="w-full py-2 px-3 rounded-lg bg-slate-50 border border-slate-300 text-xs font-mono text-slate-800 focus:outline-none focus:border-sky-500 focus:bg-white cursor-pointer shadow-sm"
           >
             <option value="current-conditions">Baseline Operations (Steady-State)</option>
             {SIMULATED_SCENARIOS.map((sc) => (
@@ -79,10 +79,10 @@ export default function ProcurementControlPanel({
         </div>
 
         {/* 2. Supply Replacement Gap Target */}
-        <div className="space-y-1.5 p-3 rounded-xl bg-slate-900/60 border border-slate-800">
+        <div className="space-y-1.5 p-3 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex justify-between text-[11px] font-mono">
-            <span className="text-slate-400">Target Supply Gap</span>
-            <span className="text-rose-400 font-bold">{targetSupplyGapMbd} MBD</span>
+            <span className="text-slate-600 font-medium">Target Supply Gap</span>
+            <span className="text-rose-600 font-bold">{targetSupplyGapMbd} MBD</span>
           </div>
           <input
             type="range"
@@ -91,9 +91,9 @@ export default function ProcurementControlPanel({
             step="0.1"
             value={targetSupplyGapMbd}
             onChange={(e) => onChangeSupplyGap(Number(e.target.value))}
-            className="w-full accent-rose-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+            className="w-full accent-rose-600 h-1.5 bg-slate-200 rounded-lg cursor-pointer"
           />
-          <div className="flex justify-between text-[9px] font-mono text-slate-500">
+          <div className="flex justify-between text-[9px] font-mono text-slate-400">
             <span>0.5 MBD</span>
             <span>2.0 MBD</span>
             <span>3.5 MBD</span>
@@ -102,7 +102,7 @@ export default function ProcurementControlPanel({
 
         {/* 3. Risk Tolerance Tier */}
         <div className="space-y-1.5">
-          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
+          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold block">
             Risk Tolerance
           </label>
           <div className="grid grid-cols-3 gap-1">
@@ -112,10 +112,10 @@ export default function ProcurementControlPanel({
                 <button
                   key={r}
                   onClick={() => onChangeRiskTolerance(r)}
-                  className={`py-2 rounded-lg text-xs font-mono font-medium transition-colors cursor-pointer text-center ${
+                  className={`py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer text-center ${
                     isSelected
-                      ? "bg-cyan-950 text-cyan-300 border border-cyan-600 font-bold"
-                      : "bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-slate-200"
+                      ? "bg-sky-600 text-white border border-sky-600 font-bold shadow-sm"
+                      : "bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                   }`}
                 >
                   {r}
@@ -127,7 +127,7 @@ export default function ProcurementControlPanel({
 
         {/* 4. Budget & Cost Priority */}
         <div className="space-y-1.5">
-          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
+          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold block">
             Optimization Priority
           </label>
           <div className="grid grid-cols-3 gap-1">
@@ -137,10 +137,10 @@ export default function ProcurementControlPanel({
                 <button
                   key={b}
                   onClick={() => onChangeBudgetPriority(b)}
-                  className={`py-2 rounded-lg text-xs font-mono font-medium transition-colors cursor-pointer text-center ${
+                  className={`py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer text-center ${
                     isSelected
-                      ? "bg-slate-100 text-slate-950 font-bold shadow-sm"
-                      : "bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-slate-200"
+                      ? "bg-slate-900 text-white font-bold shadow-sm"
+                      : "bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                   }`}
                 >
                   {b}
@@ -152,7 +152,7 @@ export default function ProcurementControlPanel({
 
         {/* 5. Planning Horizon */}
         <div className="space-y-1.5">
-          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">
+          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold block">
             Planning Horizon
           </label>
           <div className="grid grid-cols-4 gap-1">
@@ -162,10 +162,10 @@ export default function ProcurementControlPanel({
                 <button
                   key={d}
                   onClick={() => onChangePlanningHorizon(d)}
-                  className={`py-2 rounded-lg text-xs font-mono font-medium transition-colors cursor-pointer text-center ${
+                  className={`py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer text-center ${
                     isSelected
-                      ? "bg-cyan-950 text-cyan-300 border border-cyan-600 font-bold"
-                      : "bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-slate-200"
+                      ? "bg-sky-600 text-white border border-sky-600 font-bold shadow-sm"
+                      : "bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                   }`}
                 >
                   {d}d

@@ -5,8 +5,8 @@
  * and computes dynamic corridor risk changes.
  */
 
-import { SIMULATED_CORRIDOR_METRICS } from "@/lib/riskData";
-import { SIMULATED_INTELLIGENCE_EVENTS } from "@/lib/intelligenceData";
+import { SIMULATED_CORRIDOR_METRICS } from "./riskData.js";
+import { SIMULATED_INTELLIGENCE_EVENTS } from "./intelligenceData.js";
 
 export function mapCorridorSignals(events = SIMULATED_INTELLIGENCE_EVENTS) {
   return SIMULATED_CORRIDOR_METRICS.map((corridor) => {

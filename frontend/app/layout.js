@@ -1,17 +1,28 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Sidebar from "@/components/layout/Sidebar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+import AppShell from "@/components/layout/AppShell";
 
 export const metadata = {
   title: "EnergyShield | AI-Driven Energy Supply Chain Resilience",
@@ -22,21 +33,12 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#070a0f] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200 tactical-grid-bg">
-        {/* Top Command Navbar */}
-        <Navbar />
-
-        <div className="flex flex-1 relative overflow-hidden">
-          {/* Persistent Sidebar Navigation */}
-          <Sidebar />
-
-          {/* Main Operational Viewport */}
-          <main className="flex-1 min-w-0 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8 pb-16">
-            {children}
-          </main>
-        </div>
+      <body className="min-h-full flex flex-col bg-[#f8fafc] text-slate-900 selection:bg-sky-500/20 selection:text-sky-900 tactical-grid-bg font-body">
+        <AppShell>
+          {children}
+        </AppShell>
       </body>
     </html>
   );

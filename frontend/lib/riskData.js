@@ -8,7 +8,7 @@
  * - Refineries: PPAC / PSU OMC Statutory Disclosures
  */
 
-import { OFFICIAL_REFINERY_PROFILES } from "@/lib/providers/refineryProvider";
+import { OFFICIAL_REFINERY_PROFILES } from "./providers/refineryProvider.js";
 
 export const SIMULATED_GEOPOLITICAL_EVENTS = [
   {

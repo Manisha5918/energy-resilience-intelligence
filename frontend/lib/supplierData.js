@@ -6,7 +6,7 @@
  * - Trade Statistics Portal (https://tradestat.commerce.gov.in)
  */
 
-import { OFFICIAL_SUPPLIER_PROFILES, calculateSupplierConcentration as calculateHhiAnalysis } from "@/lib/providers/supplierProvider";
+import { OFFICIAL_SUPPLIER_PROFILES, calculateSupplierConcentration as calculateHhiAnalysis } from "./providers/supplierProvider.js";
 
 export const SIMULATED_SUPPLIER_PROFILES = OFFICIAL_SUPPLIER_PROFILES.map((s) => ({
   ...s,
