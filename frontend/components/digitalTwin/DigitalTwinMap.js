@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShieldIcon, NavigationIcon, GlobeIcon, DatabaseIcon, ActivityIcon, AlertTriangleIcon } from "@/components/ui/Icons";
+import { ActivityIcon } from "@/components/ui/Icons";
 
 export default function DigitalTwinMap({
   nodes,
@@ -24,37 +24,37 @@ export default function DigitalTwinMap({
   });
 
   return (
-    <div className="command-card rounded-2xl p-5 border border-slate-800 space-y-4 bg-gradient-to-b from-[#0a0f1d] via-[#070b14] to-[#04070c]">
+    <div className="rounded-2xl p-5 border border-[#D5E5F1] space-y-4 bg-[#F8FBFE] shadow-xs">
       
       {/* Header & Filter Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#D5E5F1] pb-3.5">
         <div>
           <div className="flex items-center gap-2">
-            <ActivityIcon className="w-4 h-4 text-cyan-400" />
-            <h3 className="text-sm font-semibold text-slate-100 font-mono tracking-wide">
+            <ActivityIcon className="w-5 h-5 text-sky-600" />
+            <h3 className="text-base font-bold text-[#0B2540] font-mono tracking-tight">
               Topological Supply Chain Network Graph
             </h3>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#E0F2FE] border border-[#BAE6FD] text-[#0369A1] font-bold">
               PHYSICAL ARTERIAL FLOWS
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-[#526B82] mt-1 font-sans">
             Click any infrastructure node to inspect live flow telemetry, risk exposure, and alternative bypass options.
           </p>
         </div>
 
         {/* Node Category Filter Tabs */}
-        <div className="flex items-center gap-1 overflow-x-auto py-0.5">
+        <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
           {["ALL", "SUPPLIERS", "CORRIDORS", "PORTS", "REFINERIES", "RESERVES"].map((t) => {
             const isSelected = filterType === t;
             return (
               <button
                 key={t}
                 onClick={() => onChangeFilterType(t)}
-                className={`px-2.5 py-1 rounded text-[10px] font-mono uppercase transition-colors cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-mono uppercase transition cursor-pointer min-h-[34px] ${
                   isSelected
-                    ? "bg-cyan-500 text-slate-950 font-bold shadow-sm"
-                    : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200"
+                    ? "bg-[#0284c7] text-white border border-[#0284c7] font-bold shadow-xs"
+                    : "bg-white border border-[#D5E5F1] text-[#0B2540] hover:bg-[#EEF7FD] font-medium"
                 }`}
               >
                 {t}
@@ -65,7 +65,7 @@ export default function DigitalTwinMap({
       </div>
 
       {/* SVG Interactive Canvas */}
-      <div className="relative w-full overflow-x-auto rounded-xl border border-slate-800/80 bg-[#050810] p-2">
+      <div className="relative w-full overflow-x-auto rounded-xl border border-[#1E293B] bg-[#07111F] p-2 shadow-lg">
         <svg
           viewBox="0 0 1000 420"
           className="w-full h-auto min-w-[750px] select-none"
@@ -91,11 +91,11 @@ export default function DigitalTwinMap({
           <rect width="1000" height="420" fill="url(#grid)" />
 
           {/* Section Boundary Labels */}
-          <g className="text-[10px] font-mono fill-slate-600 font-bold uppercase">
+          <g className="text-[10px] font-mono fill-slate-400 font-bold uppercase">
             <text x="70" y="25">1. Global Origins</text>
             <text x="320" y="25">2. Maritime Chokepoints</text>
             <text x="610" y="25">3. Indian Receiving Ports</text>
-            <text x="830" y="25">4. Refineries & SPR</text>
+            <text x="830" y="25">4. Refineries &amp; SPR</text>
           </g>
 
           {/* Flow Edges */}
@@ -212,11 +212,11 @@ export default function DigitalTwinMap({
                   x={n.x}
                   y={n.y + radius + 11}
                   textAnchor="middle"
-                  fill={isSelected ? "#38bdf8" : isCritical ? "#fda4af" : "#cbd5e1"}
-                  fontSize="9.5"
-                  fontFamily="sans-serif"
-                  fontWeight={isSelected ? "bold" : "500"}
-                  className="pointer-events-none"
+                  fill={isSelected ? "#38bdf8" : isCritical ? "#fda4af" : "#f1f5f9"}
+                  fontSize="10"
+                  fontFamily="monospace"
+                  fontWeight={isSelected ? "bold" : "600"}
+                  className="pointer-events-none drop-shadow"
                 >
                   {n.shortName}
                 </text>
@@ -226,8 +226,8 @@ export default function DigitalTwinMap({
                   x={n.x}
                   y={n.y + radius + 21}
                   textAnchor="middle"
-                  fill={isCritical ? "#f43f5e" : "#64748b"}
-                  fontSize="8"
+                  fill={isCritical ? "#f43f5e" : "#94a3b8"}
+                  fontSize="8.5"
                   fontFamily="monospace"
                   className="pointer-events-none"
                 >
@@ -240,7 +240,7 @@ export default function DigitalTwinMap({
       </div>
 
       {/* Map Legend */}
-      <div className="flex flex-wrap items-center justify-between gap-3 text-[10px] font-mono text-slate-400 pt-1">
+      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[#526B82] pt-1">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
@@ -256,7 +256,7 @@ export default function DigitalTwinMap({
           </div>
         </div>
 
-        <div className="flex items-center gap-3 text-slate-500">
+        <div className="flex items-center gap-3 text-[#526B82]">
           <span>Solid Line: Active Flow</span>
           <span>Dashed Red: Disrupted Artery</span>
         </div>
